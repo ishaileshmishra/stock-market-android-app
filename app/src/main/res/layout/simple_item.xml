@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/bottom_sheet_divider_indent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvTextSingle"
+            android:layout_width="match_parent"
+            style="@style/AppTextSmall"
+            android:textStyle="bold"
+            android:layout_height="match_parent"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/bottom_sheet_divider_indent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="wrap_content"
+                android:drawablePadding="@dimen/spacing_4"
+                android:textAppearance="?android:textAppearanceSmall"
+                style="@style/AppTextSmall"
+                android:background="@drawable/rectangle_shape"
+                android:text="Price : $18"
+                android:paddingTop="@dimen/spacing_4"
+                android:paddingBottom="@dimen/spacing_4"
+                android:paddingLeft="@dimen/bottom_sheet_divider_indent"
+                android:paddingRight="@dimen/bottom_sheet_divider_indent"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"/>
+
+            <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+                android:id="@+id/counter"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:background="@drawable/rectangle_shape"
+                app:backGroundColor="@color/colorPrimary"
+                app:initialNumber="1"
+                android:layout_marginStart="@dimen/bottom_sheet_divider_indent"
+                app:textSize="8sp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</layout>

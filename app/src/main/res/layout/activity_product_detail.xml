@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/colorWhite"
+        tools:context=".views.users.main.views.ProductDetailsActivity">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/bottom_sheet_divider_indent"
+                android:orientation="vertical"/>
+
+        </ScrollView>
+
+        <Button
+            android:id="@+id/btnBUY"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectangle_shape"
+            android:layout_alignParentBottom="true"
+            android:textStyle="bold"
+            android:layout_margin="@dimen/fab_margin"
+            android:elevation="@dimen/bottom_sheet_divider_indent"
+            android:text="@string/buy"
+            android:layout_gravity="bottom" />
+    </RelativeLayout>
+
+</layout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <color name="colorPrimary">#108E6C</color>
+    <color name="colorPrimaryDark">#108E6C</color>
+    <color name="colorAccent">#A28F64</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="list_background_pressed">#A28F64</color>
+    <color name="list_background">#FFFFFF</color>
+    <color name="colorTin">#108E6C</color>
+    <color name="colorDrawerItem">#A28F64</color>
+    <color name="red_google">#ef5350</color>
+    <color name="blue_facebook">#304ffe</color>
+    <color name="colorGoogle">#d34836</color>
+    <color name="colorAppBackground">#FFFFFB</color>
+    <color name="lightGray">#D3D3D3</color>
+    <color name="background_light">#FFFAFAFA</color>
+    <color name="background_deletion">#FFE5E5E5</color>
+    <color name="background_deletion_swipe">#FFF44336</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="semi_black">#87000000</color>
+    <color name="grey">#FF828282</color>
+</resources>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_margin"
+        android:id="@+id/item">
+
+        <TextView
+            android:layout_width="3sp"
+            android:layout_height="match_parent"
+            android:background="@color/colorDrawerItem"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_marginStart="@dimen/bottom_sheet_divider_indent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvItem"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                style="@style/AppTextSmall"
+                android:textStyle="bold"
+                android:layout_marginStart="@dimen/spacing_4"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:text="VVS1"/>
+
+            <TextView
+                android:id="@+id/tvWeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/AppTextSmall"
+                android:layout_marginStart="@dimen/fab_margin"
+                android:text="@string/weight"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/spacing_4"
+            android:orientation="horizontal"
+            tools:ignore="RelativeOverlap">
+
+
+            <TextView
+                android:id="@+id/tvHigh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/fab_margin22"
+                style="@style/AppTextSmall"
+                android:text="@string/high_rate"/>
+
+            <TextView
+                android:id="@+id/tvLow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/fab_margin22"
+                style="@style/AppTextSmall"
+                android:text="@string/low_rate"/>
+
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/activity_vertical_margin"
+                style="@style/AppTextSmall"
+                android:gravity="center"
+                android:drawablePadding="@dimen/spacing_4"
+                android:text="@string/rate_fluctuate"
+                tools:ignore="RtlSymmetry" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</layout>

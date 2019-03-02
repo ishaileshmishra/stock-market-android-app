@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.pravrajya.diamond">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <application
+        android:name=".PDLApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".views.admin.views.offers.AddOfferActivity"
+            android:label="@string/title_activity_add_offer"/>
+        <activity android:name=".views.users.main.views.ProductDetailsActivity" />
+        <activity android:name=".views.users.fragments.news.view.NewsDetailActivity" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_application_id" />
+
+        <activity android:name=".views.users.login.LoginViewActivity" />
+        <activity android:name=".views.admin.views.locker.LockActivity" />
+        <activity android:name=".views.admin.views.crud_operation.ProductsListActivity" />
+        <activity
+            android:name=".views.admin.views.sticky_crud.CRUDActivity"
+            android:label="@string/title_activity_admin" />
+        <activity
+            android:name=".views.users.main.views.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".views.users.splash.SplashActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".views.admin.views.products.AdminProductsActivity" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
+
+</manifest>

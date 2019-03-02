@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:id="@+id/tvItem"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/bottom_sheet_divider_indent"
+    android:paddingBottom="@dimen/bottom_sheet_divider_indent"
+    android:layout_margin="@dimen/com_facebook_auth_dialog_corner_radius"
+    android:background="@drawable/round_shape"
+    android:text="@string/app_name"
+    android:layout_marginStart="@dimen/spacing_4"
+    android:layout_height="wrap_content"/>

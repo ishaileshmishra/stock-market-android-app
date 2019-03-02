@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_add_new_offer"
+        android:orderInCategory="100"
+        android:title="@string/action_add_new_offer"
+        android:icon="@drawable/ic_offer"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_add_new"
+        android:orderInCategory="100"
+        android:title="@string/action_add_new"
+        android:icon="@drawable/ic_add_circle_outline"
+        app:showAsAction="always" />
+</menu>

@@ -1,0 +1,129 @@
+<resources>
+    <string name="app_name">PRAVRAJYA-DIAMOND-LLP</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_profile">Option 1</string>
+    <string name="title_quiz">Option 2</string>
+    <string name="title_time_table">Option 3</string>
+    <string name="title_attendance">Option 4</string>
+    <string name="title_home">Home</string>
+    <string name="title_cart">Cart</string>
+    <string name="title_offers">Offers</string>
+    <string name="title_orders">Cart</string>
+    <string name="about_us">Pravrajya Diamond Llp is a Limited Liability Partnership firm incorporated on 23 October 2017.
+        It is registered at Registrar of Companies, Mumbai. Its total obligation of contribution is Rs. 100,000.
+        \n\nDesignated Partners of Pravrajya Diamond Llp are Shah Vishal Vinod and Mehta Nishit Hasmukhbhai.
+        Pravrajya Diamond Llp\'s last financial year end date for which Statement of Accounts and Solvency were filed is N/A and as per records from Ministry of Corporate Affairs (MCA),
+        date of last financial year end date for which Annual Return were filed is N/A.
+        Pravrajya Diamond Llp\'s LLP Identification Number is (LLPIN)AAK-9350. Its Email address is nishit@prdiam.com and its registered</string>
+    <string name="app_to_cart">Add To Cart</string>
+    <string name="app_date">Date</string>
+    <string name="app_title">Title</string>
+    <string name="app_no_item">There is no item in cart</string>
+    <string name="admin_client">Are you Admin or Client ?</string>
+    <string name="admin">Admin</string>
+    <string name="client">Client</string>
+    <string name="app_not_for_you">This option is valid for Admin</string>
+    <string name="provide_password">Please provide password</string>
+    <string name="enter_for_admin">View Admin Panel</string>
+    <string name="title_activity_admin">Admin Panel</string>
+    <string name="product">Product/Weight</string>
+    <string name="add_product">Add product</string>
+    <string name="provide_hight_price">High Price</string>
+    <string name="provide_low_price">Low Price</string>
+    <string name="provide_price">Price</string>
+    <string name="app_error">Please select the Product</string>
+    <string name="action_add_new">Add New Product</string>
+    <string name="title_demand">Demand</string>
+    <string name="title_setting">Setting</string>
+    <string name="develped_by">Developed By Techboat Copyright Shailesh Mishra</string>
+    <string name="pravrajya_diamond_llp">PRAVRAJYA DIAMOND LLP</string>
+    <string name="location">Location</string>
+    <string name="terms_conditions"><![CDATA[Terms & Conditions \n\nPlease read the following terms and conditions carefully as it sets out the terms of a legally binding agreement between you (the reader) and Business Standard Private Limited.  \n\n1) Introduction \n\nThis following sets out the terms and conditions on which you may use the content on  business-standard.com website, business-standard.com\'s mobile browser site, Business Standard instore Applications and other digital publishing services owned by Business Standard Private Limited, all the services herein will be referred to as Business Standard Content Services.  \n\n2) Registration\n\n Access and Use We welcome users to register on our digital platforms. We offer the below mentioned registration services which may be subject to change in the future. All changes will be appended in the terms and conditions page and communicated to existing users by email.  \n\nRegistration services are offered for individual subscribers only. If multiple individuals propose to access the same account or for corporate accounts kindly contact or write in to us. Subscription rates will vary for multiple same time access.  The nature and volume of Business Standard content services you consume on the digital platforms will vary according to the type of registration you choose, on the geography you reside or the offer you subscribe to.  \n\na) Free Registration  \n\nb) Premium Registration  \n\nc) Special Offers  \n\nd) Combo registrations with partners  \n\nThe details of the services and access offered for each account .We may in exceptional circumstances cease to provide subscription services. We will give you at least \n\n7 days notice of this, if possible. If we do so, then we will have no further obligation to you.  \n\n3) Privacy Policy and Registration All information received by us from your registration on business-standard.com or other digital products of Business Standard will be used by Business Standard in accordance with our Privacy Policy. Kindly read the below mentioned details.  On registration, we expect you to provide Business Standard with an accurate and complete information of the compulsory fields]]></string>
+
+
+    <!--Login-->
+    <string name="facebook_app_id">218450159001916</string>
+    <string name="fb_login_protocol_scheme">fb218450159001916</string>
+
+    <string name="google_login_label">Google Login</string>
+    <string name="facebook_login_label">Facebook Login</string>
+    <string name="facebook_application_id">218450159001916</string>
+    <!--0f17b23645df19f8cdcf3036d7ea618c-->
+    <string name="twitter_consumer_key" translatable="false">8Eo1x34HjFN7QP8QsniyxOBHJ</string>
+    <string name="twitter_consumer_secret" translatable="false">wNe4fSBsd4L7p78UyDNvqbMpvS974xVQqvjG1zLMaS4DcVKI7p</string>
+    <string name="login_with_password">Login with password</string>
+    <string name="login_anonymously">Login Anonymously</string>
+    <string name="login">Login</string>
+    <string name="facebook_login">Facebook LogIn</string>
+    <string name="google_login">Google LogIn</string>
+    <string name="demo_number">1000</string>
+    <string name="layout_not_available">Layout not available, Development mode !</string>
+    <string name="phone_number">Contact\n\n+91. 98200 82696\n+91. 22 49733332\n+91. 22 33923331\n+91. 22.33923332\nQBC: 3331, 3332</string>
+    <string name="web_content">Address\n\n JW7040-50,\nBharat Diamond Bourse, \nBandra Kurla Complex,\nMumbai 400 051\n\nWeb\nwww.prdiam.com\nnishit@prdam.com</string>
+    <string name="please_select_product">Please select product</string>
+    <string name="add_offer">Add New Offer</string>
+    <string name="high_rate">High </string>
+    <string name="low_rate">Low </string>
+    <string name="rate_fluctuate">Up/Down</string>
+    <string name="action_add_new_offer">Add new offer</string>
+
+    <string-array name="elements_header">
+        <item>+0.50</item>
+        <item>+1.00</item>
+        <item>+1.50</item>
+        <item>+2.00</item>
+        <item>+3.00</item>
+        <item>+5.00</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="elements_expandable">
+        <item>White</item>
+        <item>G-H</item>
+        <item>NWLB</item>
+        <item>WLB</item>
+        <item>OWLB</item>
+        <item>Top Top LB</item>
+        <item>Top LB</item>
+        <item>DB</item>
+    </string-array>
+
+    <string-array name="other_elements">
+        <item>News</item>
+        <item>Rate The App</item>
+        <item>About Us</item>
+        <item>Terms and Conditions</item>
+        <item>Help</item>
+        <item>Logout</item>
+    </string-array>
+
+    <string name="title_activity_add_offer">AddOfferActivity</string>
+    <string name="something_additional">Something additional..</string>
+    <string name="enter_new_offer">Enter new offer...</string>
+    <string name="add_new_offer">Add New Offer</string>
+    <string name="weight">Weight</string>
+    <string name="enter_password">Enter a password of 4 digits</string>
+
+
+    <!--SHAPE-->
+    <string name="round_brilient_cut">The round brilliant cut diamond is the most popular shape of diamond. For hundreds of years, diamond cutters have been working with this cut to maximize its brilliance and fire. While this cut offers great flexibility within the four C’s, you will want to select higher quality grades to bring out the most brilliance within a round diamond.</string>
+    <string name="princess_cut">Princess cut diamonds are exceptionally brilliant because of the way they are cut and are available in both square and rectangular shapes. The color that is emitted from princess cut diamonds is very unique. While the color of other diamond is displayed mainly in the center, the princess cut diamonds show distinct color in each of the corners as well.</string>
+    <string name="marquise_cut">A marquise cut diamond is a perfect shape for maximizing carat weight by emphasizing the size of the diamond. Its unique shape creates the effect of longer, more slender hands and fingers. The outline of a diamond is determined by its length to width ratio, which also provides an image of the shape and look of the diamond.</string>
+    <string name="cushin_cut">Sometimes called a pillow-cut diamond, the cushion cut is a timeless cut that has earned its name for its pillow shape. Cushion cut diamonds tend to have impeccable brilliance and clarity in their appearance which can be attributed to their rounded corners and larger facets. These diamonds are available in square and rectangular shapes.</string>
+    <string name="emerald_cut">Emerald cut diamonds have a unique optical appearance because of the rectangular facets step-cut into the diamond’s pavilion. This cut showcases the diamond’s original clarity beautifully because of its large rectangular table which will also make inclusions and color more apparent.</string>
+    <string name="radient_cut">Perfect for those looking for a unique style, radiant cut diamonds feature uniquely trimmed corners which combines the lines of an emerald cut with the brilliance of a round diamond. The sparkle of this diamond cut looks beautiful when combined with a variety of other diamond cuts.</string>
+    <string name="pear_cut">Combining round and marquise cuts, the teardrop style of pear shaped diamonds is exceptional. The slender pear shape will give fingers and hands a slimmer appearance while creating a soft and delicate look. Pear shaped diamonds are cut to produce maximum brilliance, so it’s important to look for excellent symmetry.</string>
+    <string name="oval_cut">Oval cut diamonds have a classic appearance with a modern twist! It is a popular cut in all types of jewelry, especially in engagement rings, making it easy to match with other jewelry. It has an incredible brilliance, similar to the round brilliant cut, but also has the advantage of accentuating long, slender finders.</string>
+    <string name="asscher_cut">Asscher cut diamonds are often mistaken for an emerald cut because of its similar cut style; however an asscher is square rather than rectangular. Created in the early 1920s, the asscher cut has recently resurged in popularity, especially amongst celebrities.</string>
+    <string name="buy">ADD TO CART</string>
+    <string name="other">Other...</string>
+    <string name="full_name_hint">Full Name</string>
+    <string name="no_items">No Items Available In Cart</string>
+
+
+</resources>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".views.users.main.views.MainActivity"
+            android:orientation="vertical"
+            tools:showIn="@layout/app_bar_main">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="180dp" />
+
+            <RelativeLayout
+                android:id="@+id/heading_layout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="@dimen/spacing_4">
+
+                <TextView
+                    android:id="@+id/tvItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    style="@style/AppTextSmall"
+                    android:textStyle="bold"
+                    android:text="Product"/>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="horizontal"
+                    tools:ignore="RelativeOverlap">
+
+                    <TextView
+                        android:id="@+id/tvHigh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/fab_margin"
+                        style="@style/AppTextSmall"
+                        android:textStyle="bold"
+                        android:text="@string/high_rate"/>
+
+                    <TextView
+                        android:id="@+id/tvLow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/fab_margin22"
+                        style="@style/AppTextSmall"
+                        android:textStyle="bold"
+                        android:text="@string/low_rate"/>
+
+                    <TextView
+                        android:id="@+id/tvPrice"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="@dimen/bottom_sheet_divider_indent"
+                        style="@style/AppTextSmall"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="price"
+                        tools:ignore="RtlSymmetry" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:visibility="gone"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</layout>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:focusable="false"
+        android:orientation="vertical"
+        android:background="@color/colorAppBackground"
+        tools:context=".views.users.login.LoginViewActivity">
+
+        <ImageView
+            android:id="@+id/ivIcon"
+            android:layout_width="300dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="100dp"
+            android:background="@drawable/app_logo"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:orientation="vertical">
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorPrimary">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etFullName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_name_profile"
+                    android:drawablePadding="@dimen/bottom_sheet_divider_indent"
+                    android:textColor="@color/colorPrimary"
+                    android:hint="@string/full_name_hint"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorPrimary">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_email_black"
+                    android:drawablePadding="@dimen/bottom_sheet_divider_indent"
+                    android:textColor="@color/colorPrimary"
+                    android:hint="@string/fui_email_hint"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorPrimary"
+                android:layout_marginTop="@dimen/bottom_sheet_divider_indent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:drawableStart="@drawable/ic_lock_black"
+                    android:drawablePadding="@dimen/bottom_sheet_divider_indent"
+                    android:textColor="@color/colorPrimary"
+                    android:hint="@string/fui_password_hint"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnFirebaseLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:textAllCaps="false"
+                android:background="@drawable/rectangle_shape"
+                android:textColor="@color/colorPrimary"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:fontFamily="sans-serif-condensed"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:text="@string/login"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:orientation="horizontal">
+
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/facebookLoginButton"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:text="@string/facebook_login"
+                    android:layout_weight="1"
+                    android:elevation="@dimen/bottom_sheet_divider_indent"
+                    android:layout_marginEnd="10dp"
+                    android:padding="@dimen/bottom_sheet_divider_indent"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/googleLoginButton"
+                    android:layout_width="0dp"
+                    android:layout_height="28dp"
+                    android:text="@string/google_login"
+                    android:elevation="@dimen/bottom_sheet_divider_indent"
+                    android:background="@drawable/google_btn"
+                    android:textColor="@color/colorGoogle"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:fontFamily="sans-serif-condensed"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>
