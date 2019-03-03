@@ -250,7 +250,6 @@ public class MainActivity extends BaseActivity {
 
         LoginManager.getInstance().logOut();
         FirebaseAuth.getInstance().signOut();
-
         Intent intent = new Intent(getApplicationContext(), LoginViewActivity.class);
         startActivity(intent);
         Stash.clear(USER_PROFILE);

@@ -20,10 +20,11 @@ public class AdminListAdapter extends RecyclerView.Adapter<AdminListAdapter.MyVi
     private RealmResults<ProductTable> itemList;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvItem, tvHigh, tvLow, tvPrice;
+        TextView tvItem,tvWeight, tvHigh, tvLow, tvPrice;
         MyViewHolder(View view) {
             super(view);
 
+            tvWeight = view.findViewById(R.id.tvWeight);
             tvItem =  view.findViewById(R.id.tvItem);
             tvHigh =  view.findViewById(R.id.tvHigh);
             tvLow =  view.findViewById(R.id.tvLow);
@@ -46,9 +47,13 @@ public class AdminListAdapter extends RecyclerView.Adapter<AdminListAdapter.MyVi
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        assert itemList.get(position) != null;
         ProductList item = itemList.get(position).getProductLists();
+
         holder.tvItem.setText(item.getProduct());
+        if (item.getProductWeight()==null){
+            holder.tvWeight.setText("00.00");
+        }else { holder.tvWeight.setText(item.getProductWeight());}
+
         holder.tvHigh.setText(item.getHigh());
         holder.tvLow.setText(item.getLow());
         holder.tvPrice.setText(item.getPrice());

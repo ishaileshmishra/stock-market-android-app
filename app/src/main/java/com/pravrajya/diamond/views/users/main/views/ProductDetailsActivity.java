@@ -13,13 +13,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fxn.stash.Stash;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
 import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.databinding.ActivityProductDetailBinding;
 import com.pravrajya.diamond.tables.product.ProductTable;
