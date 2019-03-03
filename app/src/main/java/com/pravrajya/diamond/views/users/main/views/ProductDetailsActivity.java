@@ -23,6 +23,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.databinding.ActivityProductDetailBinding;
 import com.pravrajya.diamond.tables.product.ProductTable;
+import com.pravrajya.diamond.utils.Constants;
 import com.pravrajya.diamond.utils.FirebaseUtil;
 import com.pravrajya.diamond.views.BaseActivity;
 import com.pravrajya.diamond.views.users.login.UserProfile;
@@ -41,7 +42,6 @@ public class ProductDetailsActivity extends BaseActivity {
 
     private ActivityProductDetailBinding binding;
     private String selectedUID;
-    private String title;
     private Realm realm;
     private ArrayList<String> cartList = new ArrayList<>();
     private DatabaseReference dbReference;
@@ -52,16 +52,15 @@ public class ProductDetailsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         dbReference = FirebaseDatabase.getInstance().getReference();
         userNew = (UserProfile) Stash.getObject(USER_PROFILE, UserProfile.class);
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_product_detail);
         cartList = FirebaseUtil.getCartArrayList();
         realm =Realm.getDefaultInstance();
+
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        title = getIntent().getStringExtra("title");
         selectedUID = getIntent().getStringExtra("id");
-        loadInformation(selectedUID);
-        getSupportActionBar().setTitle(title);
-
+        loadInformation();
 
         buyBtnClickHandler();
     }
@@ -69,9 +68,10 @@ public class ProductDetailsActivity extends BaseActivity {
 
 
 
-    private void loadInformation(String id) {
+    private void loadInformation() {
 
-        ProductTable table = realm.where(ProductTable.class).equalTo("id", id).findFirst();
+        ProductTable table = realm.where(ProductTable.class).equalTo(Constants.ID, selectedUID).findFirst();
+        getSupportActionBar().setTitle(table.getProductLists().getProduct());
 
         String CUT_TYPE = Stash.getString(DIAMOND_CUT);
         if (CUT_TYPE.equalsIgnoreCase("round")){
@@ -102,13 +102,15 @@ public class ProductDetailsActivity extends BaseActivity {
         }
 
 
-        String path = Stash.getString(DRAWER_SELECTION)+" --> "+title;
+        String path = Stash.getString(DRAWER_SELECTION)+" --> "+table.getProductLists().getProduct();
         String[] root = path.split("-->");
 
         assert table != null;
 
         int colorCode = getResources().getColor(R.color.lightGray);
-        binding.linearLayout.addView(addCustomView("Title", "3.20 Carat "+root[0], Color.WHITE));
+        String getWeight = table.getProductLists().getProductWeight();
+        if (getWeight==null){ getWeight = "1.2"; }
+        binding.linearLayout.addView(addCustomView("Title", getWeight+" CARAT "+root[0], Color.WHITE));
         binding.linearLayout.addView(addCustomView("Selected Path", path, colorCode));
         binding.linearLayout.addView(addCustomView("Shape", root[1], Color.WHITE));
         binding.linearLayout.addView(addCustomView("Diamond Color", table.getDiamondColor().toUpperCase(), colorCode));

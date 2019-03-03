@@ -31,7 +31,7 @@
     <string name="provide_password">Please provide password</string>
     <string name="enter_for_admin">View Admin Panel</string>
     <string name="title_activity_admin">Admin Panel</string>
-    <string name="product">Product/Weight</string>
+    <string name="product">Product</string>
     <string name="add_product">Add product</string>
     <string name="provide_hight_price">High Price</string>
     <string name="provide_low_price">Low Price</string>
@@ -124,6 +124,7 @@
     <string name="other">Other...</string>
     <string name="full_name_hint">Full Name</string>
     <string name="no_items">No Items Available In Cart</string>
+    <string name="vvs">VVS1</string>
 
 
 </resources>

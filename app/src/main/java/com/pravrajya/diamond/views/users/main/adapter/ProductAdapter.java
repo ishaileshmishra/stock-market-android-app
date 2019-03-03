@@ -1,5 +1,6 @@
 package com.pravrajya.diamond.views.users.main.adapter;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,15 +21,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     private Boolean isRefreshing;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvItem, tvHigh, tvLow, tvPrice;
+        TextView tvItem, tvWeight, tvHigh, tvLow, tvPrice;
 
         MyViewHolder(View view) {
             super(view);
-            //tvWeight = view.findViewById(R.id.tvWeight);
-            tvItem =  view.findViewById(R.id.tvItem);
-            tvHigh =  view.findViewById(R.id.tvHigh);
-            tvLow =  view.findViewById(R.id.tvLow);
-            tvPrice =  view.findViewById(R.id.tvPrice);
+            tvWeight =  view.findViewById(R.id.tvWeight);
+            tvItem   =  view.findViewById(R.id.tvItem);
+            tvHigh   =  view.findViewById(R.id.tvHigh);
+            tvLow    =  view.findViewById(R.id.tvLow);
+            tvPrice  =  view.findViewById(R.id.tvPrice);
         }
     }
 
@@ -48,17 +49,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_list_row, parent, false);
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.trade_list_item, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_list_row, parent, false);
+        //View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.trade_list_item, parent, false);
         return new MyViewHolder(itemView);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
         ProductTable item = itemList.get(position);
         assert item != null;
-        //holder.tvWeight.setText("4C");
+
+        if (item.getProductLists().getProductWeight()==null){ holder.tvWeight.setText("(1.2 CT)");
+        }else { holder.tvWeight.setText("("+item.getProductLists().getProductWeight()+" CT)"); }
         holder.tvItem.setText(item.getProductLists().getProduct());
         holder.tvHigh.setText(item.getProductLists().getHigh());
         holder.tvLow.setText(item.getProductLists().getLow());

@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import static com.pravrajya.diamond.utils.Constants.ID;
 import static com.pravrajya.diamond.utils.FirebaseUtil.getDatabase;
 
 
@@ -44,15 +45,17 @@ public class CRUDActivity extends BaseActivity {
     private List<DiamondColor> diamondCutList;
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Objects.requireNonNull(getSupportActionBar()).setElevation(0);
         realm = Realm.getDefaultInstance();
         dbReference = getDatabase().getReference();
         binding = DataBindingUtil.setContentView(this, R.layout.content_admin);
 
-        getSupportActionBar().setElevation(0);
+
         Objects.requireNonNull(getSupportActionBar()).setTitle("Add new product");
         Intent intent = getIntent();
         if (intent!=null)
@@ -68,36 +71,6 @@ public class CRUDActivity extends BaseActivity {
         btnClickHandler();
     }
 
-
-/*
-    private void loadCutDiamond(){
-
-        binding.tvCutType.setText("Select your diamond cut");
-        List<String> listDataHeader = Arrays.asList("Round","Princess", "Marquise","Cushion","Emerald","Radiant","Pear", "Oval", "Asscher");
-        ChipAdapter adapter = new ChipAdapter(listDataHeader);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        binding.cutRecyclerView.setLayoutManager(layoutManager);
-        binding.cutRecyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-        binding.cutRecyclerView.addOnItemTouchListener(new TapListener(getApplicationContext(), binding.cutRecyclerView, (view, position) -> {
-            selectedCutChip = listDataHeader.get(position);
-            Toast.makeText(getApplicationContext(), selectedCutChip, Toast.LENGTH_SHORT).show();
-        }));
-    }
-    private void loadColorDiamond(){
-
-        binding.tvColor.setText("Select your diamond color");
-        List<String> listDataHeader = Arrays.asList("white","gh","nwlb","WLB","owlb","toptoplb","toplb","ttlb","db","nwlc","wlc","owlc","toptoplc","toplc",	"ttlc","w.natts","lb.natts");
-        ChipAdapter adapter = new ChipAdapter(listDataHeader);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        binding.colorRecyclerView.setLayoutManager(layoutManager);
-        binding.colorRecyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-        binding.colorRecyclerView.addOnItemTouchListener(new TapListener(getApplicationContext(), binding.colorRecyclerView, (view, position) -> {
-            selectedColorChip = listDataHeader.get(position);
-            Toast.makeText(getApplicationContext(), selectedColorChip, Toast.LENGTH_SHORT).show();
-        }));
-    }*/
 
 
     @SuppressLint("SetTextI18n")
@@ -120,17 +93,21 @@ public class CRUDActivity extends BaseActivity {
 
 
         /*****************************************************************************/
+
         if (selectedProductId !=null)
         {
-            ProductTable table = realm.where(ProductTable.class).equalTo("id", selectedProductId).findFirst();
-            assert table != null;
-            binding.tvColor.setText("Please select ( "+table.getDiamondColor().toUpperCase()+" ) from below.");
+            ProductTable product = realm.where(ProductTable.class).equalTo(ID, selectedProductId).findFirst();
+            assert product != null;
+            binding.tvColor.setText("Please select ( "+product.getDiamondColor().toUpperCase()+" ) from below.");
             // Function to find the index of an element
             //boolean isAvailable = diamondCutList.contains(table.getDiamondColor());
             //binding.colorRecyclerView.findViewHolderForAdapterPosition(3).itemView.performClick();
             /*Autho select color item*/
-            ProductList productList = table.getProductLists();
+            ProductList productList = product.getProductLists();
             binding.etProduct.setText(productList.getProduct());
+            if (productList.getProductWeight()==null){
+                binding.etProductWeight.setText(productList.getProductWeight());
+            }
             binding.etHighPrice.setText(productList.getHigh());
             binding.etLowPrice.setText(productList.getLow());
             binding.etPrice.setText(productList.getPrice());
@@ -141,6 +118,7 @@ public class CRUDActivity extends BaseActivity {
         binding.btnAddProduct.setOnClickListener(view->{
 
             String product   = Objects.requireNonNull(binding.etProduct.getText()).toString().trim();
+            String productWeight   = Objects.requireNonNull(binding.etProductWeight.getText()).toString().trim();
             String highPrice = Objects.requireNonNull(binding.etHighPrice.getText()).toString().trim();
             String lowPrice  = Objects.requireNonNull(binding.etLowPrice.getText()).toString().trim();
             String price     = Objects.requireNonNull(binding.etPrice.getText()).toString().trim();
@@ -152,6 +130,9 @@ public class CRUDActivity extends BaseActivity {
             } else if (product.isEmpty()){
                 clearAllErrors(binding.etProduct);
                 binding.textInputLayoutProduct.setError("Product can not be empty");
+            }else if (productWeight.isEmpty()){
+                clearAllErrors(binding.etProductWeight);
+                binding.textInputLayoutProductWeight.setError("Product Weight can not be empty");
             }else if (highPrice.isEmpty()){
                 clearAllErrors(binding.etHighPrice);
                 binding.textInputHighPrice.setError("High price can not be empty");
@@ -178,6 +159,7 @@ public class CRUDActivity extends BaseActivity {
                 /******************************************************/
                 ProductList productList = new ProductList();
                 productList.setProduct(product);
+                productList.setProductWeight(productWeight);
                 productList.setHigh(highPrice);
                 productList.setLow(lowPrice);
                 productList.setPrice(price);
@@ -194,7 +176,6 @@ public class CRUDActivity extends BaseActivity {
                 }else {
                     showAlertDialog("Add product", information+" Added", productTable);
                 }
-
             }
         });
 
@@ -207,11 +188,13 @@ public class CRUDActivity extends BaseActivity {
         if (requestFocus!=null){ requestFocus.requestFocus(); }
         binding.textInputLayoutProduct.setError(null);
         binding.textInputHighPrice.setError(null);
+        binding.textInputLayoutProductWeight.setError(null);
         binding.textInputLayoutLowPrice.setError(null);
         binding.textInputLayoutPrice.setError(null);
     }
     private void clearEditTexts(){
         binding.etProduct.setText("");
+        binding.etProductWeight.setText("");
         binding.etHighPrice.setText("");
         binding.etLowPrice.setText("");
         binding.etProduct.setText("");

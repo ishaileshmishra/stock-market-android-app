@@ -22,14 +22,14 @@
                 android:textStyle="bold"
                 android:layout_marginStart="@dimen/spacing_4"
                 android:textAppearance="?android:textAppearanceSmall"
-                android:text="VVS1"/>
+                android:text="@string/vvs"/>
 
             <TextView
                 android:id="@+id/tvWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/AppTextSmall"
-                android:layout_marginStart="@dimen/fab_margin"
+                android:textSize="12sp"
+                android:layout_marginStart="@dimen/bottom_sheet_divider_indent"
                 android:text="@string/weight"/>
 
         </LinearLayout>

@@ -16,6 +16,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.pravrajya.diamond.R;
+import com.pravrajya.diamond.utils.Constants;
 import com.pravrajya.diamond.utils.ItemDecoration;
 import com.pravrajya.diamond.views.users.main.adapter.ProductAdapter;
 import com.pravrajya.diamond.tables.product.ProductTable;
@@ -66,7 +67,7 @@ public class FragmentHome extends Fragment {
         Realm realmInstance = Realm.getDefaultInstance();
         String selectedColor = Stash.getString(SELECTED_COLOR);
 
-        dataModel = realmInstance.where(ProductTable.class).equalTo("diamondColor", selectedColor).findAll();
+        dataModel = realmInstance.where(ProductTable.class).equalTo(Constants.DIAMOND_COLOR, selectedColor).findAll();
 
         if (dataModel.size()==0){
             binding.headingLayout.setVisibility(View.GONE);
@@ -136,8 +137,6 @@ public class FragmentHome extends Fragment {
 
             ProductTable listItem = dataModel.get(position);
             Intent intent = new Intent(getActivity(), ProductDetailsActivity.class);
-            assert listItem != null;
-            intent.putExtra("title", listItem.getProductLists().getProduct());
             intent.putExtra("id", listItem.getId());
             startActivity(intent);
 
