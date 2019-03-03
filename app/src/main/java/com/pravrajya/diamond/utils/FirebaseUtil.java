@@ -28,10 +28,9 @@ import static com.pravrajya.diamond.utils.Constants.USER_PROFILE;
 
 public class FirebaseUtil {
 
-    private String TAG = FirebaseUtil.class.getSimpleName();
+    private static String TAG = FirebaseUtil.class.getSimpleName();
     private Context context;
-    private DatabaseReference dbReference;
-    private UserProfile userNew;
+    private static DatabaseReference dbReference;
     private static ArrayList<String> cartArrayListIds;
 
     /****************************************************************************/
@@ -43,7 +42,6 @@ public class FirebaseUtil {
         this.context = _context;
         this.dbReference = getDatabase().getReference();
         this.dbReference.keepSynced(true);
-        userNew = (UserProfile)Stash.getObject(USER_PROFILE, UserProfile.class);
 
         loadALLFaqs();
         loadALLProducts();
@@ -52,10 +50,6 @@ public class FirebaseUtil {
         loadALLDiamondColor();
         loadALLDiamondSize();
 
-        /*User Specific*/
-        if (userNew!=null){
-            loadCartItems();
-        }
     }
     public static FirebaseDatabase getDatabase() {
         if (mDatabase == null) {
@@ -287,7 +281,7 @@ public class FirebaseUtil {
     /****************[ Load all cart Items ]****************/
     /****************************************************************************/
 
-    private void loadCartItems() {
+    public static void loadCartItems() {
 
         UserProfile userNew = (UserProfile)Stash.getObject(USER_PROFILE, UserProfile.class);
         Query lastQuery = dbReference.child("users").child(userNew.getUserId()).child("cart");

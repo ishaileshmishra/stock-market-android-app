@@ -7,12 +7,17 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.pravrajya.diamond.R;
+import com.pravrajya.diamond.databinding.ActivitySplashBinding;
+import com.pravrajya.diamond.utils.Constants;
 import com.pravrajya.diamond.views.BaseActivity;
 import com.pravrajya.diamond.views.users.login.LoginViewActivity;
+
+import androidx.databinding.DataBindingUtil;
 
 
 public class SplashActivity extends BaseActivity {
 
+    ActivitySplashBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,7 +25,8 @@ public class SplashActivity extends BaseActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.activity_splash);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_splash);
+        binding.tvDeveloper.setText(Constants.DEVELOPER_INFO);
         holdGoNewScreen();
 
     }
