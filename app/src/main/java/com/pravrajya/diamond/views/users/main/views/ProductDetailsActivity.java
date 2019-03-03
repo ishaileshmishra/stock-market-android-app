@@ -43,6 +43,7 @@ public class ProductDetailsActivity extends BaseActivity {
     private String selectedUID;
     private String title;
     private Realm realm;
+    private ArrayList<String> cartList = new ArrayList<>();
     private DatabaseReference dbReference;
     private UserProfile userNew;
 
@@ -52,7 +53,7 @@ public class ProductDetailsActivity extends BaseActivity {
         dbReference = FirebaseDatabase.getInstance().getReference();
         userNew = (UserProfile) Stash.getObject(USER_PROFILE, UserProfile.class);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_product_detail);
-
+        cartList = FirebaseUtil.getCartArrayList();
         realm =Realm.getDefaultInstance();
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -171,10 +172,15 @@ public class ProductDetailsActivity extends BaseActivity {
     private void syncCart(){
 
         showProgressDialog("Adding to cart");
-        ArrayList<String> cartList = FirebaseUtil.getCartArrayList();
-        if (!cartList.contains(selectedUID)){ cartList.add(selectedUID); }
-        if (userNew.getUserId()!=null)
-            dbReference.child(USERS).child(userNew.getUserId()).child(CART).setValue(cartList)
+        String getCurrentUser = userNew.getUserId();
+        if (cartList!=null){
+            if (!cartList.contains(selectedUID)){ cartList.add(selectedUID); }
+        }else {
+            cartList.add(selectedUID);
+        }
+
+        if (getCurrentUser!=null)
+            dbReference.child(USERS).child(getCurrentUser).child(CART).setValue(cartList)
                     .addOnSuccessListener(aVoid -> {
                         hideProgressDialog();
                         showToast("Added to cart");

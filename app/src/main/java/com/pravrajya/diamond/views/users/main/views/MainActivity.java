@@ -60,6 +60,7 @@ import static com.pravrajya.diamond.utils.Constants.DRAWER_SELECTION;
 import static com.pravrajya.diamond.utils.Constants.PROFILE_ICON;
 import static com.pravrajya.diamond.utils.Constants.SELECTED_COLOR;
 import static com.pravrajya.diamond.utils.Constants.USER_PROFILE;
+import static com.pravrajya.diamond.utils.FirebaseUtil.loadCartItems;
 
 
 public class MainActivity extends BaseActivity {
@@ -106,6 +107,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        loadCartItems();
 
         realmInstance = Realm.getDefaultInstance();
         dbReference = FirebaseDatabase.getInstance().getReference();
