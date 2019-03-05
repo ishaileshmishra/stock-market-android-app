@@ -13,6 +13,7 @@ import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.databinding.ContentOffersBinding;
 import com.pravrajya.diamond.tables.offers.OfferTable;
 import com.pravrajya.diamond.utils.ClickListener;
+import com.pravrajya.diamond.utils.Constants;
 import com.pravrajya.diamond.utils.FirebaseUtil;
 import com.pravrajya.diamond.utils.ItemDecoration;
 import com.pravrajya.diamond.views.users.fragments.BaseFragment;
@@ -100,8 +101,9 @@ public class FragmentOffers extends BaseFragment {
         builder.setTitle("Add to cart");
         builder.setMessage("Do you want to Add item in cart ?");
         builder.setPositiveButton("YES", (dialog, id) -> {
-            if (FirebaseUtil.getCartArrayList()!=null){
-                cartList = FirebaseUtil.getCartArrayList();
+
+            cartList = Stash.getArrayList(Constants.CART_ITEMS, String.class);
+            if (cartList!=null){
                 if (!cartList.contains(selectedUID)) {
                     cartList.add(selectedUID);
                 } }else { cartList.add(selectedUID); }

@@ -14,6 +14,7 @@ import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.databinding.ContentCartBinding;
 import com.pravrajya.diamond.tables.offers.OfferTable;
 import com.pravrajya.diamond.tables.product.ProductTable;
+import com.pravrajya.diamond.utils.Constants;
 import com.pravrajya.diamond.utils.DeletionSwipeHelper;
 import com.pravrajya.diamond.utils.FirebaseUtil;
 import com.pravrajya.diamond.utils.ItemDecoration;
@@ -57,9 +58,9 @@ public class FragmentCart extends BaseFragment implements DeletionSwipeHelper.On
         realm = Realm.getDefaultInstance();
         dbReference = FirebaseDatabase.getInstance().getReference();
         binding = DataBindingUtil.inflate(inflater, R.layout.content_cart, container, false);
-        if (FirebaseUtil.getCartArrayList() != null){
-            cartIdList = FirebaseUtil.getCartArrayList();
-        } else {
+        cartIdList = Stash.getArrayList(Constants.CART_ITEMS, String.class);
+
+        if (cartIdList==null || cartIdList.size()==0){
             binding.noItems.setVisibility(View.VISIBLE);
             binding.noItems.setText(getString(R.string.no_items));
         }
@@ -136,17 +137,17 @@ public class FragmentCart extends BaseFragment implements DeletionSwipeHelper.On
                     .addOnSuccessListener(aVoid -> {
                         hideProgressDialog();
                         refreshData();
-                        Toast.makeText(getActivity(), "Added to cart", Toast.LENGTH_SHORT).show();
+                        showToast("Added to cart");
                     }).addOnFailureListener(e -> {
                 hideProgressDialog();
-                Toast.makeText(getActivity(), "Failed to add in cart", Toast.LENGTH_SHORT).show();
+                showToast("Failed to add in cart");
             });
     }
 
 
     private void btnBuy() {
         binding.btnBuy.setOnClickListener(view->{
-            Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_SHORT).show();
+            showToast("Clicked Button BUY");
         });
     }
 

@@ -31,7 +31,7 @@ public class FirebaseUtil {
     private static String TAG = FirebaseUtil.class.getSimpleName();
     private Context context;
     private static DatabaseReference dbReference;
-    private static ArrayList<String> cartArrayListIds;
+
 
     /****************************************************************************/
     /****************[ FirebaseDatabase Initialisation ]****************/
@@ -289,11 +289,12 @@ public class FirebaseUtil {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
-                    cartArrayListIds = new ArrayList<>();
+                    ArrayList<String> cartArrayListIds = new ArrayList<>();
                     for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                         cartArrayListIds.add(snapshot.getValue(String.class));
                         Log.e("cart snapshot", String.valueOf(cartArrayListIds.size()));
                     }
+                    Stash.put(Constants.CART_ITEMS, cartArrayListIds);
                 }
             }
             @Override
@@ -302,9 +303,9 @@ public class FirebaseUtil {
             }
         });
     }
-    public static ArrayList<String> getCartArrayList() {
-        return cartArrayListIds;
-    }
+
+
+
 
     /****************************************************************************/
     /****************[ SYNC data on the server ]****************/

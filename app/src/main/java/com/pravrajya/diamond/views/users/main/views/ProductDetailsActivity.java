@@ -51,7 +51,7 @@ public class ProductDetailsActivity extends BaseActivity {
         userNew = (UserProfile) Stash.getObject(USER_PROFILE, UserProfile.class);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_product_detail);
-        cartList = FirebaseUtil.getCartArrayList();
+        cartList = Stash.getArrayList(Constants.CART_ITEMS, String.class);
         realm =Realm.getDefaultInstance();
 
         getSupportActionBar().setElevation(0);
@@ -69,6 +69,27 @@ public class ProductDetailsActivity extends BaseActivity {
 
         ProductTable table = realm.where(ProductTable.class).equalTo(Constants.ID, selectedUID).findFirst();
         getSupportActionBar().setTitle(table.getProductLists().getProduct());
+
+        String path = Stash.getString(DRAWER_SELECTION)+" --> "+table.getProductLists().getProduct();
+        String[] root = path.split("-->");
+
+        int colorCode = getResources().getColor(R.color.lightGray);
+        String getWeight = table.getProductLists().getProductWeight();
+        if (getWeight==null){ getWeight = "1.2"; }
+        binding.linearLayout.addView(addCustomView("Title", getWeight+" CARAT "+root[0], Color.WHITE));
+        binding.linearLayout.addView(addCustomView("Selected Path", path, colorCode));
+        binding.linearLayout.addView(addCustomView("Shape", root[1], Color.WHITE));
+        binding.linearLayout.addView(addCustomView("Cut", "CUT", colorCode));
+        binding.linearLayout.addView(addCustomView("Symmetry", "SYMMETRY", Color.WHITE));
+        binding.linearLayout.addView(addCustomView("Polish", "POLISH", colorCode));
+        binding.linearLayout.addView(addCustomView("Other", "OTHER...", Color.WHITE));
+        binding.linearLayout.addView(addCustomView("Diamond Color", table.getDiamondColor().toUpperCase(), colorCode));
+        binding.linearLayout.addView(addCustomView("Clarity",table.getProductLists().getProduct(), Color.WHITE));
+        binding.linearLayout.addView(addCustomView("High Price",table.getProductLists().getHigh(), colorCode));
+        binding.linearLayout.addView(addCustomView("Price",table.getProductLists().getPrice(), Color.WHITE));
+        binding.linearLayout.addView(addCustomView("Low Price",table.getProductLists().getLow(), colorCode));
+
+
 
         String CUT_TYPE = Stash.getString(DIAMOND_CUT);
         if (CUT_TYPE.equalsIgnoreCase("round")){
@@ -97,24 +118,6 @@ public class ProductDetailsActivity extends BaseActivity {
             setLogoImage(uri, getResources().getString(R.string.cushin_cut));
 
         }
-
-
-        String path = Stash.getString(DRAWER_SELECTION)+" --> "+table.getProductLists().getProduct();
-        String[] root = path.split("-->");
-
-        assert table != null;
-
-        int colorCode = getResources().getColor(R.color.lightGray);
-        String getWeight = table.getProductLists().getProductWeight();
-        if (getWeight==null){ getWeight = "1.2"; }
-        binding.linearLayout.addView(addCustomView("Title", getWeight+" CARAT "+root[0], Color.WHITE));
-        binding.linearLayout.addView(addCustomView("Selected Path", path, colorCode));
-        binding.linearLayout.addView(addCustomView("Shape", root[1], Color.WHITE));
-        binding.linearLayout.addView(addCustomView("Diamond Color", table.getDiamondColor().toUpperCase(), colorCode));
-        binding.linearLayout.addView(addCustomView("Clarity",table.getProductLists().getProduct(), Color.WHITE));
-        binding.linearLayout.addView(addCustomView("High Price",table.getProductLists().getHigh(), colorCode));
-        binding.linearLayout.addView(addCustomView("Price",table.getProductLists().getPrice(), Color.WHITE));
-        binding.linearLayout.addView(addCustomView("Low Price",table.getProductLists().getLow(), colorCode));
     }
 
 
