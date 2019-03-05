@@ -27,11 +27,11 @@ import com.pravrajya.diamond.databinding.ActivityLoginViewBinding;
 import com.pravrajya.diamond.views.BaseActivity;
 import com.pravrajya.diamond.views.users.main.views.MainActivity;
 
-import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.facebook.AccessToken;
+import com.pravrajya.diamond.views.users.registration.ProfileActivity;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -42,15 +42,10 @@ import static com.pravrajya.diamond.utils.Constants.USER_PROFILE;
 public class LoginViewActivity extends BaseActivity {
 
     private ActivityLoginViewBinding loginBinding;
-
     private GoogleSignInClient mGoogleSignInClient;
-
     private static final int RC_SIGN_IN = 123;
-
     private final int FACEBOOK_SIGN_IN  = 64206;
-
     private CallbackManager callbackManager;
-
     private FirebaseAuth mAuth;
 
 
@@ -91,19 +86,24 @@ public class LoginViewActivity extends BaseActivity {
 
 
 
-    private void firebaseCreateAccount(String name, String email, String password) {
+    private void firebaseCreateAccount(String email, String password) {
         showProgressDialog("Login in progress");
-        mAuth.createUserWithEmailAndPassword(email, password)
+        mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     hideProgressDialog();
                     if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        assert user != null;
-                        setUserProfile(user.getUid(), user.getEmail(), name, "");
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            assert user != null;
+                            setUserProfile(user.getUid(), user.getEmail(), "", "");
+                        } else {
+                            showError(Objects.requireNonNull(task.getException()).getLocalizedMessage());
+                        }
                     } else {
                         showError(Objects.requireNonNull(task.getException()).getLocalizedMessage());
                     }
                 });
+
     }
 
 
@@ -111,21 +111,17 @@ public class LoginViewActivity extends BaseActivity {
     private void socialLogin(){
 
         loginBinding.btnFirebaseLogin.setOnClickListener(view->{
-            String name = loginBinding.etFullName.getText().toString();
             String emailId = loginBinding.etEmail.getText().toString();
             String password=loginBinding.etPassword.getText().toString();
 
-            if (TextUtils.isEmpty(name)){
-                showError("Please enter full valid name");
-                loginBinding.inputName.setError("Please enter full valid name");
-            }else if (!isValidEmail(emailId)){
+            if (!isValidEmail(emailId)){
                 showError("Please enter a valid e-mail address");
                 loginBinding.inputEmail.setError("Please enter a valid e-mail address");
-            }else if(!isValidPassword(password)){
+            }else if(password.equalsIgnoreCase("")){
                 showError("Password is not Valid");
                 loginBinding.inputPassword.setError("Password is not Valid");
             }else{
-                firebaseCreateAccount(name,emailId, password);
+                firebaseCreateAccount(emailId, password);
             }
         });
 
@@ -149,6 +145,11 @@ public class LoginViewActivity extends BaseActivity {
             public void onError(FacebookException error) {
                 showError(error.getLocalizedMessage());
             }
+        });
+
+
+        loginBinding.btnRegistration.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
         });
     }
 
@@ -213,12 +214,6 @@ public class LoginViewActivity extends BaseActivity {
         Stash.put(USER_PROFILE,new UserProfile(uid, email, name, userProfile));
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();
-    }
-
-
-    private void showError(String errorMessage) {
-        View parentLayout = findViewById(android.R.id.content);
-        Snackbar.make(parentLayout, errorMessage, Snackbar.LENGTH_SHORT).show();
     }
 
 

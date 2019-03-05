@@ -122,9 +122,12 @@
     <string name="asscher_cut">Asscher cut diamonds are often mistaken for an emerald cut because of its similar cut style; however an asscher is square rather than rectangular. Created in the early 1920s, the asscher cut has recently resurged in popularity, especially amongst celebrities.</string>
     <string name="buy">ADD TO CART</string>
     <string name="other">Other...</string>
-    <string name="full_name_hint">Full Name</string>
+    <string name="full_name_hint">Your name</string>
     <string name="no_items">No Items Available In Cart</string>
     <string name="vvs">VVS1</string>
-
+    <string name="title_activity_profile">Create Account</string>
+    <string name="confirm_password">Confirm again</string>
+    <string name="registration_terms">By creating an account, You agree to Pravrajya Diamond LLP and Privacy Notice</string>
+    <string name="has_account">Already have an account? Sign-In</string>
 
 </resources>

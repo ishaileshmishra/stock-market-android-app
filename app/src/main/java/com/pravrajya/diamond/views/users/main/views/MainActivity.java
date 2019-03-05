@@ -1,6 +1,7 @@
 package com.pravrajya.diamond.views.users.main.views;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import com.bumptech.glide.Glide;
@@ -55,6 +56,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 
+import static com.pravrajya.diamond.utils.Constants.CART_ITEMS;
 import static com.pravrajya.diamond.utils.Constants.DEFAULT_COLOR;
 import static com.pravrajya.diamond.utils.Constants.DRAWER_SELECTION;
 import static com.pravrajya.diamond.utils.Constants.PROFILE_ICON;
@@ -253,6 +255,7 @@ public class MainActivity extends BaseActivity {
         Intent intent = new Intent(getApplicationContext(), LoginViewActivity.class);
         startActivity(intent);
         Stash.clear(USER_PROFILE);
+        Stash.clear(CART_ITEMS);
         finish();
     }
 

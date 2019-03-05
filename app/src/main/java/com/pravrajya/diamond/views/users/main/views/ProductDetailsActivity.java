@@ -47,9 +47,9 @@ public class ProductDetailsActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         dbReference = FirebaseDatabase.getInstance().getReference();
         userNew = (UserProfile) Stash.getObject(USER_PROFILE, UserProfile.class);
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_product_detail);
         cartList = Stash.getArrayList(Constants.CART_ITEMS, String.class);
         realm =Realm.getDefaultInstance();
@@ -58,7 +58,6 @@ public class ProductDetailsActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         selectedUID = getIntent().getStringExtra("id");
         loadInformation();
-
         buyBtnClickHandler();
     }
 

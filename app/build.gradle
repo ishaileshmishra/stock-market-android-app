@@ -65,7 +65,6 @@ dependencies {
     implementation 'com.cepheuen.elegant-number-button:lib:1.0.2'
     implementation 'com.github.smhdk:KM-Recyclerview-Sticky-Header:v1.0.0'
 
-
     // retrofit, gson
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
