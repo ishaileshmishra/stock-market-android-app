@@ -34,6 +34,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
+import static com.pravrajya.diamond.utils.Constants.DEFAULT_COLOR;
 import static com.pravrajya.diamond.utils.Constants.SELECTED_COLOR;
 
 
@@ -65,7 +66,14 @@ public class FragmentHome extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.content_main, container, false);
         activity = (MainActivity)getActivity();
         Realm realmInstance = Realm.getDefaultInstance();
-        String selectedColor = Stash.getString(SELECTED_COLOR);
+
+        String selectedColor = null;
+        if (!Stash.getString(SELECTED_COLOR).equalsIgnoreCase("")){
+            selectedColor = Stash.getString(SELECTED_COLOR);
+        }else {
+            selectedColor = DEFAULT_COLOR;
+        }
+
 
         dataModel = realmInstance.where(ProductTable.class).equalTo(Constants.DIAMOND_COLOR, selectedColor).findAll();
 

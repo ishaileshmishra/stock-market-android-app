@@ -29,7 +29,6 @@ import static com.pravrajya.diamond.utils.Constants.USER_PROFILE;
 public class FirebaseUtil {
 
     private static String TAG = FirebaseUtil.class.getSimpleName();
-    private Context context;
     private static DatabaseReference dbReference;
 
 
@@ -38,8 +37,7 @@ public class FirebaseUtil {
     /****************************************************************************/
 
     private static FirebaseDatabase mDatabase;
-    public FirebaseUtil(Context _context) {
-        this.context = _context;
+    public FirebaseUtil() {
         this.dbReference = getDatabase().getReference();
         this.dbReference.keepSynced(true);
 

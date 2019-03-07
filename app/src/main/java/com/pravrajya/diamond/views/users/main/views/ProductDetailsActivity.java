@@ -40,6 +40,7 @@ public class ProductDetailsActivity extends BaseActivity {
     private ActivityProductDetailBinding binding;
     private String selectedUID;
     private Realm realm;
+    private String PATH = null;
     private ArrayList<String> cartList = new ArrayList<>();
     private DatabaseReference dbReference;
     private UserProfile userNew;
@@ -54,7 +55,7 @@ public class ProductDetailsActivity extends BaseActivity {
         cartList = Stash.getArrayList(Constants.CART_ITEMS, String.class);
         realm =Realm.getDefaultInstance();
 
-        getSupportActionBar().setElevation(0);
+        Objects.requireNonNull(getSupportActionBar()).setElevation(0);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         selectedUID = getIntent().getStringExtra("id");
         loadInformation();
@@ -62,31 +63,49 @@ public class ProductDetailsActivity extends BaseActivity {
     }
 
 
-
-
+    /**
+     * -Title.   (As it is right now )
+     * -Shape    (round/pear/ whatever is selected)
+     * -Size.    (+0.90,+1.00, whatever size is selected)
+     * -Color    (white,nwlb,wlb, whatever colour is selected)
+     * -Clarity  (vsi,vs1, whatever clarity is selected)
+     * -Cut.     (Fair, good, very good or excellent)
+     * -Polish.  (Fair, good, very good or excellent)
+     * -Fluorescence. (None,faint,strong,very strong)
+     * -Symmetry.     (Fair, good, very good or excellent)-
+     * -High Price  $
+     * -Price.      $
+     * -low price   $
+     */
     private void loadInformation() {
 
         ProductTable table = realm.where(ProductTable.class).equalTo(Constants.ID, selectedUID).findFirst();
-        getSupportActionBar().setTitle(table.getProductLists().getProduct());
+        Objects.requireNonNull(getSupportActionBar()).setTitle(Objects.requireNonNull(table).getProductLists().getProduct());
 
-        String path = Stash.getString(DRAWER_SELECTION)+" --> "+table.getProductLists().getProduct();
-        String[] root = path.split("-->");
+        PATH = Stash.getString(DRAWER_SELECTION)+" --> "+table.getProductLists().getProduct();
+        String[] root = PATH.split("-->");
+        String shape =root[0];
+        String size  =root[1];
+        String clarity =root[2];
 
-        int colorCode = getResources().getColor(R.color.lightGray);
+        int colorGRAY = getResources().getColor(R.color.lightGray);
+        int colorWhite = getResources().getColor(R.color.white);
         String getWeight = table.getProductLists().getProductWeight();
         if (getWeight==null){ getWeight = "1.2"; }
-        binding.linearLayout.addView(addCustomView("Title", getWeight+" CARAT "+root[0], Color.WHITE));
-        binding.linearLayout.addView(addCustomView("Selected Path", path, colorCode));
-        binding.linearLayout.addView(addCustomView("Shape", root[1], Color.WHITE));
-        binding.linearLayout.addView(addCustomView("Cut", "CUT", colorCode));
-        binding.linearLayout.addView(addCustomView("Symmetry", "SYMMETRY", Color.WHITE));
-        binding.linearLayout.addView(addCustomView("Polish", "POLISH", colorCode));
-        binding.linearLayout.addView(addCustomView("Other", "OTHER...", Color.WHITE));
-        binding.linearLayout.addView(addCustomView("Diamond Color", table.getDiamondColor().toUpperCase(), colorCode));
-        binding.linearLayout.addView(addCustomView("Clarity",table.getProductLists().getProduct(), Color.WHITE));
-        binding.linearLayout.addView(addCustomView("High Price",table.getProductLists().getHigh(), colorCode));
-        binding.linearLayout.addView(addCustomView("Price",table.getProductLists().getPrice(), Color.WHITE));
-        binding.linearLayout.addView(addCustomView("Low Price",table.getProductLists().getLow(), colorCode));
+
+        binding.linearLayout.addView(addCustomView("Selected path", PATH, colorGRAY));
+        binding.linearLayout.addView(addCustomView("Title", getWeight+" CARAT "+root[0], colorWhite));
+        binding.linearLayout.addView(addCustomView("Shape", shape, colorGRAY));
+        binding.linearLayout.addView(addCustomView("Size", size, colorWhite));
+        binding.linearLayout.addView(addCustomView("Color", table.getDiamondColor().toUpperCase(), colorGRAY));
+        binding.linearLayout.addView(addCustomView("Clarity",table.getProductLists().getProduct(), colorWhite));
+        binding.linearLayout.addView(addCustomView("Cut", "Fair", colorGRAY));
+        binding.linearLayout.addView(addCustomView("Polish", "Good", colorWhite));
+        binding.linearLayout.addView(addCustomView("Fluorescence", "Faint", colorGRAY));
+        binding.linearLayout.addView(addCustomView("Symmetry", "Excellent", colorWhite));
+        binding.linearLayout.addView(addCustomView("High Price",table.getProductLists().getHigh(), colorGRAY));
+        binding.linearLayout.addView(addCustomView("Price",table.getProductLists().getPrice(), colorWhite));
+        binding.linearLayout.addView(addCustomView("Low Price",table.getProductLists().getLow(), colorGRAY));
 
 
 

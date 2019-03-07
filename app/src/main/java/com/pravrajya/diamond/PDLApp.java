@@ -28,6 +28,6 @@ public class PDLApp extends Application {
         RealmConfiguration config = new RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build();
         Realm.setDefaultConfiguration(config);
 
-        new FirebaseUtil(getApplicationContext());
+        new FirebaseUtil();
     }
 }
