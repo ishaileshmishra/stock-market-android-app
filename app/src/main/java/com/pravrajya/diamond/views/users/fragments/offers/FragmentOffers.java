@@ -101,7 +101,6 @@ public class FragmentOffers extends BaseFragment {
         builder.setTitle("Add to cart");
         builder.setMessage("Do you want to Add item in cart ?");
         builder.setPositiveButton("YES", (dialog, id) -> {
-
             cartList = Stash.getArrayList(Constants.CART_ITEMS, String.class);
             if (cartList!=null){
                 if (!cartList.contains(selectedUID)) {

@@ -4,9 +4,11 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import io.realm.Realm;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,8 +24,13 @@ import com.pravrajya.diamond.databinding.ActivityProductDetailBinding;
 import com.pravrajya.diamond.tables.product.ProductTable;
 import com.pravrajya.diamond.utils.Constants;
 import com.pravrajya.diamond.utils.FirebaseUtil;
+import com.pravrajya.diamond.utils.MessageEvent;
 import com.pravrajya.diamond.views.BaseActivity;
 import com.pravrajya.diamond.views.users.login.UserProfile;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -62,20 +69,20 @@ public class ProductDetailsActivity extends BaseActivity {
         buyBtnClickHandler();
     }
 
-
     /**
-     * -Title.   (As it is right now )
-     * -Shape    (round/pear/ whatever is selected)
-     * -Size.    (+0.90,+1.00, whatever size is selected)
-     * -Color    (white,nwlb,wlb, whatever colour is selected)
-     * -Clarity  (vsi,vs1, whatever clarity is selected)
-     * -Cut.     (Fair, good, very good or excellent)
-     * -Polish.  (Fair, good, very good or excellent)
+     * Formate mailed from Rushil
+     * -Title.  (As it is right now )
+     * -Shape   (round/pear/ whatever is selected)
+     * -Size.   (+0.90,+1.00, whatever size is selected)
+     * -Color   (white,nwlb,wlb, whatever colour is selected)
+     * -Clarity (vsi,vs1, whatever clarity is selected)
+     * -Cut.    (Fair, good, very good or excellent)
+     * -Polish. (Fair, good, very good or excellent)
      * -Fluorescence. (None,faint,strong,very strong)
      * -Symmetry.     (Fair, good, very good or excellent)-
-     * -High Price  $
-     * -Price.      $
-     * -low price   $
+     * -High Price  $342
+     * -Price.      $212
+     * -low price   $100
      */
     private void loadInformation() {
 
@@ -86,14 +93,13 @@ public class ProductDetailsActivity extends BaseActivity {
         String[] root = PATH.split("-->");
         String shape =root[0];
         String size  =root[1];
-        String clarity =root[2];
 
         int colorGRAY = getResources().getColor(R.color.lightGray);
         int colorWhite = getResources().getColor(R.color.white);
         String getWeight = table.getProductLists().getProductWeight();
         if (getWeight==null){ getWeight = "1.2"; }
 
-        binding.linearLayout.addView(addCustomView("Selected path", PATH, colorGRAY));
+        //binding.linearLayout.addView(addCustomView("Selected path", PATH, colorGRAY));
         binding.linearLayout.addView(addCustomView("Title", getWeight+" CARAT "+root[0], colorWhite));
         binding.linearLayout.addView(addCustomView("Shape", shape, colorGRAY));
         binding.linearLayout.addView(addCustomView("Size", size, colorWhite));
@@ -134,10 +140,8 @@ public class ProductDetailsActivity extends BaseActivity {
         }else if (CUT_TYPE.equalsIgnoreCase("cushin")){
             String uri = "@drawable/cushion_cut";
             setLogoImage(uri, getResources().getString(R.string.cushin_cut));
-
         }
     }
-
 
     private void setLogoImage(String uri, String cutText) {
 
@@ -156,7 +160,6 @@ public class ProductDetailsActivity extends BaseActivity {
 
     }
 
-
     private View addCustomView(String title, String titleInfo,  int color) {
 
         View customLinear = LayoutInflater.from(this)
@@ -169,8 +172,6 @@ public class ProductDetailsActivity extends BaseActivity {
         return customLinear;
     }
 
-
-
     private void applyMargin(View view){
         LinearLayout.LayoutParams params = new LinearLayout
                 .LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
@@ -179,7 +180,6 @@ public class ProductDetailsActivity extends BaseActivity {
         view.setLayoutParams(params);
     }
 
-
     private void buyBtnClickHandler(){
 
         binding.btnBUY.setOnClickListener(view->{
@@ -187,16 +187,15 @@ public class ProductDetailsActivity extends BaseActivity {
         });
     }
 
-
-
     private void syncCart(){
 
         showProgressDialog("Adding to cart");
         String getCurrentUser = userNew.getUserId();
+        String put_in_cart = selectedUID+"@"+PATH;
         if (cartList!=null){
-            if (!cartList.contains(selectedUID)){ cartList.add(selectedUID); }
+            if (!cartList.contains(put_in_cart)){ cartList.add(put_in_cart); }
         }else {
-            cartList.add(selectedUID);
+            cartList.add(put_in_cart);
         }
 
         if (getCurrentUser!=null)
@@ -204,14 +203,12 @@ public class ProductDetailsActivity extends BaseActivity {
                     .addOnSuccessListener(aVoid -> {
                         hideProgressDialog();
                         showToast("Added to cart");
-                        finish();
+                        onBackPressed();
                     }).addOnFailureListener(e -> {
                         hideProgressDialog();
                         showToast("Failed to add in cart");
                     });
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -220,6 +217,7 @@ public class ProductDetailsActivity extends BaseActivity {
             finish();
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 

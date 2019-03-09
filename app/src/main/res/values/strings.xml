@@ -45,7 +45,6 @@
     <string name="location">Location</string>
     <string name="terms_conditions"><![CDATA[Terms & Conditions \n\nPlease read the following terms and conditions carefully as it sets out the terms of a legally binding agreement between you (the reader) and Business Standard Private Limited.  \n\n1) Introduction \n\nThis following sets out the terms and conditions on which you may use the content on  business-standard.com website, business-standard.com\'s mobile browser site, Business Standard instore Applications and other digital publishing services owned by Business Standard Private Limited, all the services herein will be referred to as Business Standard Content Services.  \n\n2) Registration\n\n Access and Use We welcome users to register on our digital platforms. We offer the below mentioned registration services which may be subject to change in the future. All changes will be appended in the terms and conditions page and communicated to existing users by email.  \n\nRegistration services are offered for individual subscribers only. If multiple individuals propose to access the same account or for corporate accounts kindly contact or write in to us. Subscription rates will vary for multiple same time access.  The nature and volume of Business Standard content services you consume on the digital platforms will vary according to the type of registration you choose, on the geography you reside or the offer you subscribe to.  \n\na) Free Registration  \n\nb) Premium Registration  \n\nc) Special Offers  \n\nd) Combo registrations with partners  \n\nThe details of the services and access offered for each account .We may in exceptional circumstances cease to provide subscription services. We will give you at least \n\n7 days notice of this, if possible. If we do so, then we will have no further obligation to you.  \n\n3) Privacy Policy and Registration All information received by us from your registration on business-standard.com or other digital products of Business Standard will be used by Business Standard in accordance with our Privacy Policy. Kindly read the below mentioned details.  On registration, we expect you to provide Business Standard with an accurate and complete information of the compulsory fields]]></string>
 
-
     <!--Login-->
     <string name="facebook_app_id">218450159001916</string>
     <string name="fb_login_protocol_scheme">fb218450159001916</string>
@@ -65,33 +64,12 @@
     <string name="layout_not_available">Layout not available, Development mode !</string>
     <string name="phone_number">Contact\n\n+91. 98200 82696\n+91. 22 49733332\n+91. 22 33923331\n+91. 22.33923332\nQBC: 3331, 3332</string>
     <string name="web_content">Address\n\n JW7040-50,\nBharat Diamond Bourse, \nBandra Kurla Complex,\nMumbai 400 051\n\nWeb\nwww.prdiam.com\nnishit@prdam.com</string>
-    <string name="please_select_product">Please select product</string>
+    <string name="please_select_product">Please Select Product</string>
     <string name="add_offer">Add New Offer</string>
-    <string name="high_rate">High </string>
-    <string name="low_rate">Low </string>
+    <string name="high_rate">HIGH </string>
+    <string name="low_rate">LOW </string>
     <string name="rate_fluctuate">Up/Down</string>
     <string name="action_add_new_offer">Add new offer</string>
-
-    <string-array name="elements_header">
-        <item>+0.50</item>
-        <item>+1.00</item>
-        <item>+1.50</item>
-        <item>+2.00</item>
-        <item>+3.00</item>
-        <item>+5.00</item>
-        <item>Others</item>
-    </string-array>
-
-    <string-array name="elements_expandable">
-        <item>White</item>
-        <item>G-H</item>
-        <item>NWLB</item>
-        <item>WLB</item>
-        <item>OWLB</item>
-        <item>Top Top LB</item>
-        <item>Top LB</item>
-        <item>DB</item>
-    </string-array>
 
     <string-array name="other_elements">
         <item>News</item>
@@ -129,5 +107,6 @@
     <string name="confirm_password">Confirm again</string>
     <string name="registration_terms">By creating an account, You agree to Pravrajya Diamond LLP and Privacy Notice</string>
     <string name="has_account">Already have an account? Sign-In</string>
+    <string name="cart_pay">GO TO PAY</string>
 
 </resources>

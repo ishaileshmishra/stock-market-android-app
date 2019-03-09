@@ -1,6 +1,8 @@
 package com.pravrajya.diamond.views.users.fragments.cart;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
 
     private ArrayList<CartModel> itemList;
     private Activity activity;
+    private static int PRICE_TO_PAY = 0;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView  tvTitle, tvPrice;
@@ -43,15 +46,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
         return new MyViewHolder(itemView);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-
         String title = itemList.get(position).getTitle();
         int price = Integer.parseInt(itemList.get(position).getPrice());
 
         holder.tvTitle.setText(title);
         holder.tvPrice.setText("$ "+price);
-        holder.numberButton.setRange(1, 5);
+
+        PRICE_TO_PAY+=price;
+        holder.numberButton.setRange(1, 15);
         holder.numberButton.setOnValueChangeListener((view, oldValue, newValue) -> {
             activity.runOnUiThread(() -> {
                 int updatedPrice = price * newValue;

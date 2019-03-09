@@ -19,6 +19,9 @@ import com.pravrajya.diamond.tables.offers.OfferTable;
 import com.pravrajya.diamond.tables.product.ProductTable;
 import com.pravrajya.diamond.views.users.login.User;
 import com.pravrajya.diamond.views.users.login.UserProfile;
+
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 import androidx.annotation.NonNull;
@@ -30,17 +33,17 @@ public class FirebaseUtil {
 
     private static String TAG = FirebaseUtil.class.getSimpleName();
     private static DatabaseReference dbReference;
-
+    private static FirebaseDatabase mDatabase;
 
     /****************************************************************************/
     /****************[ FirebaseDatabase Initialisation ]****************/
     /****************************************************************************/
 
-    private static FirebaseDatabase mDatabase;
-    public FirebaseUtil() {
-        this.dbReference = getDatabase().getReference();
-        this.dbReference.keepSynced(true);
 
+    public FirebaseUtil() {
+
+        dbReference = getDatabase().getReference();
+        dbReference.keepSynced(true);
         loadALLFaqs();
         loadALLProducts();
         loadALLOffers();
@@ -49,6 +52,8 @@ public class FirebaseUtil {
         loadALLDiamondSize();
 
     }
+
+
     public static FirebaseDatabase getDatabase() {
         if (mDatabase == null) {
             mDatabase = FirebaseDatabase.getInstance();
@@ -58,14 +63,11 @@ public class FirebaseUtil {
     }
 
 
-
-
     /****************************************************************************/
     /****************[ Load all products ]****************/
     /****************************************************************************/
 
     private void loadALLProducts(){
-
         Query lastQuery = dbReference.child("products");
         lastQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -79,9 +81,7 @@ public class FirebaseUtil {
                 }
             }
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
+            public void onCancelled(@NonNull DatabaseError error) { Log.w(TAG, "Failed to read value.", error.toException()); }
         });
 
     }
@@ -101,7 +101,6 @@ public class FirebaseUtil {
     /****************************************************************************/
 
     private void loadALLOffers(){
-
         Query lastQuery = dbReference.child("offers").orderByChild("date");
         lastQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -244,7 +243,6 @@ public class FirebaseUtil {
     /****************************************************************************/
 
     private void loadALLFaqs() {
-
         Query lastQuery = dbReference.child("faq");
         lastQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -280,36 +278,30 @@ public class FirebaseUtil {
     /****************************************************************************/
 
     public static void loadCartItems() {
-
         UserProfile userNew = (UserProfile)Stash.getObject(USER_PROFILE, UserProfile.class);
         Query lastQuery = dbReference.child("users").child(userNew.getUserId()).child("cart");
         lastQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Stash.clear(Constants.CART_ITEMS);
                 if (dataSnapshot.exists()){
                     ArrayList<String> cartArrayListIds = new ArrayList<>();
-                    for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                        cartArrayListIds.add(snapshot.getValue(String.class));
-                        Log.e("cart snapshot", String.valueOf(cartArrayListIds.size()));
-                    }
+                    for (DataSnapshot snapshot: dataSnapshot.getChildren()) { cartArrayListIds.add(snapshot.getValue(String.class)); }
                     Stash.put(Constants.CART_ITEMS, cartArrayListIds);
+                    EventBus.getDefault().post(new MessageEvent(cartArrayListIds.size()));
                 }
             }
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
+            public void onCancelled(@NonNull DatabaseError error) { Log.w(TAG, "Failed to read value.", error.toException()); }
         });
     }
-
-
 
 
     /****************************************************************************/
     /****************[ SYNC data on the server ]****************/
     /****************************************************************************/
 
-    public void syncToServer(String section, List<String> stringList){
+    public static void syncToServer(String section, List<String> stringList){
         dbReference.child(section).setValue(stringList)
                 .addOnSuccessListener(aVoid -> {
 
@@ -323,7 +315,7 @@ public class FirebaseUtil {
     /****************[ Set user profile ]****************/
     /****************************************************************************/
 
-    public void storeUserInfo(String userId, User user){
+    public static void storeUserInfo(String userId, User user){
         dbReference.child(USERS).child(userId).setValue(user)
                 .addOnSuccessListener(aVoid -> {
 

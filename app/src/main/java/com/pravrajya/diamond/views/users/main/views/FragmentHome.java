@@ -35,27 +35,21 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 import static com.pravrajya.diamond.utils.Constants.DEFAULT_COLOR;
-import static com.pravrajya.diamond.utils.Constants.SELECTED_COLOR;
 
 
 public class FragmentHome extends Fragment {
 
-    private int DELAY_IN_MILLIS = 5000;
-
+    private int DELAY_IN_MILLIS=5000;
     private ContentMainBinding binding;
-
-    private ProductAdapter adapter ;
-
-    private Boolean isRefreshing  = true;
-
+    private ProductAdapter adapter;
+    private Boolean isRefreshing = true;
     private RealmResults<ProductTable> dataModel ;
 
     private Activity activity;
-
+    private static String SELECTED_COLOR;
     static FragmentHome newInstance() {
         return new FragmentHome();
     }
-
     public FragmentHome() { }
 
 
@@ -67,16 +61,14 @@ public class FragmentHome extends Fragment {
         activity = (MainActivity)getActivity();
         Realm realmInstance = Realm.getDefaultInstance();
 
-        String selectedColor = null;
-        if (!Stash.getString(SELECTED_COLOR).equalsIgnoreCase("")){
-            selectedColor = Stash.getString(SELECTED_COLOR);
-        }else {
-            selectedColor = DEFAULT_COLOR;
+        if (!Stash.getString(Constants.SELECTED_COLOR).equalsIgnoreCase("")) {
+            SELECTED_COLOR = Stash.getString(Constants.SELECTED_COLOR);
+        } else {
+            SELECTED_COLOR = DEFAULT_COLOR;
         }
 
 
-        dataModel = realmInstance.where(ProductTable.class).equalTo(Constants.DIAMOND_COLOR, selectedColor).findAll();
-
+        dataModel = realmInstance.where(ProductTable.class).equalTo(Constants.DIAMOND_COLOR, SELECTED_COLOR).findAll();
         if (dataModel.size()==0){
             binding.headingLayout.setVisibility(View.GONE);
             binding.recyclerView.setVisibility(View.GONE);
@@ -93,16 +85,17 @@ public class FragmentHome extends Fragment {
                 LineData data = getData(activity.getResources().getColor(R.color.colorPrimary));
                 setupChart(binding.chart, data);
                 handler.postDelayed(this, DELAY_IN_MILLIS);
-
                 if (isRefreshing){
                     activity.runOnUiThread(() -> {
                         isRefreshing = false;
-                        adapter.updateData( isRefreshing);
+                        //binding.headingLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                        adapter.updateData(isRefreshing);
                     });
 
                 }else {
                     activity.runOnUiThread(() -> {
                         isRefreshing = true;
+                        //binding.headingLayout.setBackgroundColor(getResources().getColor(R.color.red_google));
                         adapter.updateData(isRefreshing);
                     });
                 }
@@ -142,12 +135,10 @@ public class FragmentHome extends Fragment {
         adapter.notifyDataSetChanged();
 
         binding.recyclerView.addOnItemTouchListener(new ClickListener(activity, binding.recyclerView, (view, position) -> {
-
             ProductTable listItem = dataModel.get(position);
             Intent intent = new Intent(getActivity(), ProductDetailsActivity.class);
             intent.putExtra("id", listItem.getId());
             startActivity(intent);
-
         }));
     }
 
