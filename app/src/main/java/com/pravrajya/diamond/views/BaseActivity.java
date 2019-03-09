@@ -12,6 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -79,6 +80,12 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void showToast(String toastMessage){
         Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
+    }
+
+
+    protected void showError(String errorMessage) {
+        View parentLayout = findViewById(android.R.id.content);
+        Snackbar.make(parentLayout, errorMessage, Snackbar.LENGTH_SHORT).show();
     }
 
     //*****************************************************************

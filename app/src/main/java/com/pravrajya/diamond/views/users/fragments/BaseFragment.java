@@ -50,6 +50,6 @@ public class BaseFragment extends Fragment {
 
 
     protected void showToast(String toastMessage){
-        Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_SHORT).show();
     }
 }

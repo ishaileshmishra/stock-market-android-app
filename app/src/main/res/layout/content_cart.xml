@@ -11,8 +11,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
-
             <TextView
                 android:id="@+id/noItems"
                 android:layout_width="wrap_content"
@@ -26,16 +24,18 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/top_margin"/>
+                android:layout_marginBottom="@dimen/top_margin"
+                android:paddingBottom="@dimen/top_margin"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnBuy"
-                android:layout_width="match_parent"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:text="GO TO PAY"
-                android:background="@drawable/round_shape"
+                android:text="@string/cart_pay"
+                style="@style/AppTextMedium"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/rectangle_shape"
                 android:layout_marginBottom="@dimen/top_margin"
-                android:layout_margin="@dimen/bottom_sheet_divider_indent"
                 android:layout_alignParentBottom="true"/>
         </RelativeLayout>
 

@@ -10,44 +10,37 @@
         <TextView
             android:id="@+id/tvTextSingle"
             android:layout_width="match_parent"
-            style="@style/AppTextSmall"
-            android:textStyle="bold"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            style="@style/AppTextSmall" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:gravity="center"
-            android:layout_marginTop="@dimen/bottom_sheet_divider_indent"
+            android:layout_marginTop="@dimen/fab_margin"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvPrice"
                 android:layout_width="wrap_content"
-                android:drawablePadding="@dimen/spacing_4"
-                android:textAppearance="?android:textAppearanceSmall"
-                style="@style/AppTextSmall"
+                android:layout_height="wrap_content"
+                style="@style/AppTextMedium"
+                android:paddingStart="@dimen/fab_margin"
+                android:paddingEnd="@dimen/fab_margin"
                 android:background="@drawable/rectangle_shape"
-                android:text="Price : $18"
-                android:paddingTop="@dimen/spacing_4"
-                android:paddingBottom="@dimen/spacing_4"
-                android:paddingLeft="@dimen/bottom_sheet_divider_indent"
-                android:paddingRight="@dimen/bottom_sheet_divider_indent"
-                android:textStyle="bold"
-                android:layout_height="wrap_content"/>
+                android:text="Price : $18" />
 
             <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
                 android:id="@+id/counter"
                 android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:background="@drawable/rectangle_shape"
-                app:backGroundColor="@color/colorPrimary"
+                android:layout_height="35dp"
+                app:backGroundColor="@color/lightGray"
                 app:initialNumber="1"
-                android:layout_marginStart="@dimen/bottom_sheet_divider_indent"
+                android:background="@drawable/rectangle_shape"
+                app:textColor="@color/colorPrimary"
+                android:layout_alignParentEnd="true"
                 app:textSize="8sp"/>
 
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
 

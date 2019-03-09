@@ -11,12 +11,14 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="70dp">
 
             <LinearLayout
                 android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/fab_margin"
                 android:orientation="vertical"/>
 
         </ScrollView>
@@ -29,7 +31,6 @@
             android:layout_alignParentBottom="true"
             android:textStyle="bold"
             android:layout_margin="@dimen/fab_margin"
-            android:elevation="@dimen/bottom_sheet_divider_indent"
             android:text="@string/buy"
             android:layout_gravity="bottom" />
     </RelativeLayout>

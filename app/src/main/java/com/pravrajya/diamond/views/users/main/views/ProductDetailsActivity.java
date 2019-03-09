@@ -4,9 +4,11 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import io.realm.Realm;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,8 +24,13 @@ import com.pravrajya.diamond.databinding.ActivityProductDetailBinding;
 import com.pravrajya.diamond.tables.product.ProductTable;
 import com.pravrajya.diamond.utils.Constants;
 import com.pravrajya.diamond.utils.FirebaseUtil;
+import com.pravrajya.diamond.utils.MessageEvent;
 import com.pravrajya.diamond.views.BaseActivity;
 import com.pravrajya.diamond.views.users.login.UserProfile;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -40,6 +47,7 @@ public class ProductDetailsActivity extends BaseActivity {
     private ActivityProductDetailBinding binding;
     private String selectedUID;
     private Realm realm;
+    private String PATH = null;
     private ArrayList<String> cartList = new ArrayList<>();
     private DatabaseReference dbReference;
     private UserProfile userNew;
@@ -47,28 +55,65 @@ public class ProductDetailsActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         dbReference = FirebaseDatabase.getInstance().getReference();
         userNew = (UserProfile) Stash.getObject(USER_PROFILE, UserProfile.class);
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_product_detail);
-        cartList = FirebaseUtil.getCartArrayList();
+        cartList = Stash.getArrayList(Constants.CART_ITEMS, String.class);
         realm =Realm.getDefaultInstance();
 
-        getSupportActionBar().setElevation(0);
+        Objects.requireNonNull(getSupportActionBar()).setElevation(0);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         selectedUID = getIntent().getStringExtra("id");
         loadInformation();
-
         buyBtnClickHandler();
     }
 
-
-
-
+    /**
+     * Formate mailed from Rushil
+     * -Title.  (As it is right now )
+     * -Shape   (round/pear/ whatever is selected)
+     * -Size.   (+0.90,+1.00, whatever size is selected)
+     * -Color   (white,nwlb,wlb, whatever colour is selected)
+     * -Clarity (vsi,vs1, whatever clarity is selected)
+     * -Cut.    (Fair, good, very good or excellent)
+     * -Polish. (Fair, good, very good or excellent)
+     * -Fluorescence. (None,faint,strong,very strong)
+     * -Symmetry.     (Fair, good, very good or excellent)-
+     * -High Price  $342
+     * -Price.      $212
+     * -low price   $100
+     */
     private void loadInformation() {
 
         ProductTable table = realm.where(ProductTable.class).equalTo(Constants.ID, selectedUID).findFirst();
-        getSupportActionBar().setTitle(table.getProductLists().getProduct());
+        Objects.requireNonNull(getSupportActionBar()).setTitle(Objects.requireNonNull(table).getProductLists().getProduct());
+
+        PATH = Stash.getString(DRAWER_SELECTION)+" --> "+table.getProductLists().getProduct();
+        String[] root = PATH.split("-->");
+        String shape =root[0];
+        String size  =root[1];
+
+        int colorGRAY = getResources().getColor(R.color.lightGray);
+        int colorWhite = getResources().getColor(R.color.white);
+        String getWeight = table.getProductLists().getProductWeight();
+        if (getWeight==null){ getWeight = "1.2"; }
+
+        //binding.linearLayout.addView(addCustomView("Selected path", PATH, colorGRAY));
+        binding.linearLayout.addView(addCustomView("Title", getWeight+" CARAT "+root[0], colorWhite));
+        binding.linearLayout.addView(addCustomView("Shape", shape, colorGRAY));
+        binding.linearLayout.addView(addCustomView("Size", size, colorWhite));
+        binding.linearLayout.addView(addCustomView("Color", table.getDiamondColor().toUpperCase(), colorGRAY));
+        binding.linearLayout.addView(addCustomView("Clarity",table.getProductLists().getProduct(), colorWhite));
+        binding.linearLayout.addView(addCustomView("Cut", "Fair", colorGRAY));
+        binding.linearLayout.addView(addCustomView("Polish", "Good", colorWhite));
+        binding.linearLayout.addView(addCustomView("Fluorescence", "Faint", colorGRAY));
+        binding.linearLayout.addView(addCustomView("Symmetry", "Excellent", colorWhite));
+        binding.linearLayout.addView(addCustomView("High Price",table.getProductLists().getHigh(), colorGRAY));
+        binding.linearLayout.addView(addCustomView("Price",table.getProductLists().getPrice(), colorWhite));
+        binding.linearLayout.addView(addCustomView("Low Price",table.getProductLists().getLow(), colorGRAY));
+
+
 
         String CUT_TYPE = Stash.getString(DIAMOND_CUT);
         if (CUT_TYPE.equalsIgnoreCase("round")){
@@ -95,28 +140,8 @@ public class ProductDetailsActivity extends BaseActivity {
         }else if (CUT_TYPE.equalsIgnoreCase("cushin")){
             String uri = "@drawable/cushion_cut";
             setLogoImage(uri, getResources().getString(R.string.cushin_cut));
-
         }
-
-
-        String path = Stash.getString(DRAWER_SELECTION)+" --> "+table.getProductLists().getProduct();
-        String[] root = path.split("-->");
-
-        assert table != null;
-
-        int colorCode = getResources().getColor(R.color.lightGray);
-        String getWeight = table.getProductLists().getProductWeight();
-        if (getWeight==null){ getWeight = "1.2"; }
-        binding.linearLayout.addView(addCustomView("Title", getWeight+" CARAT "+root[0], Color.WHITE));
-        binding.linearLayout.addView(addCustomView("Selected Path", path, colorCode));
-        binding.linearLayout.addView(addCustomView("Shape", root[1], Color.WHITE));
-        binding.linearLayout.addView(addCustomView("Diamond Color", table.getDiamondColor().toUpperCase(), colorCode));
-        binding.linearLayout.addView(addCustomView("Clarity",table.getProductLists().getProduct(), Color.WHITE));
-        binding.linearLayout.addView(addCustomView("High Price",table.getProductLists().getHigh(), colorCode));
-        binding.linearLayout.addView(addCustomView("Price",table.getProductLists().getPrice(), Color.WHITE));
-        binding.linearLayout.addView(addCustomView("Low Price",table.getProductLists().getLow(), colorCode));
     }
-
 
     private void setLogoImage(String uri, String cutText) {
 
@@ -135,7 +160,6 @@ public class ProductDetailsActivity extends BaseActivity {
 
     }
 
-
     private View addCustomView(String title, String titleInfo,  int color) {
 
         View customLinear = LayoutInflater.from(this)
@@ -148,8 +172,6 @@ public class ProductDetailsActivity extends BaseActivity {
         return customLinear;
     }
 
-
-
     private void applyMargin(View view){
         LinearLayout.LayoutParams params = new LinearLayout
                 .LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
@@ -158,7 +180,6 @@ public class ProductDetailsActivity extends BaseActivity {
         view.setLayoutParams(params);
     }
 
-
     private void buyBtnClickHandler(){
 
         binding.btnBUY.setOnClickListener(view->{
@@ -166,16 +187,15 @@ public class ProductDetailsActivity extends BaseActivity {
         });
     }
 
-
-
     private void syncCart(){
 
         showProgressDialog("Adding to cart");
         String getCurrentUser = userNew.getUserId();
+        String put_in_cart = selectedUID+"@"+PATH;
         if (cartList!=null){
-            if (!cartList.contains(selectedUID)){ cartList.add(selectedUID); }
+            if (!cartList.contains(put_in_cart)){ cartList.add(put_in_cart); }
         }else {
-            cartList.add(selectedUID);
+            cartList.add(put_in_cart);
         }
 
         if (getCurrentUser!=null)
@@ -183,14 +203,12 @@ public class ProductDetailsActivity extends BaseActivity {
                     .addOnSuccessListener(aVoid -> {
                         hideProgressDialog();
                         showToast("Added to cart");
-                        finish();
+                        onBackPressed();
                     }).addOnFailureListener(e -> {
                         hideProgressDialog();
                         showToast("Failed to add in cart");
                     });
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -199,6 +217,7 @@ public class ProductDetailsActivity extends BaseActivity {
             finish();
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 

@@ -7,6 +7,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.facebook.login.LoginManager;
 import com.fxn.stash.Stash;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -19,6 +21,7 @@ import com.pravrajya.diamond.tables.diamondSize.DiamondSize;
 import com.pravrajya.diamond.tables.faq.FAQTable;
 import com.pravrajya.diamond.utils.ClickListener;
 import com.pravrajya.diamond.utils.Constants;
+import com.pravrajya.diamond.utils.MessageEvent;
 import com.pravrajya.diamond.views.BaseActivity;
 import com.pravrajya.diamond.views.admin.views.locker.LockActivity;
 import com.pravrajya.diamond.views.users.login.LoginViewActivity;
@@ -32,6 +35,7 @@ import com.pravrajya.diamond.views.users.fragments.help.FragmentFAQ;
 import com.pravrajya.diamond.views.users.fragments.news.view.FragmentNews;
 import com.pravrajya.diamond.views.users.fragments.terms.FragmentTermsCondition;
 
+import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -41,20 +45,27 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import io.realm.Realm;
 import io.realm.RealmResults;
-import io.realm.Sort;
 
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 
+import static com.pravrajya.diamond.utils.Constants.CART_ITEMS;
 import static com.pravrajya.diamond.utils.Constants.DEFAULT_COLOR;
 import static com.pravrajya.diamond.utils.Constants.DRAWER_SELECTION;
 import static com.pravrajya.diamond.utils.Constants.PROFILE_ICON;
@@ -65,14 +76,14 @@ import static com.pravrajya.diamond.utils.FirebaseUtil.loadCartItems;
 
 public class MainActivity extends BaseActivity {
 
-    private int lastExpandedPosition = -1;
+    private int    lastExpandedPosition = -1;
     private String selectedChipItem = null;
+    private Realm  realm;
+    private View   view_Group;
+    private String TAG = MainActivity.class.getSimpleName();
+
     private ActivityMainLayoutBinding binding;
     private DatabaseReference dbReference;
-    private Realm realmInstance;
-    private View view_Group;
-
-
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = item -> {
 
         Fragment selectedFragment = null;
@@ -109,12 +120,12 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         loadCartItems();
+        realm         = Realm.getDefaultInstance();
+        dbReference   = FirebaseDatabase.getInstance().getReference();
+        binding       = DataBindingUtil.setContentView(this, R.layout.activity_main_layout);
+        int cartSize  = Stash.getArrayList(Constants.CART_ITEMS, String.class).size();
 
-        realmInstance = Realm.getDefaultInstance();
-        dbReference = FirebaseDatabase.getInstance().getReference();
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main_layout);
         binding.mainLayout.navigationBottom.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
         setSupportActionBar(binding.mainLayout.header.toolbar);
         Objects.requireNonNull(getSupportActionBar()).setElevation(0);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.mainLayout.header.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -125,50 +136,70 @@ public class MainActivity extends BaseActivity {
         transaction.replace(R.id.content, FragmentHome.newInstance());
         transaction.commit();
 
+        addBadgeView(cartSize);
         getSupportActionBar().setTitle(Stash.getString(SELECTED_COLOR, DEFAULT_COLOR).toUpperCase());
         loadDrawerHeader();
+        Log.d(TAG, "In the onCreate() event");
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+        Log.d(TAG, "In the onStart() event");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int cartSize  = Stash.getArrayList(Constants.CART_ITEMS, String.class).size();
+        EventBus.getDefault().post(new MessageEvent(cartSize));
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     private void loadDrawerHeader() {
 
         UserProfile userNew = (UserProfile)Stash.getObject(USER_PROFILE, UserProfile.class);
         View navHeaderView = binding.navView.getHeaderView(0);
+        // Initialise the views
         ImageView profileImage =  navHeaderView.findViewById(R.id.ivProfileIcon);
         TextView tvName =  navHeaderView.findViewById(R.id.tvName);
         TextView tvEmail =  navHeaderView.findViewById(R.id.tvEmail);
 
+        // set all the views
         tvName.setText(userNew.getName());
         tvEmail.setText(userNew.getEmail());
         if (!userNew.getProfileImage().isEmpty()) { loadProfilePreview(userNew.getProfileImage(), profileImage); }
         RecyclerView productRecyclerView =  navHeaderView.findViewById(R.id.recyclerView);
-
         loadProductType(productRecyclerView);
     }
 
     private void loadProfilePreview(String profileImage, ImageView view) {
-
         Glide.with(getApplicationContext()).load(profileImage)
-                .apply(new RequestOptions().override(PROFILE_ICON, PROFILE_ICON))
+                .apply(new RequestOptions()
+                        .override(PROFILE_ICON, PROFILE_ICON))
                 .apply(RequestOptions.circleCropTransform())
                 .into(view);
     }
 
     private void loadProductType(RecyclerView recyclerView){
-
-        List<DiamondCut> diamondCutList = realmInstance.where(DiamondCut.class).sort("cut_type", Sort.DESCENDING).findAll();
+        RealmResults<DiamondCut> diamondCutList = realm.where(DiamondCut.class).sort("cut_type").findAll();
         DrawerChipAdapter adapter = new DrawerChipAdapter(diamondCutList);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         adapter.notifyDataSetChanged();
 
         recyclerView.addOnItemTouchListener(new ClickListener(getApplicationContext(), recyclerView, (view, position) -> {
-
             DiamondCut diamondCut = diamondCutList.get(position);
-            assert diamondCut != null;
             selectedChipItem = diamondCut.getCut_type();
             Stash.put(Constants.DIAMOND_CUT, selectedChipItem);
             runOnUiThread(() -> loadDrawerExpandableList(selectedChipItem));
-
         }));
     }
 
@@ -178,16 +209,21 @@ public class MainActivity extends BaseActivity {
         ExpandableListView expandableListView =  navHeaderView.findViewById(R.id.expandableListView);
         LinkedHashMap<String, List<String>> listDataChild = new LinkedHashMap<>();
 
-        List<String> diamondSize = Arrays.asList("+0.90","+0.96","+1.50","+2.00","+3.00","+4.00","+5.00","+6.00","+7.00","+8.00","+9.00","+10.00", "Others");
-        List<String> diamondColors = Arrays.asList("white","gh","nwlb","WLB","owlb","toptoplb","toplb","ttlb","db","nwlc","wlc","owlc","toptoplc","toplc",	"ttlc","w.natts","lb.natts");
+        List<String> diamondSize = new ArrayList<>();
+        RealmResults<DiamondSize> diamondSizeList = realm.where(DiamondSize.class).findAll();
+        diamondSizeList.forEach(diamond->{
+            Log.e("diamondSizes", diamond.getSize());
+            diamondSize.add(diamond.getSize());
+        });
+
+        List<String> diamondColors = new ArrayList<>();
+        RealmResults<DiamondColor> diamondColorList = realm.where(DiamondColor.class).sort("color").findAll();
+        diamondColorList.forEach(diamond->{
+            Log.e("diamondColor", diamond.getColor());
+            diamondColors.add(diamond.getColor());
+        });
+
         List<String> othersItems = Arrays.asList("News", "About Us", "Terms and Conditions","Help","Logout");
-
-        RealmResults<DiamondSize> diamondSizeList =
-                realmInstance.where(DiamondSize.class).sort("size").findAll();
-        RealmResults<DiamondColor> diamondColorsList =
-                realmInstance.where(DiamondColor.class).sort("color").findAll();
-
-
         for (String diamond: diamondSize) { listDataChild.put(diamond, diamondColors); }
         int length = diamondSize.size()-1;
         listDataChild.put(diamondSize.get(length), othersItems);
@@ -247,17 +283,23 @@ public class MainActivity extends BaseActivity {
     }
 
     private void appLogout() {
+        try (Realm realm = Realm.getDefaultInstance()){
+            realm.beginTransaction();
+            realm.deleteAll();
+            realm.close();
+            LoginManager.getInstance().logOut();
+            FirebaseAuth.getInstance().signOut();
+            Stash.clear(USER_PROFILE);
+            Stash.clear(CART_ITEMS);
+            Intent intent = new Intent(getApplicationContext(), LoginViewActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
-        LoginManager.getInstance().logOut();
-        FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(getApplicationContext(), LoginViewActivity.class);
-        startActivity(intent);
-        Stash.clear(USER_PROFILE);
-        finish();
     }
 
     public void setActionBarTitle(String title) {
-        Objects.requireNonNull(getSupportActionBar()).setTitle(title.toUpperCase());
+        getSupportActionBar().setTitle(title.toUpperCase());
         getSupportActionBar().setSubtitle("");
     }
 
@@ -287,12 +329,29 @@ public class MainActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     private void pushFaqs(){
         List<FAQTable> tables = new ArrayList<>();
         dbReference.child("faq").setValue(tables).addOnSuccessListener(aVoid -> { }).addOnFailureListener(e -> { });
     }
 
+    private void addBadgeView(int counter) {
+
+        BottomNavigationMenuView menuView
+                = (BottomNavigationMenuView) binding.mainLayout.navigationBottom.getChildAt(0);
+        BottomNavigationItemView itemView
+                = (BottomNavigationItemView) menuView.getChildAt(2);
+        View notificationBadge = LayoutInflater.from(this)
+                .inflate(R.layout.view_notification_badge, menuView, false);
+        TextView tvBudge = notificationBadge.findViewById(R.id.badge);
+        tvBudge.setText(String.valueOf(counter));
+        itemView.addView(notificationBadge);
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MessageEvent event) {
+        if (event.getCounter()>0){ addBadgeView(event.getCounter()); }
+    };
 
 
 }

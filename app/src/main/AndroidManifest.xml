@@ -16,8 +16,11 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".views.users.registration.ProfileActivity"
+            android:label="@string/title_activity_profile"/>
+        <activity
             android:name=".views.admin.views.offers.AddOfferActivity"
-            android:label="@string/title_activity_add_offer"/>
+            android:label="@string/title_activity_add_offer" />
         <activity android:name=".views.users.main.views.ProductDetailsActivity" />
         <activity android:name=".views.users.fragments.news.view.NewsDetailActivity" />
 
@@ -46,6 +49,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".views.admin.views.products.AdminProductsActivity" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
