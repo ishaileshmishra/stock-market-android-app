@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
     <RelativeLayout
+        android:id="@+id/splashRelativeLayout"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorAppBackground"
         tools:context=".views.users.splash.SplashActivity">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -18,12 +18,14 @@
 
         <TextView
             android:id="@+id/tvDeveloper"
+            style="@style/AppTextSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+            android:fontFamily="@font/expletus_sans"
             android:padding="@dimen/spacing_4"
-            style="@style/AppTextSmall" />
+            android:text="@string/app_name" />
 
     </RelativeLayout>
 </layout>

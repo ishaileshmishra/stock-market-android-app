@@ -1,10 +1,18 @@
 package com.pravrajya.diamond.views.users.splash;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.databinding.ActivitySplashBinding;
 import com.pravrajya.diamond.utils.Constants;
@@ -14,6 +22,8 @@ import androidx.databinding.DataBindingUtil;
 
 
 public class SplashActivity extends BaseActivity {
+
+    private String BACKGROUND = "https://firebasestorage.googleapis.com/v0/b/pdlfirebaseproject.appspot.com/o/splash_screen%2Fimage_background.jpg?alt=media&token=95552799-9f02-4a7c-ab46-a6143009799f";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +35,16 @@ public class SplashActivity extends BaseActivity {
         getWindow().setNavigationBarColor(getResources().getColor(android.R.color.transparent));
         ActivitySplashBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_splash);
         binding.tvDeveloper.setText(Constants.DEVELOPER_INFO);
+
+        /*Glide.with(getApplicationContext()).load(BACKGROUND)
+                //.apply(bitmapTransform(new BlurTransformation(15)))
+                .into(new SimpleTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                        binding.splashRelativeLayout.setBackground(resource);
+                    }
+                });*/
+
 
 
         holdGoNewScreen();
@@ -38,5 +58,6 @@ public class SplashActivity extends BaseActivity {
         }, 1000);
 
     }
+
 
 }
