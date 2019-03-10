@@ -9,16 +9,20 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Filter;
 import android.widget.TextView;
+
 import com.pravrajya.diamond.R;
-import com.pravrajya.diamond.tables.product.ProductTable;
+import com.pravrajya.diamond.views.users.main.model.ItemModel;
+
+import java.util.ArrayList;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import io.realm.RealmResults;
 
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHolder> {
+public class ClaritytAdapter extends RecyclerView.Adapter<ClaritytAdapter.MyViewHolder> {
 
-    private RealmResults<ProductTable> itemList;
+    private ArrayList<ItemModel> itemList;
+    private ArrayList<ItemModel> itemListFiltered;
     private Boolean isRefreshing;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -35,9 +39,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     }
 
 
-    public ProductAdapter(RealmResults<ProductTable> itemList, Boolean _isRefresh) {
+    public ClaritytAdapter(ArrayList<ItemModel> clarities, Boolean _isRefresh) {
         this.isRefreshing = _isRefresh;
-        this.itemList = itemList;
+        this.itemList = clarities;
     }
 
 
@@ -59,15 +63,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        ProductTable item = itemList.get(position);
+        ItemModel item = itemList.get(position);
         assert item != null;
 
-        if (item.getProductLists().getProductWeight()==null){ holder.tvWeight.setText("(1.2 CT)");
-        }else { holder.tvWeight.setText("("+item.getProductLists().getProductWeight()+" CT)"); }
-        holder.tvItem.setText(item.getProductLists().getProduct());
-        holder.tvHigh.setText(item.getProductLists().getHigh());
-        holder.tvLow.setText(item.getProductLists().getLow());
-        holder.tvPrice.setText(item.getProductLists().getPrice());
+        if (item.getWeight()==null){ holder.tvWeight.setText("(1.2 CT)");
+        }else { holder.tvWeight.setText("("+item.getWeight()+" CT)"); }
+        holder.tvItem.setText(item.getClarity());
+        holder.tvHigh.setText(item.getHigh());
+        holder.tvLow.setText(item.getLow());
+        holder.tvPrice.setText(item.getPrice());
 
         //animateBlinkView(holder.tvPrice);
 
@@ -80,13 +84,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
             holder.tvPrice.setBackgroundResource(R.drawable.roundedbutton_primary);
             holder.tvPrice.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_drop_up, 0);
             holder.tvPrice.setTextColor(Color.WHITE);
-            int price = Integer.parseInt(item.getProductLists().getPrice());
+            int price = Integer.parseInt(item.getPrice());
             holder.tvPrice.setText(String.valueOf(price+3));
         }
 
     }
 
     private void animateBlinkView(View view) {
+
         Animation anim = new AlphaAnimation(0.0f, 1.0f);
         anim.setDuration(350);
         anim.setStartOffset(20);
@@ -101,5 +106,37 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     }
 
 
+    public Filter getFilter(){
+
+        return new Filter() {
+
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    itemListFiltered = itemList;
+                }else {
+                    ArrayList<ItemModel> filteredList = new ArrayList<>();
+                    for (ItemModel row : itemList) {
+                        if (row.getClarity().toLowerCase().contains(charString) || row.getWeight().contains(charSequence)) {
+                            filteredList.add(row);
+                        }
+                    }
+
+                    itemListFiltered = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = itemListFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults results) {
+                itemListFiltered = (ArrayList<ItemModel>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
 
 }

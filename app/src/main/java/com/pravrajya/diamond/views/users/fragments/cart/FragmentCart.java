@@ -1,5 +1,6 @@
 package com.pravrajya.diamond.views.users.fragments.cart;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.pravrajya.diamond.utils.FirebaseUtil;
 import com.pravrajya.diamond.utils.ItemDecoration;
 import com.pravrajya.diamond.views.users.fragments.BaseFragment;
 import com.pravrajya.diamond.views.users.login.UserProfile;
+import com.pravrajya.diamond.views.users.payment.PaymentViewActivity;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -160,6 +162,7 @@ public class FragmentCart extends BaseFragment implements DeletionSwipeHelper.On
     private void btnBuy() {
         binding.btnBuy.setOnClickListener(view->{
             showToast("Clicked Button BUY");
+            startActivity(new Intent(getActivity(), PaymentViewActivity.class));
         });
     }
 

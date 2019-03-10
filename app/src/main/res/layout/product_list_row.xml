@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout
+    <!--<RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/top_margin"
         android:padding="@dimen/spacing_4"
@@ -70,6 +70,80 @@
                 tools:ignore="RtlSymmetry" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
+    </RelativeLayout>-->
+
+    <RelativeLayout
+        android:id="@+id/heading_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_margin"
+        android:padding="@dimen/spacing_4">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/AppTextMedium"
+                android:layout_marginStart="@dimen/bottom_sheet_divider_indent"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:text="@string/products"/>
+
+            <TextView
+                android:id="@+id/tvWeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/AppTextSmall"
+                android:layout_marginStart="@dimen/bottom_sheet_divider_indent"
+                android:textSize="12sp"
+                android:text="@string/weight"/>
+
+        </LinearLayout>
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal"
+            tools:ignore="RelativeOverlap">
+
+            <TextView
+                android:id="@+id/tvHigh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/AppTextSmall"
+                android:layout_marginEnd="@dimen/item_margin"
+                android:gravity="center"
+                android:text="@string/high_rate"/>
+
+            <TextView
+                android:id="@+id/tvLow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/item_margin"
+                style="@style/AppTextSmall"
+                android:gravity="center"
+                android:text="@string/low_rate"/>
+
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/activity_vertical_margin"
+                style="@style/AppTextSmall"
+                android:gravity="center"
+                android:text="@string/price"
+                tools:ignore="RtlSymmetry" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
     </RelativeLayout>
 
 </layout>

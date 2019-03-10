@@ -28,7 +28,7 @@ public class ProfileActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setElevation(0);
+        Objects.requireNonNull(getSupportActionBar()).setElevation(0);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_profile);
 
         mAuth = FirebaseAuth.getInstance();
@@ -45,10 +45,10 @@ public class ProfileActivity extends BaseActivity {
         });
 
         binding.btnRegistration.setOnClickListener(v->{
-            String name = binding.etFullName.getText().toString();
-            String emailId = binding.etEmail.getText().toString();
-            String password = binding.etPassword.getText().toString();
-            String confirm_password = binding.etConformPassword.getText().toString();
+            String name = Objects.requireNonNull(binding.etFullName.getText()).toString();
+            String emailId = Objects.requireNonNull(binding.etEmail.getText()).toString();
+            String password = Objects.requireNonNull(binding.etPassword.getText()).toString();
+            String confirm_password = Objects.requireNonNull(binding.etConformPassword.getText()).toString();
 
             binding.inputName.setError(null);
             binding.inputEmail.setError(null);

@@ -39,6 +39,7 @@
                     android:drawableStart="@drawable/ic_email_black"
                     android:drawablePadding="@dimen/bottom_sheet_divider_indent"
                     android:textColor="@color/colorPrimary"
+                    style="@style/AppTextSmall"
                     android:hint="@string/fui_email_hint"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -55,6 +56,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
+                    style="@style/AppTextSmall"
                     android:drawableStart="@drawable/ic_lock_black"
                     android:drawablePadding="@dimen/bottom_sheet_divider_indent"
                     android:textColor="@color/colorPrimary"
@@ -67,11 +69,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:textAllCaps="false"
+                style="@style/AppTextMedium"
                 android:background="@drawable/rectangle_shape"
-                android:textColor="@color/colorPrimary"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:fontFamily="sans-serif-condensed"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:text="@string/login"/>
 
@@ -80,11 +79,8 @@
                 android:id="@+id/btnRegistration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAllCaps="false"
                 android:background="@drawable/rectangle_shape"
-                android:textColor="@color/colorPrimary"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:fontFamily="sans-serif-condensed"
+                style="@style/AppTextMedium"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:text="@string/fui_title_register_email"/>
 

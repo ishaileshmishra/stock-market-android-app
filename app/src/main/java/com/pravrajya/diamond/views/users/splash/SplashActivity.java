@@ -16,6 +16,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.databinding.ActivitySplashBinding;
 import com.pravrajya.diamond.utils.Constants;
+import com.pravrajya.diamond.utils.EasyCsvUtils;
 import com.pravrajya.diamond.views.BaseActivity;
 import com.pravrajya.diamond.views.users.login.LoginViewActivity;
 import androidx.databinding.DataBindingUtil;
@@ -35,17 +36,7 @@ public class SplashActivity extends BaseActivity {
         getWindow().setNavigationBarColor(getResources().getColor(android.R.color.transparent));
         ActivitySplashBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_splash);
         binding.tvDeveloper.setText(Constants.DEVELOPER_INFO);
-
-        /*Glide.with(getApplicationContext()).load(BACKGROUND)
-                //.apply(bitmapTransform(new BlurTransformation(15)))
-                .into(new SimpleTarget<Drawable>() {
-                    @Override
-                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                        binding.splashRelativeLayout.setBackground(resource);
-                    }
-                });*/
-
-
+        //new EasyCsvUtils(SplashActivity.this);
 
         holdGoNewScreen();
     }

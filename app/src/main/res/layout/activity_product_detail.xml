@@ -29,10 +29,9 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rectangle_shape"
             android:layout_alignParentBottom="true"
-            android:textStyle="bold"
             android:layout_margin="@dimen/fab_margin"
             android:text="@string/buy"
-            android:layout_gravity="bottom" />
+            style="@style/AppTextMedium"/>
     </RelativeLayout>
 
 </layout>

@@ -3,6 +3,8 @@ package com.pravrajya.diamond.views.users.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -52,4 +54,14 @@ public class BaseFragment extends Fragment {
     protected void showToast(String toastMessage){
         //Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_SHORT).show();
     }
+
+    protected void animateBlinkView(View view) {
+        Animation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(350);
+        anim.setStartOffset(20);
+        anim.setRepeatMode(Animation.REVERSE);
+        anim.setRepeatCount(Animation.INFINITE);
+        view.startAnimation(anim);
+    }
+
 }

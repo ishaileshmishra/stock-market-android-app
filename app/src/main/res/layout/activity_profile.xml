@@ -93,11 +93,8 @@
                 android:id="@+id/btnRegistration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAllCaps="false"
+                style="@style/AppTextSmall"
                 android:background="@drawable/rectangle_shape"
-                android:textColor="@color/colorPrimary"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:fontFamily="sans-serif-condensed"
                 android:layout_marginTop="@dimen/fab_margin"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:text="@string/fui_title_register_email"/>

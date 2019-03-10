@@ -1,6 +1,7 @@
 package com.pravrajya.diamond.views.users.main.views;
 
 import androidx.annotation.Nullable;
+import androidx.core.widget.TextViewCompat;
 import androidx.databinding.DataBindingUtil;
 import io.realm.Realm;
 
@@ -153,6 +154,7 @@ public class ProductDetailsActivity extends BaseActivity {
         binding.linearLayout.addView(imageView);
 
         TextView textView = new TextView(getApplicationContext());
+        TextViewCompat.setTextAppearance(textView, R.style.AppTextSmall);
         textView.setTextSize(14);
         textView.setText(cutText);
         applyMargin(textView);
@@ -160,12 +162,15 @@ public class ProductDetailsActivity extends BaseActivity {
 
     }
 
-    private View addCustomView(String title, String titleInfo,  int color) {
-
-        View customLinear = LayoutInflater.from(this)
-                .inflate(R.layout.custom_text_view, binding.linearLayout, false);
+    private View addCustomView(String title, String titleInfo, int color) {
+        View customLinear = LayoutInflater.from(this).inflate(R.layout.custom_text_view, binding.linearLayout, false);
         TextView tvTitle = customLinear.findViewById(R.id.title);
         TextView tvInfo =  customLinear.findViewById(R.id.content);
+
+        // style of textview
+        TextViewCompat.setTextAppearance(tvTitle, R.style.AppTextSmall);
+        TextViewCompat.setTextAppearance(tvInfo, R.style.AppTextSmall);
+
         tvTitle.setText(title);
         tvInfo.setText(titleInfo);
         if (color!=0){ customLinear.setBackgroundColor(color); }
