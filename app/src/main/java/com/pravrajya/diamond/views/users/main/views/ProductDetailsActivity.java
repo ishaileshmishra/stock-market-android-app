@@ -1,6 +1,7 @@
 package com.pravrajya.diamond.views.users.main.views;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.TextViewCompat;
 import androidx.databinding.DataBindingUtil;
 import io.realm.Realm;
@@ -20,6 +21,10 @@ import android.widget.TextView;
 import com.fxn.stash.Stash;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.irozon.alertview.AlertActionStyle;
+import com.irozon.alertview.AlertStyle;
+import com.irozon.alertview.AlertView;
+import com.irozon.alertview.objects.AlertAction;
 import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.databinding.ActivityProductDetailBinding;
 import com.pravrajya.diamond.tables.product.ProductTable;
@@ -61,7 +66,7 @@ public class ProductDetailsActivity extends BaseActivity {
         userNew = (UserProfile) Stash.getObject(USER_PROFILE, UserProfile.class);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_product_detail);
         cartList = Stash.getArrayList(Constants.CART_ITEMS, String.class);
-        realm =Realm.getDefaultInstance();
+        realm = Realm.getDefaultInstance();
 
         Objects.requireNonNull(getSupportActionBar()).setElevation(0);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -188,7 +193,12 @@ public class ProductDetailsActivity extends BaseActivity {
     private void buyBtnClickHandler(){
 
         binding.btnBUY.setOnClickListener(view->{
-            syncCart();
+            AlertView alert = new AlertView("Add to cart", "Do you want to Add item in cart ?", AlertStyle.BOTTOM_SHEET);
+            alert.addAction(new AlertAction("YES", AlertActionStyle.DEFAULT, action -> {
+                this.syncCart();
+            }));
+            alert.addAction(new AlertAction("Cancel", AlertActionStyle.NEGATIVE, action -> { }));
+            alert.show(this);
         });
     }
 
@@ -207,11 +217,11 @@ public class ProductDetailsActivity extends BaseActivity {
             dbReference.child(USERS).child(getCurrentUser).child(CART).setValue(cartList)
                     .addOnSuccessListener(aVoid -> {
                         hideProgressDialog();
-                        showToast("Added to cart");
+                        successToast("Added to cart");
                         onBackPressed();
                     }).addOnFailureListener(e -> {
                         hideProgressDialog();
-                        showToast("Failed to add in cart");
+                        errorToast("Failed to add in cart");
                     });
     }
 

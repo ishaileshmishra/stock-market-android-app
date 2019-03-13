@@ -71,18 +71,22 @@
     <string name="rate_fluctuate">Up/Down</string>
     <string name="action_add_new_offer">Add new offer</string>
 
-    <string-array name="other_elements">
-        <item>News</item>
-        <item>Rate The App</item>
-        <item>About Us</item>
-        <item>Terms and Conditions</item>
-        <item>Help</item>
-        <item>Logout</item>
-    </string-array>
+    <integer-array name="color_items">
+        <item>@color/colorPrimary</item>
+        <item>@color/lightGray</item>
+        <item>@color/colorAccent</item>
+        <item>@color/red_google</item>
+        <item>@color/blue_facebook</item>
+        <item>@color/semi_black</item>
+        <item>@color/lightGray</item>
+        <item>@color/lightGray</item>
+        <item>@color/lightGray</item>
+        <item>@color/lightGray</item>
+    </integer-array>
 
     <string name="title_activity_add_offer">AddOfferActivity</string>
     <string name="something_additional">Something additional..</string>
-    <string name="enter_new_offer">Enter new offer...</string>
+    <string name="enter_new_offer">Enter new offer…</string>
     <string name="add_new_offer">Add New Offer</string>
     <string name="weight">Weight</string>
     <string name="enter_password">Enter a password of 4 digits</string>
@@ -99,7 +103,7 @@
     <string name="oval_cut">Oval cut diamonds have a classic appearance with a modern twist! It is a popular cut in all types of jewelry, especially in engagement rings, making it easy to match with other jewelry. It has an incredible brilliance, similar to the round brilliant cut, but also has the advantage of accentuating long, slender finders.</string>
     <string name="asscher_cut">Asscher cut diamonds are often mistaken for an emerald cut because of its similar cut style; however an asscher is square rather than rectangular. Created in the early 1920s, the asscher cut has recently resurged in popularity, especially amongst celebrities.</string>
     <string name="buy">ADD TO CART</string>
-    <string name="other">Other...</string>
+    <string name="other">Tagline</string>
     <string name="full_name_hint">Your name</string>
     <string name="no_items">No Items Available In Cart</string>
     <string name="vvs">VVS1</string>
@@ -112,5 +116,7 @@
     <string name="price">PRICE</string>
     <string name="action_search">Search</string>
     <string name="title_activity_payment_view">PaymentView</string>
+    <string name="already_have_account_login">Already have account Login</string>
+    <string name="profile">Profile</string>
 
 </resources>

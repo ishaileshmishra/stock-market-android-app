@@ -224,8 +224,6 @@ public class FragmentHome extends BaseFragment {
         binding.tvHigh.setOnClickListener(v->{ });
         binding.tvLow.setOnClickListener(v->{ });
         binding.tvPrice.setOnClickListener(v->{ });
-
-
     }
 
 

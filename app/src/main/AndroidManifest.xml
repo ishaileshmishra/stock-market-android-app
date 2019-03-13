@@ -5,6 +5,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
     <application
         android:name=".PDLApp"
@@ -16,10 +19,13 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".views.users.payment.PaymentViewActivity"
-            android:label="@string/title_activity_payment_view"></activity>
+            android:name=".views.users.profile.ProfileActivity"
+            android:label="@string/title_activity_profile"></activity>
         <activity
-            android:name=".views.users.registration.ProfileActivity"
+            android:name=".views.users.payment.PaymentViewActivity"
+            android:label="@string/title_activity_payment_view" />
+        <activity
+            android:name=".views.users.registration.SignUpActivity"
             android:label="@string/title_activity_profile" />
         <activity
             android:name=".views.admin.views.offers.AddOfferActivity"

@@ -5,14 +5,24 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:padding="@dimen/fab_margin"
-        tools:context=".views.users.registration.ProfileActivity">
+        tools:context=".views.users.registration.SignUpActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/activity_horizontal_margin"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/ic_launcher_round"
+                android:layout_marginTop="@dimen/top_margin"
+                android:layout_gravity="center"/>
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -89,13 +99,14 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnRegistration"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/AppTextSmall"
-                android:background="@drawable/rectangle_shape"
+                android:layout_height="40dp"
+                android:background="@drawable/gray_round_btn"
                 android:layout_marginTop="@dimen/fab_margin"
+                style="@style/AppTextMedium"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:text="@string/fui_title_register_email"/>
 
@@ -103,17 +114,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/AppTextSmall"
+                android:textSize="12dp"
                 android:text="@string/registration_terms"/>
 
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnLogin"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/AppTextMedium"
+                android:layout_height="40dp"
+                style="@style/AppTextSmall"
+                android:paddingStart="@dimen/fab_margin"
+                android:paddingEnd="@dimen/fab_margin"
+                android:padding="@dimen/bottom_sheet_divider_indent"
+                android:background="@drawable/gray_round_btn"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/top_margin"
-                android:text="Already have account Login"/>
+                android:layout_marginTop="@dimen/fab_margin"
+                android:text="@string/already_have_account_login"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

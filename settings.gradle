@@ -1,1 +1,1 @@
-include ':app', ':lock', ':pinlock', ':paymentcardview'
+include ':app', ':lock', ':pinlock'

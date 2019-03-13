@@ -6,6 +6,7 @@
         android:id="@+id/adminContainer"
         tools:context=".views.admin.views.sticky_crud.CRUDActivity"
         android:orientation="vertical"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -17,6 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/bottom_sheet_drawable_padding"
+                android:paddingBottom="@dimen/fab_margin"
                 android:orientation="vertical">
 
                 <!--Color Layout-->
@@ -26,14 +28,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/AppTextMedium"
-                    android:paddingStart="@dimen/bottom_sheet_divider_indent"
+                    android:paddingStart="@dimen/fab_margin"
                     android:text="@string/app_error"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/colorRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/bottom_sheet_divider_indent" />
+                    android:padding="@dimen/fab_margin" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
@@ -131,22 +133,24 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnAddProduct"
+                        android:layout_width="200dp"
+                        android:layout_height="40sp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/gray_round_btn"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="@dimen/fab_margin"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="@dimen/fab_margin"
+                        android:text="@string/add_product"/>
+
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnAddProduct"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/colorPrimary"
-            android:textColor="@color/colorWhite"
-            android:textStyle="bold"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="@dimen/fab_margin"
-            android:text="@string/add_product"/>
 
     </RelativeLayout>
 </layout>

@@ -9,6 +9,10 @@ import android.widget.Toast;
 import com.fxn.stash.Stash;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.irozon.alertview.AlertActionStyle;
+import com.irozon.alertview.AlertStyle;
+import com.irozon.alertview.AlertView;
+import com.irozon.alertview.objects.AlertAction;
 import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.databinding.ContentOffersBinding;
 import com.pravrajya.diamond.tables.offers.OfferTable;
@@ -24,6 +28,7 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -97,20 +102,23 @@ public class FragmentOffers extends BaseFragment {
 
 
     private void showAlertView() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
-        builder.setTitle("Add to cart");
-        builder.setMessage("Do you want to Add item in cart ?");
-        builder.setPositiveButton("YES", (dialog, id) -> {
+        AlertView alert = new AlertView("Add to cart", "Do you want to Add item in cart ?", AlertStyle.BOTTOM_SHEET);
+        alert.addAction(new AlertAction("YES", AlertActionStyle.DEFAULT, action -> {
             cartList = Stash.getArrayList(Constants.CART_ITEMS, String.class);
             if (cartList!=null){
                 if (!cartList.contains(selectedUID)) {
                     cartList.add(selectedUID);
-                } }else { cartList.add(selectedUID); }
-
+                }
+            } else {
+                assert cartList != null;
+                cartList.add(selectedUID);
+            }
             syncCart();
-        }).setNegativeButton("Cancel", (dialog, which) -> {
-        });builder.show();
+        }));
+        alert.addAction(new AlertAction("Cancel", AlertActionStyle.NEGATIVE, action -> { }));
+        alert.show((AppCompatActivity) Objects.requireNonNull(getActivity()));
     }
+
 
 
     private void syncCart() {
@@ -119,10 +127,10 @@ public class FragmentOffers extends BaseFragment {
         if (userId != null) {
             dbReference.child(USERS).child(userId).child(CART).setValue(cartList).addOnSuccessListener(aVoid -> {
                 hideProgressDialog();
-                showToast("Added to cart");
+                successToast("Added to cart");
             }).addOnFailureListener(e -> {
                 hideProgressDialog();
-                showToast("Failed to add in cart");
+                errorToast("Failed to add in cart");
             });
         }
 

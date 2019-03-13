@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 style="@style/AppTextSmall"
                 android:layout_marginStart="@dimen/bottom_sheet_divider_indent"
-                android:textSize="12sp"
+                android:textSize="10sp"
                 android:text="@string/weight"/>
 
         </LinearLayout>

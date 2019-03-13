@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ChipAdapter extends RecyclerView.Adapter<ChipAdapter.MyViewHolder> {
 
     private List<DiamondColor> itemList;
-    private int selectedPosition=-1;
+    private int selectedPosition = -1;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tvItem;
@@ -37,7 +37,7 @@ public class ChipAdapter extends RecyclerView.Adapter<ChipAdapter.MyViewHolder> 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.chip_item, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.chips_layout, parent, false);
         return new MyViewHolder(itemView);
     }
 

@@ -101,7 +101,7 @@ public class AddOfferActivity extends BaseActivity {
 
         dbReference.child("offers").child(offerTable.getUid()).setValue(offerTable).addOnSuccessListener(aVoid -> {
                     hideProgressDialog();
-                    showToast(" syncing completed");
+                    successToast(" syncing completed");
                     Intent intent = new Intent(getApplicationContext(), ProductsListActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);

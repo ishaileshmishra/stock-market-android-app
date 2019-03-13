@@ -34,7 +34,7 @@
             android:layout_gravity="bottom"
             app:itemIconTint="@color/bottom_nav_icon_color_selector"
             app:itemTextColor="@color/bottom_nav_icon_color_selector"
-            android:background="@color/lightGray"
+            android:background="@android:color/white"
             app:menu="@menu/navigation" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

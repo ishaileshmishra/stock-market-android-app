@@ -231,7 +231,7 @@ public class CRUDActivity extends BaseActivity {
         dbReference.child("products").child(productTable.getId()).setValue(productTable)
                 .addOnSuccessListener(aVoid -> {
                     hideProgressDialog();
-                    showToast(productTable.getProductLists().getProduct()+" syncing completed");
+                    successToast(productTable.getProductLists().getProduct()+" syncing completed");
                     Intent intent = new Intent(getApplicationContext(), ProductsListActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);

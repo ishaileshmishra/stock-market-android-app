@@ -62,8 +62,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         ProductTable item = itemList.get(position);
         assert item != null;
 
-        if (item.getProductLists().getProductWeight()==null){ holder.tvWeight.setText("(1.2 CT)");
-        }else { holder.tvWeight.setText("("+item.getProductLists().getProductWeight()+" CT)"); }
+        if (item.getProductLists().getProductWeight()==null){ holder.tvWeight.setText("1.2 CT");
+        }else { holder.tvWeight.setText(item.getProductLists().getProductWeight()+" CT"); }
         holder.tvItem.setText(item.getProductLists().getProduct());
         holder.tvHigh.setText(item.getProductLists().getHigh());
         holder.tvLow.setText(item.getProductLists().getLow());

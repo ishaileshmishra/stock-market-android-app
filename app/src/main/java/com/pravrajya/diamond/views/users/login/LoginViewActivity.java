@@ -31,7 +31,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.facebook.AccessToken;
-import com.pravrajya.diamond.views.users.registration.ProfileActivity;
+import com.pravrajya.diamond.views.users.registration.SignUpActivity;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -97,10 +97,10 @@ public class LoginViewActivity extends BaseActivity {
                             assert user != null;
                             setUserProfile(user.getUid(), user.getEmail(), "", "");
                         } else {
-                            showError(Objects.requireNonNull(task.getException()).getLocalizedMessage());
+                            errorToast(Objects.requireNonNull(task.getException()).getLocalizedMessage());
                         }
                     } else {
-                        showError(Objects.requireNonNull(task.getException()).getLocalizedMessage());
+                        errorToast(Objects.requireNonNull(task.getException()).getLocalizedMessage());
                     }
                 });
 
@@ -115,10 +115,10 @@ public class LoginViewActivity extends BaseActivity {
             String password=loginBinding.etPassword.getText().toString();
 
             if (!isValidEmail(emailId)){
-                showError("Please enter a valid e-mail address");
+                errorToast("Please enter a valid e-mail address");
                 loginBinding.inputEmail.setError("Please enter a valid e-mail address");
             }else if(password.equalsIgnoreCase("")){
-                showError("Password is not Valid");
+                errorToast("Password is not Valid");
                 loginBinding.inputPassword.setError("Password is not Valid");
             }else{
                 firebaseCreateAccount(emailId, password);
@@ -138,18 +138,18 @@ public class LoginViewActivity extends BaseActivity {
             }
             @Override
             public void onCancel() {
-                showError("Login Canceled");
+                errorToast("Login Canceled");
             }
 
             @Override
             public void onError(FacebookException error) {
-                showError(error.getLocalizedMessage());
+                errorToast(error.getLocalizedMessage());
             }
         });
 
 
         loginBinding.btnRegistration.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+            startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
         });
     }
 
@@ -187,7 +187,7 @@ public class LoginViewActivity extends BaseActivity {
                     setUserProfile(user.getUid(), user.getEmail(), user.getDisplayName(), user.getPhotoUrl().toString());
                 }
             } else {
-                showError(task.getException().getLocalizedMessage());
+                errorToast(task.getException().getLocalizedMessage());
             }
         });
     }
@@ -203,7 +203,7 @@ public class LoginViewActivity extends BaseActivity {
                             setUserProfile(user.getUid(), user.getEmail(), user.getDisplayName(), user.getPhotoUrl().toString());
                         }
                     } else {
-                        showError(task.getException().getLocalizedMessage());
+                        errorToast(task.getException().getLocalizedMessage());
                     }
                 });
     }
