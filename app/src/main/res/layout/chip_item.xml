@@ -9,8 +9,7 @@
         <ImageView
             android:id="@+id/ivIcon"
             android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@mipmap/ic_launcher_round" />
+            android:layout_height="50dp"/>
 
         <TextView
             android:id="@+id/tvItem"
@@ -21,7 +20,7 @@
             android:paddingTop="@dimen/spacing_4"
             android:paddingBottom="@dimen/spacing_4"
             android:layout_margin="@dimen/com_facebook_auth_dialog_corner_radius"
-            android:text="RONUD"
+            android:text="@string/ronud"
             android:background="@drawable/round_shape"
             android:layout_marginStart="@dimen/spacing_4"
             />

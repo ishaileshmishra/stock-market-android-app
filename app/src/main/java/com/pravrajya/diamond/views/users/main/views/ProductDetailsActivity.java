@@ -1,7 +1,6 @@
 package com.pravrajya.diamond.views.users.main.views;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.widget.TextViewCompat;
 import androidx.databinding.DataBindingUtil;
@@ -13,7 +12,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,14 +32,8 @@ import com.pravrajya.diamond.api.youtube.YouTubeActivity;
 import com.pravrajya.diamond.databinding.ActivityProductDetailBinding;
 import com.pravrajya.diamond.tables.product.ProductTable;
 import com.pravrajya.diamond.utils.Constants;
-import com.pravrajya.diamond.utils.FirebaseUtil;
-import com.pravrajya.diamond.utils.MessageEvent;
 import com.pravrajya.diamond.views.BaseActivity;
 import com.pravrajya.diamond.views.users.login.UserProfile;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -101,33 +93,9 @@ public class ProductDetailsActivity extends BaseActivity {
         ProductTable table = realm.where(ProductTable.class).equalTo(Constants.ID, selectedUID).findFirst();
         Objects.requireNonNull(getSupportActionBar()).setTitle(Objects.requireNonNull(table).getProductLists().getProduct());
 
-        PATH = Stash.getString(DRAWER_SELECTION)+" --> "+table.getProductLists().getProduct();
-        String[] root = PATH.split("-->");
-        String shape =root[0];
-        String size  =root[1];
-
-        int colorGRAY = getResources().getColor(R.color.lightGray);
-        int colorWhite = getResources().getColor(R.color.white);
-        String getWeight = table.getProductLists().getProductWeight();
-        if (getWeight==null){ getWeight = "1.2"; }
-
-        //binding.linearLayout.addView(addCustomView("Selected path", PATH, colorGRAY));
-        binding.linearLayout.addView(addCustomView("Title", getWeight+" CARAT "+root[0], colorWhite));
-        binding.linearLayout.addView(addCustomView("Shape", shape, colorGRAY));
-        binding.linearLayout.addView(addCustomView("Size", size, colorWhite));
-        binding.linearLayout.addView(addCustomView("Color", table.getDiamondColor().toUpperCase(), colorGRAY));
-        binding.linearLayout.addView(addCustomView("Clarity",table.getProductLists().getProduct(), colorWhite));
-        binding.linearLayout.addView(addCustomView("Cut", "Fair", colorGRAY));
-        binding.linearLayout.addView(addCustomView("Polish", "Good", colorWhite));
-        binding.linearLayout.addView(addCustomView("Fluorescence", "Faint", colorGRAY));
-        binding.linearLayout.addView(addCustomView("Symmetry", "Excellent", colorWhite));
-        binding.linearLayout.addView(addCustomView("High Price",table.getProductLists().getHigh(), colorGRAY));
-        binding.linearLayout.addView(addCustomView("Price",table.getProductLists().getPrice(), colorWhite));
-        binding.linearLayout.addView(addCustomView("Low Price",table.getProductLists().getLow(), colorGRAY));
-
-        watchVedio("Watch Video");
 
         String CUT_TYPE = Stash.getString(DIAMOND_CUT);
+        Log.e("CUT_TYPE", CUT_TYPE);
         if (CUT_TYPE.equalsIgnoreCase("round")){
             String uri = "@drawable/round_cut";
             setLogoImage(uri, getResources().getString(R.string.round_brilient_cut));
@@ -149,10 +117,36 @@ public class ProductDetailsActivity extends BaseActivity {
         }else if (CUT_TYPE.equalsIgnoreCase("emerald")){
             String uri = "@drawable/emerald_cut";
             setLogoImage(uri, getResources().getString(R.string.emerald_cut));
-        }else if (CUT_TYPE.equalsIgnoreCase("cushin")){
+        }else if (CUT_TYPE.equalsIgnoreCase("Cushion")){
             String uri = "@drawable/cushion_cut";
             setLogoImage(uri, getResources().getString(R.string.cushin_cut));
         }
+
+
+        PATH = Stash.getString(DRAWER_SELECTION)+" --> "+table.getProductLists().getProduct();
+        String[] root = PATH.split("-->");
+        String shape =root[0];
+        String size  =root[1];
+        int colorGRAY    = getResources().getColor(R.color.lightGray);
+        int colorWhite   = getResources().getColor(R.color.white);
+        String getWeight = table.getProductLists().getProductWeight();
+        if (getWeight==null){ getWeight = "1.2"; }
+        binding.linearLayout.addView(addCustomView("Title", getWeight+" CARAT "+root[0], colorWhite));
+        binding.linearLayout.addView(addCustomView("Stock ID", "P105", colorGRAY));
+        binding.linearLayout.addView(addCustomView("Shape", shape, colorWhite));
+        binding.linearLayout.addView(addCustomView("Size", size, colorGRAY));
+        binding.linearLayout.addView(addCustomView("Color", table.getDiamondColor().toUpperCase(), colorWhite));
+        binding.linearLayout.addView(addCustomView("Clarity",table.getProductLists().getProduct(), colorGRAY));
+        binding.linearLayout.addView(addCustomView("Cut", "Fair", colorWhite));
+        binding.linearLayout.addView(addCustomView("Polish", "Good", colorGRAY));
+        binding.linearLayout.addView(addCustomView("Fluorescence", "Faint", colorWhite));
+        binding.linearLayout.addView(addCustomView("Symmetry", "Excellent", colorGRAY));
+        binding.linearLayout.addView(addCustomView("Culet", "None", colorWhite));
+        binding.linearLayout.addView(addCustomView("High Price/Carat",table.getProductLists().getHigh(), colorGRAY));
+        binding.linearLayout.addView(addCustomView("Price/Carat",table.getProductLists().getPrice(), colorWhite));
+        binding.linearLayout.addView(addCustomView("Low Price/Carat",table.getProductLists().getLow(), colorGRAY));
+
+        watchVedio();
 
     }
 
@@ -165,12 +159,12 @@ public class ProductDetailsActivity extends BaseActivity {
         applyMargin(imageView);
         binding.linearLayout.addView(imageView);
 
-        TextView textView = new TextView(getApplicationContext());
+        /*TextView textView = new TextView(getApplicationContext());
         TextViewCompat.setTextAppearance(textView, R.style.AppTextSmall);
         textView.setTextSize(14);
         textView.setText(cutText);
         applyMargin(textView);
-        binding.linearLayout.addView(textView);
+        binding.linearLayout.addView(textView);*/
 
     }
 
@@ -191,8 +185,7 @@ public class ProductDetailsActivity extends BaseActivity {
 
     private void applyMargin(View view){
         LinearLayout.LayoutParams params = new LinearLayout
-                .LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
+                .LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.setMargins(10, 16, 10, 16);
         view.setLayoutParams(params);
     }
@@ -209,9 +202,6 @@ public class ProductDetailsActivity extends BaseActivity {
         });
 
 
-        /*binding.watchVideo.setOnClickListener(view->{
-            startActivity(new Intent(getApplicationContext(), PDLPlayerActivity.class));
-        });*/
     }
 
     private void syncCart(){
@@ -250,18 +240,13 @@ public class ProductDetailsActivity extends BaseActivity {
 
 
 
-    private void watchVedio(final String label) {
+    private void watchVedio() {
 
         AppCompatButton compatButton = new AppCompatButton(this);
-        compatButton.setText(label);
+        compatButton.setText("Watch Video");
         compatButton.setTextColor(Color.RED);
         compatButton.setBackgroundResource(R.drawable.gray_round_btn);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        compatButton.setLayoutParams(params);
-        compatButton.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL);
-        params.setMargins(20, 50, 20, 20);
-        compatButton.setHeight(30);
-        compatButton.setWidth(200);
+        applyMargin(compatButton);
 
         binding.linearLayout.addView(compatButton);
         compatButton.setOnClickListener(v -> {

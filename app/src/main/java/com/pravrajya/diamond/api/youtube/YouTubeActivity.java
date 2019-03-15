@@ -14,6 +14,7 @@ import com.pravrajya.diamond.databinding.ActivityYouTubeBinding;
 public class YouTubeActivity extends AppCompatActivity {
 
     ActivityYouTubeBinding binding;
+    //https://github.com/PierfrancescoSoffritti/android-youtube-player
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,5 +31,12 @@ public class YouTubeActivity extends AppCompatActivity {
                 youTubePlayer.loadVideo(videoId, 0);
             }
         });
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding.youtubePlayerView.release();
     }
 }

@@ -137,7 +137,7 @@ public class FirebaseUtil {
     /****************************************************************************/
 
     private void loadALLDiamondCut(){
-        Query lastQuery = dbReference.child("diamond_cut").orderByChild("cut_type");
+        Query lastQuery = dbReference.child("diamond_cut");//.orderByChild("cut_type");
         lastQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -172,7 +172,7 @@ public class FirebaseUtil {
     /****************************************************************************/
 
     private void loadALLDiamondColor(){
-        Query lastQuery = dbReference.child("diamond_color").orderByChild("color");
+        Query lastQuery = dbReference.child("diamond_color");//.orderByChild("color");
         lastQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

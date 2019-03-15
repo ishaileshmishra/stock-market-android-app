@@ -20,37 +20,26 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".api.youtube.YouTubeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout" />
-        <activity
-            android:name=".views.users.profile.ProfileActivity"
+        <activity android:name=".views.users.profile.ProfileActivity"
             android:label="@string/title_activity_profile" />
-        <activity
-            android:name=".views.users.payment.PaymentViewActivity"
+        <activity android:name=".views.users.payment.PaymentViewActivity"
             android:label="@string/title_activity_payment_view" />
-        <activity
-            android:name=".views.users.registration.SignUpActivity"
+        <activity android:name=".views.users.registration.SignUpActivity"
             android:label="@string/title_activity_profile" />
-        <activity
-            android:name=".views.admin.views.offers.AddOfferActivity"
+        <activity android:name=".views.admin.views.offers.AddOfferActivity"
             android:label="@string/title_activity_add_offer" />
         <activity android:name=".views.users.main.views.ProductDetailsActivity" />
         <activity android:name=".views.users.fragments.news.view.NewsDetailActivity" />
-
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_application_id" />
-
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_application_id" />
         <activity android:name=".views.users.login.LoginViewActivity" />
         <activity android:name=".views.admin.views.locker.LockActivity" />
         <activity android:name=".views.admin.views.crud_operation.ProductsListActivity" />
-        <activity
-            android:name=".views.admin.views.sticky_crud.CRUDActivity"
+        <activity android:name=".views.admin.views.sticky_crud.CRUDActivity"
             android:label="@string/title_activity_admin" />
-        <activity
-            android:name=".views.users.main.views.MainActivity"
+        <activity android:name=".views.users.main.views.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.app.searchable"
+            <meta-data android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
         <activity
@@ -59,16 +48,11 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".views.admin.views.products.AdminProductsActivity" />
-
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
-
+        <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts" />
         <activity
             android:name=".api.player.PDLPlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"

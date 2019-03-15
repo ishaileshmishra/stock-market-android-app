@@ -120,5 +120,6 @@
     <string name="profile">Profile</string>
     <string name="my_player_activity">Video Player</string>
     <string name="watch_vedio">Watch Video</string>
+    <string name="ronud">RONUD</string>
 
 </resources>
