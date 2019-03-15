@@ -14,46 +14,25 @@
             android:id="@+id/tvTitle"
             android:textAppearance="?android:textAppearanceSmall"
             android:layout_width="match_parent"
+            android:text="@string/product"
             style="@style/AppTextSmall"
             android:textStyle="bold"
             android:layout_height="match_parent"/>
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tvPrice"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/bottom_sheet_divider_indent"
+            android:textAppearance="?android:textAppearanceSmall"
+            style="@style/AppTextSmall"
+            android:background="@drawable/round_shape"
+            android:text="Price : $18"
             android:layout_gravity="end"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvPrice"
-                android:layout_width="wrap_content"
-                android:textAppearance="?android:textAppearanceSmall"
-                style="@style/AppTextSmall"
-                android:background="@drawable/round_shape"
-                android:text="Price : $18"
-                android:paddingTop="@dimen/spacing_4"
-                android:paddingBottom="@dimen/spacing_4"
-                android:paddingLeft="@dimen/bottom_sheet_divider_indent"
-                android:paddingRight="@dimen/bottom_sheet_divider_indent"                android:textStyle="bold"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:id="@+id/tvAddCart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:textAppearanceSmall"
-                style="@style/AppTextSmall"
-                android:layout_marginLeft="@dimen/bottom_sheet_divider_indent"
-                android:background="@drawable/round_shape"
-                android:textStyle="bold"
-                android:paddingTop="@dimen/spacing_4"
-                android:paddingBottom="@dimen/spacing_4"
-                android:paddingLeft="@dimen/bottom_sheet_divider_indent"
-                android:paddingRight="@dimen/bottom_sheet_divider_indent"
-                android:text="Add to cart"/>
-
-        </LinearLayout>
+            android:paddingTop="@dimen/spacing_4"
+            android:paddingBottom="@dimen/spacing_4"
+            android:paddingLeft="@dimen/bottom_sheet_divider_indent"
+            android:paddingRight="@dimen/bottom_sheet_divider_indent"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

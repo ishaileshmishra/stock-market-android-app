@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.pravrajya.diamond.R;
-import com.pravrajya.diamond.api.news_headlines.NewsResponse;
+import com.pravrajya.diamond.api.models.NewsResponse;
 
 import java.util.ArrayList;
 

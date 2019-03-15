@@ -1,5 +1,6 @@
 package com.pravrajya.diamond.views.users.fragments.cart;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,10 @@ import android.widget.Toast;
 import com.fxn.stash.Stash;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.irozon.alertview.AlertActionStyle;
+import com.irozon.alertview.AlertStyle;
+import com.irozon.alertview.AlertView;
+import com.irozon.alertview.objects.AlertAction;
 import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.databinding.ContentCartBinding;
 import com.pravrajya.diamond.tables.offers.OfferTable;
@@ -20,10 +25,12 @@ import com.pravrajya.diamond.utils.FirebaseUtil;
 import com.pravrajya.diamond.utils.ItemDecoration;
 import com.pravrajya.diamond.views.users.fragments.BaseFragment;
 import com.pravrajya.diamond.views.users.login.UserProfile;
+import com.pravrajya.diamond.views.users.payment.PaymentViewActivity;
 
 import java.util.ArrayList;
 import java.util.Objects;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -63,6 +70,7 @@ public class FragmentCart extends BaseFragment implements DeletionSwipeHelper.On
         if (cartIdList == null || cartIdList.size()==0){
             binding.noItems.setVisibility(View.VISIBLE);
             binding.noItems.setText(getString(R.string.no_items));
+            binding.btnBuy.setVisibility(View.GONE);
         }
         cartAdapter = new CartAdapter(getActivity(), cartModels);
         loadCartData();
@@ -77,7 +85,9 @@ public class FragmentCart extends BaseFragment implements DeletionSwipeHelper.On
         if (cartIdList == null || cartIdList.size()==0){
             binding.noItems.setVisibility(View.VISIBLE);
             binding.noItems.setText(getString(R.string.no_items));
+            binding.btnBuy.setVisibility(View.GONE);
         }
+
         cartIdList.forEach(cartUId->{
 
             OfferTable offerTable = null;
@@ -132,13 +142,25 @@ public class FragmentCart extends BaseFragment implements DeletionSwipeHelper.On
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int position) {
-        realm.executeTransaction(realm -> {
-            String selectedId = cartIdList.get(position);
-            if (cartIdList.contains(selectedId)){
-                cartIdList.remove(selectedId);
-            }
-            syncCart(cartIdList);
-        });
+
+        AlertView alert = new AlertView("Delete from cart", "Do you want to Delete item from cart ?", AlertStyle.BOTTOM_SHEET);
+        alert.addAction(new AlertAction("YES", AlertActionStyle.DEFAULT, action -> {
+
+            realm.executeTransaction(realm -> {
+                String selectedId = cartIdList.get(position);
+                if (cartIdList.contains(selectedId)){
+                    cartIdList.remove(selectedId);
+                }
+                syncCart(cartIdList);
+            });
+
+        }));
+        alert.addAction(new AlertAction("Cancel", AlertActionStyle.NEGATIVE, action -> {
+            this.refreshData();
+        }));
+        alert.show((AppCompatActivity) getActivity());
+
+
     }
 
 
@@ -149,17 +171,18 @@ public class FragmentCart extends BaseFragment implements DeletionSwipeHelper.On
                     .addOnSuccessListener(aVoid -> {
                         hideProgressDialog();
                         refreshData();
-                        showToast("Added to cart");
+                        successToast("Item Deleted");
                     }).addOnFailureListener(e -> {
                 hideProgressDialog();
-                showToast("Failed to add in cart");
+                errorToast("Failed to Delete");
             });
     }
 
 
     private void btnBuy() {
         binding.btnBuy.setOnClickListener(view->{
-            showToast("Clicked Button BUY");
+            informationToast(" Payment button tapped");
+            startActivity(new Intent(getActivity(), PaymentViewActivity.class));
         });
     }
 

@@ -1,29 +1,36 @@
 package com.pravrajya.diamond.views.users.main.model;
 
-import java.util.ArrayList;
-
 
 public class ItemModel {
 
-    private String drink;
+    private String clarity;
+    private String weight;
     private String high;
     private String low;
     private String price;
 
-
-    public ItemModel(String drink, String high, String low, String price) {
-        this.drink = drink;
+    public ItemModel(String clarity, String weight, String high, String low, String price) {
+        this.clarity = clarity;
+        this.weight = weight;
         this.high = high;
         this.low = low;
         this.price = price;
     }
 
-    public String getDrink() {
-        return drink;
+    public String getClarity() {
+        return clarity;
     }
 
-    public void setDrink(String drink) {
-        this.drink = drink;
+    public void setClarity(String clarity) {
+        this.clarity = clarity;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
     }
 
     public String getHigh() {
@@ -50,27 +57,15 @@ public class ItemModel {
         this.price = price;
     }
 
-    public static ArrayList<ItemModel> getDataList(){
 
-        ArrayList<ItemModel>  data_model = new ArrayList<>();
-        data_model.add(new ItemModel("Breezer (0.10 gm)","135","130","130"));
-        data_model.add(new ItemModel("Breezer bucket (0.10 gm)","500","400","490"));
-        data_model.add(new ItemModel("Budweiser (0.10 gm)","530","400","400"));
-        data_model.add(new ItemModel("Budweiser Magnimum (0.10 gm)","440","400","440"));
-        data_model.add(new ItemModel("Carlsburg (0.10 gm)","450","400","420"));
-        return  data_model;
+    @Override
+    public String toString() {
+        return "ItemModel{" +
+                "clarity='" + clarity + '\'' +
+                ", weight='" + weight + '\'' +
+                ", high='" + high + '\'' +
+                ", low='" + low + '\'' +
+                ", price='" + price + '\'' +
+                '}';
     }
-
-
-    public static ArrayList<ItemModel> getRefreshDataList(){
-
-        ArrayList<ItemModel>  data_model = new ArrayList<>();
-        data_model.add(new ItemModel("Breezer (0.10 gm)","135","130","133"));
-        data_model.add(new ItemModel("Breezer bucket (0.10 gm)","500","400","430"));
-        data_model.add(new ItemModel("Budweiser (0.10 gm)","530","400","500"));
-        data_model.add(new ItemModel("Budweiser Magnimum (0.10 gm)","440","400","420"));
-        data_model.add(new ItemModel("Carlsburg (0.10 gm)","450","400","430"));
-        return  data_model;
-    }
-
 }

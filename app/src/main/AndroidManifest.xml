@@ -5,6 +5,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
     <application
         android:name=".PDLApp"
@@ -15,9 +18,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".api.youtube.YouTubeActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout" />
         <activity
-            android:name=".views.users.registration.ProfileActivity"
-            android:label="@string/title_activity_profile"/>
+            android:name=".views.users.profile.ProfileActivity"
+            android:label="@string/title_activity_profile" />
+        <activity
+            android:name=".views.users.payment.PaymentViewActivity"
+            android:label="@string/title_activity_payment_view" />
+        <activity
+            android:name=".views.users.registration.SignUpActivity"
+            android:label="@string/title_activity_profile" />
         <activity
             android:name=".views.admin.views.offers.AddOfferActivity"
             android:label="@string/title_activity_add_offer" />
@@ -37,7 +48,11 @@
         <activity
             android:name=".views.users.main.views.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
         <activity
             android:name=".views.users.splash.SplashActivity"
             android:label="@string/app_name"
@@ -53,6 +68,11 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <activity
+            android:name=".api.player.PDLPlayerActivity"
+            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
+            android:label="@string/my_player_activity" />
     </application>
 
 </manifest>

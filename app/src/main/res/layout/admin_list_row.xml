@@ -1,82 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-    <RelativeLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/top_margin"
-        android:id="@+id/item">
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/spacing_4"
+        android:padding="@dimen/spacing_4"
+        android:elevation="@dimen/spacing_4">
 
-        <TextView
-            android:layout_width="3sp"
-            android:layout_height="match_parent"
-            android:background="@color/colorDrawerItem"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:layout_marginStart="@dimen/bottom_sheet_divider_indent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvItem"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                style="@style/AppTextSmall"
-                android:textStyle="bold"
-                android:layout_marginStart="@dimen/spacing_4"
-                android:textAppearance="?android:textAppearanceSmall"
-                android:text="VVS1"/>
-
-            <TextView
-                android:id="@+id/tvWeight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/AppTextSmall"
-                android:layout_marginStart="@dimen/fab_margin"
-                android:text="@string/weight"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:padding="@dimen/spacing_4"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
             android:orientation="horizontal"
-            tools:ignore="RelativeOverlap">
+            android:id="@+id/item">
 
+            <View
+                android:id="@+id/viewColor"
+                android:layout_width="@dimen/spacing_4"
+                android:layout_height="match_parent"
+                android:background="@color/lightGray"/>
 
-            <TextView
-                android:id="@+id/tvHigh"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/fab_margin22"
-                style="@style/AppTextSmall"
-                android:text="@string/high_rate"/>
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/com_facebook_likeview_text_size"
+                android:layout_gravity="start"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvLow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/fab_margin22"
-                style="@style/AppTextSmall"
-                android:text="@string/low_rate"/>
+                <TextView
+                    android:id="@+id/tvItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/AppTextMedium"
+                    android:textStyle="bold"
+                    android:layout_marginStart="@dimen/spacing_4"
+                    android:text="@string/vvs"/>
 
-            <TextView
-                android:id="@+id/tvPrice"
-                android:layout_width="80dp"
+                <TextView
+                    android:id="@+id/tvWeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/AppTextSmall"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:text="@string/weight"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/activity_vertical_margin"
-                style="@style/AppTextSmall"
-                android:gravity="center"
-                android:drawablePadding="@dimen/spacing_4"
-                android:text="@string/rate_fluctuate"
-                tools:ignore="RtlSymmetry" />
-        </LinearLayout>
-    </RelativeLayout>
+                android:gravity="end"
+                android:layout_marginEnd="@dimen/bottom_sheet_divider_indent"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvHigh"
+                    style="@style/AppTextSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="55dp"
+                    android:text="@string/high_rate" />
+
+                <TextView
+                    android:id="@+id/tvLow"
+                    style="@style/AppTextSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="55dp"
+                    android:text="@string/low_rate" />
+
+                <TextView
+                    android:id="@+id/tvPrice"
+                    style="@style/AppTextSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/price"
+                    tools:ignore="RtlSymmetry" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </layout>

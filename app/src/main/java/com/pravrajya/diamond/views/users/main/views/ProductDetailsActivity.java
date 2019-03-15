@@ -1,14 +1,19 @@
 package com.pravrajya.diamond.views.users.main.views;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.widget.TextViewCompat;
 import androidx.databinding.DataBindingUtil;
 import io.realm.Realm;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +24,13 @@ import android.widget.TextView;
 import com.fxn.stash.Stash;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.irozon.alertview.AlertActionStyle;
+import com.irozon.alertview.AlertStyle;
+import com.irozon.alertview.AlertView;
+import com.irozon.alertview.objects.AlertAction;
 import com.pravrajya.diamond.R;
+import com.pravrajya.diamond.api.player.PDLPlayerActivity;
+import com.pravrajya.diamond.api.youtube.YouTubeActivity;
 import com.pravrajya.diamond.databinding.ActivityProductDetailBinding;
 import com.pravrajya.diamond.tables.product.ProductTable;
 import com.pravrajya.diamond.utils.Constants;
@@ -60,7 +71,7 @@ public class ProductDetailsActivity extends BaseActivity {
         userNew = (UserProfile) Stash.getObject(USER_PROFILE, UserProfile.class);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_product_detail);
         cartList = Stash.getArrayList(Constants.CART_ITEMS, String.class);
-        realm =Realm.getDefaultInstance();
+        realm = Realm.getDefaultInstance();
 
         Objects.requireNonNull(getSupportActionBar()).setElevation(0);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -84,6 +95,7 @@ public class ProductDetailsActivity extends BaseActivity {
      * -Price.      $212
      * -low price   $100
      */
+    @SuppressLint("ResourceType")
     private void loadInformation() {
 
         ProductTable table = realm.where(ProductTable.class).equalTo(Constants.ID, selectedUID).findFirst();
@@ -113,7 +125,7 @@ public class ProductDetailsActivity extends BaseActivity {
         binding.linearLayout.addView(addCustomView("Price",table.getProductLists().getPrice(), colorWhite));
         binding.linearLayout.addView(addCustomView("Low Price",table.getProductLists().getLow(), colorGRAY));
 
-
+        watchVedio("Watch Video");
 
         String CUT_TYPE = Stash.getString(DIAMOND_CUT);
         if (CUT_TYPE.equalsIgnoreCase("round")){
@@ -141,6 +153,7 @@ public class ProductDetailsActivity extends BaseActivity {
             String uri = "@drawable/cushion_cut";
             setLogoImage(uri, getResources().getString(R.string.cushin_cut));
         }
+
     }
 
     private void setLogoImage(String uri, String cutText) {
@@ -153,6 +166,7 @@ public class ProductDetailsActivity extends BaseActivity {
         binding.linearLayout.addView(imageView);
 
         TextView textView = new TextView(getApplicationContext());
+        TextViewCompat.setTextAppearance(textView, R.style.AppTextSmall);
         textView.setTextSize(14);
         textView.setText(cutText);
         applyMargin(textView);
@@ -160,12 +174,15 @@ public class ProductDetailsActivity extends BaseActivity {
 
     }
 
-    private View addCustomView(String title, String titleInfo,  int color) {
-
-        View customLinear = LayoutInflater.from(this)
-                .inflate(R.layout.custom_text_view, binding.linearLayout, false);
+    private View addCustomView(String title, String titleInfo, int color) {
+        View customLinear = LayoutInflater.from(this).inflate(R.layout.custom_text_view, binding.linearLayout, false);
         TextView tvTitle = customLinear.findViewById(R.id.title);
         TextView tvInfo =  customLinear.findViewById(R.id.content);
+
+        // style of textview
+        TextViewCompat.setTextAppearance(tvTitle, R.style.AppTextSmall);
+        TextViewCompat.setTextAppearance(tvInfo, R.style.AppTextSmall);
+
         tvTitle.setText(title);
         tvInfo.setText(titleInfo);
         if (color!=0){ customLinear.setBackgroundColor(color); }
@@ -183,8 +200,18 @@ public class ProductDetailsActivity extends BaseActivity {
     private void buyBtnClickHandler(){
 
         binding.btnBUY.setOnClickListener(view->{
-            syncCart();
+            AlertView alert = new AlertView("Add to cart", "Do you want to Add item in cart ?", AlertStyle.BOTTOM_SHEET);
+            alert.addAction(new AlertAction("YES", AlertActionStyle.DEFAULT, action -> {
+                this.syncCart();
+            }));
+            alert.addAction(new AlertAction("Cancel", AlertActionStyle.NEGATIVE, action -> { }));
+            alert.show(this);
         });
+
+
+        /*binding.watchVideo.setOnClickListener(view->{
+            startActivity(new Intent(getApplicationContext(), PDLPlayerActivity.class));
+        });*/
     }
 
     private void syncCart(){
@@ -202,11 +229,11 @@ public class ProductDetailsActivity extends BaseActivity {
             dbReference.child(USERS).child(getCurrentUser).child(CART).setValue(cartList)
                     .addOnSuccessListener(aVoid -> {
                         hideProgressDialog();
-                        showToast("Added to cart");
+                        successToast("Added to cart");
                         onBackPressed();
                     }).addOnFailureListener(e -> {
                         hideProgressDialog();
-                        showToast("Failed to add in cart");
+                        errorToast("Failed to add in cart");
                     });
     }
 
@@ -220,5 +247,38 @@ public class ProductDetailsActivity extends BaseActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+    private void watchVedio(final String label) {
+
+        AppCompatButton compatButton = new AppCompatButton(this);
+        compatButton.setText(label);
+        compatButton.setTextColor(Color.RED);
+        compatButton.setBackgroundResource(R.drawable.gray_round_btn);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        compatButton.setLayoutParams(params);
+        compatButton.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL);
+        params.setMargins(20, 50, 20, 20);
+        compatButton.setHeight(30);
+        compatButton.setWidth(200);
+
+        binding.linearLayout.addView(compatButton);
+        compatButton.setOnClickListener(v -> {
+
+            AlertView alert = new AlertView("Watch Video", "Select Your Preferences", AlertStyle.BOTTOM_SHEET);
+            alert.addAction(new AlertAction("Watch Online", AlertActionStyle.DEFAULT, action -> {
+                startActivity(new Intent(getApplicationContext(), PDLPlayerActivity.class));
+            }));
+            alert.addAction(new AlertAction("Youtube", AlertActionStyle.NEGATIVE, action -> {
+                startActivity(new Intent(getApplicationContext(), YouTubeActivity.class));
+            }));
+            alert.show(this);
+
+        });
+
+    }
+
+
 
 }

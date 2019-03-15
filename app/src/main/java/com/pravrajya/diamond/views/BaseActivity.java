@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -16,6 +18,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.irozon.sneaker.Sneaker;
 import com.pravrajya.diamond.R;
 
 import java.util.regex.Matcher;
@@ -33,11 +36,11 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*if (android.os.Build.VERSION.SDK_INT
-                >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setNavigationBarColor(getResources()
-                    .getColor(R.color.colorAccent));
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow();
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }*/
+
     }
 
 
@@ -78,15 +81,30 @@ public class BaseActivity extends AppCompatActivity {
         hideProgressDialog();
     }
 
-    protected void showToast(String toastMessage){
-        Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
+
+    protected void errorToast(String errorMessage) {
+        Sneaker.with(this) // Activity, Fragment or ViewGroup
+                .setTitle("Error!!")
+                .setMessage(errorMessage)
+                .sneakError();
     }
 
 
-    protected void showError(String errorMessage) {
-        View parentLayout = findViewById(android.R.id.content);
-        Snackbar.make(parentLayout, errorMessage, Snackbar.LENGTH_SHORT).show();
+    protected void successToast(String successMessage){
+        Sneaker.with(this) // Activity, Fragment or ViewGroup
+                .setTitle("Success!!")
+                .setMessage(successMessage)
+                .sneakSuccess();
+
     }
+
+    protected void informationToast(String informationString){
+        Sneaker.with(this) // Activity, Fragment or ViewGroup
+                .setTitle("Warning!!")
+                .setMessage(informationString)
+                .sneakWarning();
+    }
+
 
     //*****************************************************************
 

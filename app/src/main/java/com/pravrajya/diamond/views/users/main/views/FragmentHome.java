@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.fxn.stash.Stash;
 import com.github.mikephil.charting.charts.LineChart;
@@ -16,18 +18,20 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.pravrajya.diamond.R;
+import com.pravrajya.diamond.tables.product.ProductList;
 import com.pravrajya.diamond.utils.Constants;
 import com.pravrajya.diamond.utils.ItemDecoration;
+import com.pravrajya.diamond.views.users.fragments.BaseFragment;
 import com.pravrajya.diamond.views.users.main.adapter.ProductAdapter;
 import com.pravrajya.diamond.tables.product.ProductTable;
 import com.pravrajya.diamond.utils.ClickListener;
 import com.pravrajya.diamond.databinding.ContentMainBinding;
+import com.pravrajya.diamond.views.users.main.model.ItemModel;
 
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,21 +41,24 @@ import io.realm.RealmResults;
 import static com.pravrajya.diamond.utils.Constants.DEFAULT_COLOR;
 
 
-public class FragmentHome extends Fragment {
+public class FragmentHome extends BaseFragment {
 
-    private int DELAY_IN_MILLIS=5000;
+    private String SELECTED_COLOR;
     private ContentMainBinding binding;
-    private ProductAdapter adapter;
-    private Boolean isRefreshing = true;
-    private RealmResults<ProductTable> dataModel ;
 
-    private Activity activity;
-    private static String SELECTED_COLOR;
+    private RealmResults<ProductTable> dataModel;
+    private int DELAY_IN_MILLIS=5000;
+    private Boolean        isRefreshing = true;
+    private Realm          realm;
+    private ProductAdapter adapter;
+    private Activity       activity;
+
+
     static FragmentHome newInstance() {
         return new FragmentHome();
     }
-    public FragmentHome() { }
 
+    public FragmentHome() { }
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -59,7 +66,7 @@ public class FragmentHome extends Fragment {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.content_main, container, false);
         activity = (MainActivity)getActivity();
-        Realm realmInstance = Realm.getDefaultInstance();
+        realm = Realm.getDefaultInstance();
 
         if (!Stash.getString(Constants.SELECTED_COLOR).equalsIgnoreCase("")) {
             SELECTED_COLOR = Stash.getString(Constants.SELECTED_COLOR);
@@ -67,8 +74,7 @@ public class FragmentHome extends Fragment {
             SELECTED_COLOR = DEFAULT_COLOR;
         }
 
-
-        dataModel = realmInstance.where(ProductTable.class).equalTo(Constants.DIAMOND_COLOR, SELECTED_COLOR).findAll();
+        dataModel = realm.where(ProductTable.class).equalTo(Constants.DIAMOND_COLOR, SELECTED_COLOR).findAll();
         if (dataModel.size()==0){
             binding.headingLayout.setVisibility(View.GONE);
             binding.recyclerView.setVisibility(View.GONE);
@@ -78,6 +84,28 @@ public class FragmentHome extends Fragment {
         }
 
         loadRecyclerView();
+        startAnimGraph();
+        binding.swipeRefreshLayout.setOnRefreshListener(this::onRefresh);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        onRefresh();
+    }
+
+    private void onRefresh(){
+
+        binding.swipeRefreshLayout.setRefreshing(true);
+        dataModel = realm.where(ProductTable.class).equalTo(Constants.DIAMOND_COLOR, SELECTED_COLOR).findAll();
+        adapter.notifyDataSetChanged();
+        adapter.updateData( isRefreshing);
+        binding.swipeRefreshLayout.setRefreshing(false);
+    }
+
+    private void startAnimGraph() {
+
         Handler handler = new Handler();
         Runnable runnable = new Runnable() {
             @Override
@@ -103,26 +131,20 @@ public class FragmentHome extends Fragment {
             }
         };
         handler.postDelayed(runnable, DELAY_IN_MILLIS);
-        binding.swipeRefreshLayout.setOnRefreshListener(this::onRefresh);
-        return binding.getRoot();
     }
 
 
+    private ArrayList<ItemModel> getClarityModels(){
+        ArrayList<ItemModel> modelArrayList = new ArrayList<>();
+        if (dataModel.size()>0){
+            dataModel.forEach(table -> {
+                ProductList eachItem = table.getProductLists();
+                modelArrayList.add(new ItemModel(eachItem.getProduct(),eachItem.getProductWeight(),eachItem.getHigh(),eachItem.getLow(),eachItem.getPrice()));
+            });
+        }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        onRefresh();
+        return modelArrayList;
     }
-
-    private void onRefresh(){
-
-        binding.swipeRefreshLayout.setRefreshing(true);
-        adapter.notifyDataSetChanged();
-        adapter.updateData( isRefreshing);
-        binding.swipeRefreshLayout.setRefreshing(false);
-    }
-
 
     private void loadRecyclerView() {
 
@@ -137,11 +159,14 @@ public class FragmentHome extends Fragment {
         binding.recyclerView.addOnItemTouchListener(new ClickListener(activity, binding.recyclerView, (view, position) -> {
             ProductTable listItem = dataModel.get(position);
             Intent intent = new Intent(getActivity(), ProductDetailsActivity.class);
+            assert listItem != null;
             intent.putExtra("id", listItem.getId());
             startActivity(intent);
         }));
-    }
 
+
+        filterTheData();
+    }
 
     @Override
     public void onResume() {
@@ -188,6 +213,21 @@ public class FragmentHome extends Fragment {
 
         return new LineData(set1);
     }
+
+    private void filterTheData() {
+        TextView [] paddViews = new TextView[]{binding.tvLow, binding.tvHigh, binding.tvItem, binding.tvPrice};
+        for (TextView view : paddViews) {
+            view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_drop_down_black, 0);
+        }
+
+        binding.tvItem.setOnClickListener(v->{ });
+        binding.tvHigh.setOnClickListener(v->{ });
+        binding.tvLow.setOnClickListener(v->{ });
+        binding.tvPrice.setOnClickListener(v->{ });
+    }
+
+
+
 
 }
 

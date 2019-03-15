@@ -1,7 +1,7 @@
 package com.pravrajya.diamond.api;
 
-import com.pravrajya.diamond.api.news_headlines.NewsHeadlines;
-import com.pravrajya.diamond.api.news_headlines.NewsResponse;
+import com.pravrajya.diamond.api.models.NewsHeadlines;
+import com.pravrajya.diamond.api.models.NewsResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

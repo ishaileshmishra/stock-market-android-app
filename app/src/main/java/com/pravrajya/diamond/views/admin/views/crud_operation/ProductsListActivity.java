@@ -28,7 +28,6 @@ import com.pravrajya.diamond.views.admin.views.offers.AddOfferActivity;
 import static com.pravrajya.diamond.utils.FirebaseUtil.getDatabase;
 
 
-
 public class ProductsListActivity extends BaseActivity {
 
     private Realm realmInstance;
@@ -47,6 +46,7 @@ public class ProductsListActivity extends BaseActivity {
         realmInstance = Realm.getDefaultInstance();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setElevation(0);
         getSupportActionBar().setTitle("All products");
         getSupportActionBar().setHomeAsUpIndicator(getResources().getDrawable(R.drawable.ic_close_black));
 
@@ -111,9 +111,9 @@ public class ProductsListActivity extends BaseActivity {
 
         dbReference.child("products").child(table.getId()).removeValue((databaseError, databaseReference) -> {
             if (databaseError==null){
-                showToast("Deleted");
+                successToast("Deleted");
             }else {
-                showToast("Failed to delete");
+                errorToast("Failed to delete");
             }
         });
 

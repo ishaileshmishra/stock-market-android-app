@@ -1,11 +1,15 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.Design.Light">
-        <item name="colorPrimary">@color/colorAppBackground</item>
-        <item name="colorPrimaryDark">@color/colorAppBackground</item>
-        <item name="android:fontFamily">sans-serif-light</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/lightGray</item>
+        <item name="android:fontFamily">@font/expletus_sans</item>
+        <item name="android:textAppearance">@style/AppTextSmall</item>
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
+
+    <!--<item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>-->
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

@@ -18,12 +18,12 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyViewHolder
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tvTitle, tvPrice;
-        TextView tvAddCart;
+        //TextView tvAddCart;
 
         MyViewHolder(View view) {
             super(view);
             tvTitle =  view.findViewById(R.id.tvTitle);
-            tvAddCart =  view.findViewById(R.id.tvAddCart);
+            //tvAddCart =  view.findViewById(R.id.tvAddCart);
             tvPrice = view.findViewById(R.id.tvPrice);
         }
     }

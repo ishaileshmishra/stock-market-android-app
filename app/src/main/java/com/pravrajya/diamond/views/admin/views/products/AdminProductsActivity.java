@@ -30,7 +30,6 @@ import static com.pravrajya.diamond.utils.FirebaseUtil.getDatabase;
 
 public class AdminProductsActivity extends BaseActivity {
 
-
     private Realm realm;
     private RecyclerViewAdapter adapter;
     private DatabaseReference dbReference;
@@ -39,27 +38,24 @@ public class AdminProductsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
+
         dbReference = getDatabase().getReference();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_admin_product);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setElevation(0);
         getSupportActionBar().setTitle("Admin products");
         getSupportActionBar().setHomeAsUpIndicator(getResources().getDrawable(R.drawable.ic_close_black));
 
         initAdapter();
-
         initData();
     }
 
     private void initAdapter() {
         adapter = new RecyclerViewAdapter();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        KmHeaderItemDecoration kmHeaderItemDecoration = new KmHeaderItemDecoration(adapter);
         binding.recyclerView.setAdapter(adapter);
-
         binding.recyclerView.addOnItemTouchListener(new ClickListener(getApplicationContext(), binding.recyclerView, (view, position) -> {
             updateTheItem(loadProductTable.get(position));
         }));
@@ -117,9 +113,9 @@ public class AdminProductsActivity extends BaseActivity {
 
         dbReference.child("products").child(table.getId()).removeValue((databaseError, databaseReference) -> {
             if (databaseError==null){
-                showToast("Deleted");
+                successToast("Deleted");
             }else {
-                showToast("Failed to delete");
+                errorToast("Failed to delete");
             }
         });
 

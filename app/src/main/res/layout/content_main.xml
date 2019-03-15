@@ -18,7 +18,7 @@
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/chart"
                 android:layout_width="match_parent"
-                android:layout_height="210dp" />
+                android:layout_height="200dp" />
 
             <RelativeLayout
                 android:id="@+id/heading_layout"
@@ -33,9 +33,10 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     style="@style/AppTextSmall"
-                    android:layout_marginLeft="@dimen/bottom_sheet_divider_indent"
+                    android:layout_marginStart="@dimen/bottom_sheet_divider_indent"
+                    android:gravity="center"
                     android:textStyle="bold"
-                    android:text="PRODUCTS"/>
+                    android:text="@string/products"/>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
@@ -49,29 +50,30 @@
                         android:id="@+id/tvHigh"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/fab_margin"
+                        android:layout_marginEnd="@dimen/spacing_4"
                         style="@style/AppTextSmall"
                         android:textStyle="bold"
+                        android:gravity="center"
                         android:text="@string/high_rate"/>
 
                     <TextView
                         android:id="@+id/tvLow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/fab_margin22"
+                        android:layout_marginEnd="@dimen/spacing_4"
                         style="@style/AppTextSmall"
                         android:textStyle="bold"
+                        android:gravity="center"
                         android:text="@string/low_rate"/>
 
                     <TextView
                         android:id="@+id/tvPrice"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
-                        android:paddingRight="@dimen/bottom_sheet_divider_indent"
                         style="@style/AppTextSmall"
-                        android:gravity="center"
                         android:textStyle="bold"
-                        android:text="PRICE"
+                        android:gravity="center"
+                        android:text="@string/price"
                         tools:ignore="RtlSymmetry" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -81,7 +83,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/top_margin"/>
 
             <TextView
                 android:id="@+id/info"

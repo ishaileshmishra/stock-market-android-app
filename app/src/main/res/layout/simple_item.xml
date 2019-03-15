@@ -11,6 +11,7 @@
             android:id="@+id/tvTextSingle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:textStyle="bold"
             style="@style/AppTextSmall" />
 
         <RelativeLayout

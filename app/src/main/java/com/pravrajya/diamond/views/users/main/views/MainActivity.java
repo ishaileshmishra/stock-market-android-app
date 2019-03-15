@@ -1,6 +1,8 @@
 package com.pravrajya.diamond.views.users.main.views;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import com.bumptech.glide.Glide;
@@ -34,8 +36,12 @@ import com.pravrajya.diamond.views.users.fragments.about.FragmentAboutUs;
 import com.pravrajya.diamond.views.users.fragments.help.FragmentFAQ;
 import com.pravrajya.diamond.views.users.fragments.news.view.FragmentNews;
 import com.pravrajya.diamond.views.users.fragments.terms.FragmentTermsCondition;
+import com.pravrajya.diamond.views.users.profile.ProfileActivity;
+import com.pravrajya.diamond.views.users.registration.SignUpActivity;
 
-import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -139,7 +145,13 @@ public class MainActivity extends BaseActivity {
         addBadgeView(cartSize);
         getSupportActionBar().setTitle(Stash.getString(SELECTED_COLOR, DEFAULT_COLOR).toUpperCase());
         loadDrawerHeader();
-        Log.d(TAG, "In the onCreate() event");
+
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS,
+                            Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ANSWER_PHONE_CALLS,
+                            Manifest.permission.CALL_PHONE, Manifest.permission.CAMERA}, 101);
+        }
 
     }
 
@@ -171,6 +183,11 @@ public class MainActivity extends BaseActivity {
         ImageView profileImage =  navHeaderView.findViewById(R.id.ivProfileIcon);
         TextView tvName =  navHeaderView.findViewById(R.id.tvName);
         TextView tvEmail =  navHeaderView.findViewById(R.id.tvEmail);
+        AppCompatButton btnProfile = navHeaderView.findViewById(R.id.btnProfile);
+        btnProfile.setOnClickListener(v -> {
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+            startActivity(new Intent(this, ProfileActivity.class));
+        });
 
         // set all the views
         tvName.setText(userNew.getName());
@@ -182,8 +199,7 @@ public class MainActivity extends BaseActivity {
 
     private void loadProfilePreview(String profileImage, ImageView view) {
         Glide.with(getApplicationContext()).load(profileImage)
-                .apply(new RequestOptions()
-                        .override(PROFILE_ICON, PROFILE_ICON))
+                .apply(new RequestOptions().override(PROFILE_ICON, PROFILE_ICON))
                 .apply(RequestOptions.circleCropTransform())
                 .into(view);
     }

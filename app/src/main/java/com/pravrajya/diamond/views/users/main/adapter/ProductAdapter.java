@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.Filter;
 import android.widget.TextView;
 import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.tables.product.ProductTable;
@@ -61,8 +62,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         ProductTable item = itemList.get(position);
         assert item != null;
 
-        if (item.getProductLists().getProductWeight()==null){ holder.tvWeight.setText("(1.2 CT)");
-        }else { holder.tvWeight.setText("("+item.getProductLists().getProductWeight()+" CT)"); }
+        if (item.getProductLists().getProductWeight()==null){ holder.tvWeight.setText("1.2 CT");
+        }else { holder.tvWeight.setText(item.getProductLists().getProductWeight()+" CT"); }
         holder.tvItem.setText(item.getProductLists().getProduct());
         holder.tvHigh.setText(item.getProductLists().getHigh());
         holder.tvLow.setText(item.getProductLists().getLow());
@@ -98,6 +99,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     public int getItemCount() {
         return itemList.size();
     }
+
 
 
 }

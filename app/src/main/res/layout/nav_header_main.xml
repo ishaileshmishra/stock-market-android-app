@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/bottom_sheet_drawable_padding"
                 android:contentDescription="@string/nav_header_desc"
-                android:background="@drawable/round_shape"
+                android:elevation="@dimen/bottom_sheet_divider_height"
                 app:srcCompat="@mipmap/ic_launcher_round" />
 
             <LinearLayout
@@ -45,6 +45,17 @@
                     android:textStyle="bold"
                     android:text="@string/nav_header_subtitle" />
 
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="@dimen/fab_margin"
+                    android:layout_marginBottom="@dimen/fab_margin"
+                    android:background="@drawable/gray_round_btn"
+                    android:paddingStart="@dimen/fab_margin"
+                    android:paddingEnd="@dimen/fab_margin"
+                    android:text="@string/profile"/>
+
             </LinearLayout>
         </LinearLayout>
 
@@ -53,7 +64,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             style="@style/AppTextMedium"
-            android:layout_marginTop="@dimen/fab_margin"
+            android:layout_marginLeft="@dimen/bottom_sheet_divider_height"
             android:layout_gravity="center"
             android:padding="@dimen/bottom_sheet_divider_indent"
             android:text="@string/please_select_product"/>

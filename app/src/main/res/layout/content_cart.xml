@@ -5,6 +5,7 @@
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:layout_marginTop="@dimen/top_margin">
 
         <RelativeLayout
@@ -30,11 +31,13 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnBuy"
                 android:layout_width="300dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:text="@string/cart_pay"
+                android:gravity="center"
                 style="@style/AppTextMedium"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/rectangle_shape"
+                android:background="@drawable/gray_round_btn"
+                android:textColor="@color/black"
                 android:layout_marginBottom="@dimen/top_margin"
                 android:layout_alignParentBottom="true"/>
         </RelativeLayout>
