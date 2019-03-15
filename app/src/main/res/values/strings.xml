@@ -118,5 +118,7 @@
     <string name="title_activity_payment_view">PaymentView</string>
     <string name="already_have_account_login">Already have account Login</string>
     <string name="profile">Profile</string>
+    <string name="my_player_activity">Video Player</string>
+    <string name="watch_vedio">Watch Video</string>
 
 </resources>

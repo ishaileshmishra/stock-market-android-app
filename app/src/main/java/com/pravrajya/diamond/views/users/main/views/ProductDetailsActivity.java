@@ -2,15 +2,18 @@ package com.pravrajya.diamond.views.users.main.views;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.widget.TextViewCompat;
 import androidx.databinding.DataBindingUtil;
 import io.realm.Realm;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +29,8 @@ import com.irozon.alertview.AlertStyle;
 import com.irozon.alertview.AlertView;
 import com.irozon.alertview.objects.AlertAction;
 import com.pravrajya.diamond.R;
+import com.pravrajya.diamond.api.player.PDLPlayerActivity;
+import com.pravrajya.diamond.api.youtube.YouTubeActivity;
 import com.pravrajya.diamond.databinding.ActivityProductDetailBinding;
 import com.pravrajya.diamond.tables.product.ProductTable;
 import com.pravrajya.diamond.utils.Constants;
@@ -90,6 +95,7 @@ public class ProductDetailsActivity extends BaseActivity {
      * -Price.      $212
      * -low price   $100
      */
+    @SuppressLint("ResourceType")
     private void loadInformation() {
 
         ProductTable table = realm.where(ProductTable.class).equalTo(Constants.ID, selectedUID).findFirst();
@@ -119,7 +125,7 @@ public class ProductDetailsActivity extends BaseActivity {
         binding.linearLayout.addView(addCustomView("Price",table.getProductLists().getPrice(), colorWhite));
         binding.linearLayout.addView(addCustomView("Low Price",table.getProductLists().getLow(), colorGRAY));
 
-
+        watchVedio("Watch Video");
 
         String CUT_TYPE = Stash.getString(DIAMOND_CUT);
         if (CUT_TYPE.equalsIgnoreCase("round")){
@@ -147,6 +153,7 @@ public class ProductDetailsActivity extends BaseActivity {
             String uri = "@drawable/cushion_cut";
             setLogoImage(uri, getResources().getString(R.string.cushin_cut));
         }
+
     }
 
     private void setLogoImage(String uri, String cutText) {
@@ -200,6 +207,11 @@ public class ProductDetailsActivity extends BaseActivity {
             alert.addAction(new AlertAction("Cancel", AlertActionStyle.NEGATIVE, action -> { }));
             alert.show(this);
         });
+
+
+        /*binding.watchVideo.setOnClickListener(view->{
+            startActivity(new Intent(getApplicationContext(), PDLPlayerActivity.class));
+        });*/
     }
 
     private void syncCart(){
@@ -235,5 +247,38 @@ public class ProductDetailsActivity extends BaseActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+    private void watchVedio(final String label) {
+
+        AppCompatButton compatButton = new AppCompatButton(this);
+        compatButton.setText(label);
+        compatButton.setTextColor(Color.RED);
+        compatButton.setBackgroundResource(R.drawable.gray_round_btn);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        compatButton.setLayoutParams(params);
+        compatButton.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL);
+        params.setMargins(20, 50, 20, 20);
+        compatButton.setHeight(30);
+        compatButton.setWidth(200);
+
+        binding.linearLayout.addView(compatButton);
+        compatButton.setOnClickListener(v -> {
+
+            AlertView alert = new AlertView("Watch Video", "Select Your Preferences", AlertStyle.BOTTOM_SHEET);
+            alert.addAction(new AlertAction("Watch Online", AlertActionStyle.DEFAULT, action -> {
+                startActivity(new Intent(getApplicationContext(), PDLPlayerActivity.class));
+            }));
+            alert.addAction(new AlertAction("Youtube", AlertActionStyle.NEGATIVE, action -> {
+                startActivity(new Intent(getApplicationContext(), YouTubeActivity.class));
+            }));
+            alert.show(this);
+
+        });
+
+    }
+
+
 
 }

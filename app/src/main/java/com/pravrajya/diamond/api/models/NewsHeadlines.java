@@ -1,4 +1,4 @@
-package com.pravrajya.diamond.api.news_headlines;
+package com.pravrajya.diamond.api.models;
 
 import com.google.gson.annotations.SerializedName;
 
