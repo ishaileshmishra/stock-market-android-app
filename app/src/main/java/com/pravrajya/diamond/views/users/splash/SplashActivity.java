@@ -22,6 +22,9 @@ import com.pravrajya.diamond.views.users.login.LoginViewActivity;
 import androidx.databinding.DataBindingUtil;
 
 
+/**
+ *
+ */
 public class SplashActivity extends BaseActivity {
 
     private String BACKGROUND = "https://firebasestorage.googleapis.com/v0/b/pdlfirebaseproject.appspot.com/o/splash_screen%2Fimage_background.jpg?alt=media&token=95552799-9f02-4a7c-ab46-a6143009799f";

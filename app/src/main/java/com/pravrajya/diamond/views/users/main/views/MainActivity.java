@@ -205,7 +205,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void loadProductType(RecyclerView recyclerView){
-        RealmResults<DiamondCut> diamondCutList = realm.where(DiamondCut.class).sort("cut_type").findAll();
+        RealmResults<DiamondCut> diamondCutList = realm.where(DiamondCut.class).findAll();
         DrawerChipAdapter adapter = new DrawerChipAdapter(diamondCutList);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
@@ -228,14 +228,14 @@ public class MainActivity extends BaseActivity {
         List<String> diamondSize = new ArrayList<>();
         RealmResults<DiamondSize> diamondSizeList = realm.where(DiamondSize.class).findAll();
         diamondSizeList.forEach(diamond->{
-            Log.e("diamondSizes", diamond.getSize());
+            //Log.e("diamondSizes", diamond.getSize());
             diamondSize.add(diamond.getSize());
         });
 
         List<String> diamondColors = new ArrayList<>();
-        RealmResults<DiamondColor> diamondColorList = realm.where(DiamondColor.class).sort("color").findAll();
+        RealmResults<DiamondColor> diamondColorList = realm.where(DiamondColor.class).findAll();
         diamondColorList.forEach(diamond->{
-            Log.e("diamondColor", diamond.getColor());
+            //Log.e("diamondColor", diamond.getColor());
             diamondColors.add(diamond.getColor());
         });
 

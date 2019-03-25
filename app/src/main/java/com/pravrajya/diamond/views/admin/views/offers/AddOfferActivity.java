@@ -12,7 +12,7 @@ import com.pravrajya.diamond.databinding.ActivityAddOfferBinding;
 import com.pravrajya.diamond.tables.RealmManager;
 import com.pravrajya.diamond.tables.offers.OfferTable;
 import com.pravrajya.diamond.views.BaseActivity;
-import com.pravrajya.diamond.views.admin.views.crud_operation.ProductsListActivity;
+import com.pravrajya.diamond.views.admin.views.admin_products.ProductsListActivity;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

@@ -9,8 +9,7 @@ import com.hanks.passcodeview.PasscodeView;
 import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.databinding.ActivityPasscodeBinding;
 import com.pravrajya.diamond.views.BaseActivity;
-import com.pravrajya.diamond.views.admin.views.crud_operation.ProductsListActivity;
-import com.pravrajya.diamond.views.admin.views.products.AdminProductsActivity;
+import com.pravrajya.diamond.views.admin.views.admin_products.ProductsListActivity;
 
 import androidx.databinding.DataBindingUtil;
 

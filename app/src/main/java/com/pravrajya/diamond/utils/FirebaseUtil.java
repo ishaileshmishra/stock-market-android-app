@@ -1,6 +1,5 @@
 package com.pravrajya.diamond.utils;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.fxn.stash.Stash;
@@ -19,11 +18,12 @@ import com.pravrajya.diamond.tables.offers.OfferTable;
 import com.pravrajya.diamond.tables.product.ProductTable;
 import com.pravrajya.diamond.views.users.login.User;
 import com.pravrajya.diamond.views.users.login.UserProfile;
-
 import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import androidx.annotation.NonNull;
 import static com.pravrajya.diamond.utils.Constants.USERS;
 import static com.pravrajya.diamond.utils.Constants.USER_PROFILE;
@@ -50,7 +50,7 @@ public class FirebaseUtil {
         loadALLDiamondCut();
         loadALLDiamondColor();
         loadALLDiamondSize();
-
+        loadALLAdminPanelItems();
     }
 
 
@@ -85,16 +85,25 @@ public class FirebaseUtil {
         });
 
     }
+
+
     private void removeAllProducts(){
         RealmManager.open();
         RealmManager.createProductTableDao().removeAll();
         RealmManager.close();
     }
+
+
     private void storeProductsLocally(ProductTable post) {
         RealmManager.open();
         RealmManager.createProductTableDao().save(post);
         RealmManager.close();
     }
+
+
+
+
+
 
     /****************************************************************************/
     /****************[ Load all Offers ]****************/
@@ -121,23 +130,36 @@ public class FirebaseUtil {
         });
 
     }
+
+
     private void clearOffers(){
         RealmManager.open();
         RealmManager.offerDao().removeAll();
         RealmManager.close();
     }
+
+
     private void updateOffers(OfferTable offerTable) {
         RealmManager.open();
         RealmManager.offerDao().save(offerTable);
         RealmManager.close();
     }
 
+
+
+
+
+
+
+
+
+
     /****************************************************************************/
     /****************[ Load all Diamond Cuts ]****************/
     /****************************************************************************/
 
     private void loadALLDiamondCut(){
-        Query lastQuery = dbReference.child("diamond_cut").orderByChild("cut_type");
+        Query lastQuery = dbReference.child("diamond_cut");//.orderByChild("cut_type");
         lastQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -154,25 +176,36 @@ public class FirebaseUtil {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
-
     }
+
+
     private void clearDiamondCuts(){
         RealmManager.open();
         RealmManager.createDiamondCutDao().removeAll();
         RealmManager.close();
     }
+
+
     private void updateDiamondCuts(DiamondCut diamondCut) {
         RealmManager.open();
         RealmManager.createDiamondCutDao().save(diamondCut);
         RealmManager.close();
     }
 
+
+
+
+
+
+
+
+
     /****************************************************************************/
     /****************[ Load all Diamond Colors ]****************/
     /****************************************************************************/
 
     private void loadALLDiamondColor(){
-        Query lastQuery = dbReference.child("diamond_color").orderByChild("color");
+        Query lastQuery = dbReference.child("diamond_color");//.orderByChild("color");
         lastQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -192,16 +225,29 @@ public class FirebaseUtil {
         });
 
     }
+
+
+
     private void clearDiamondColors(){
         RealmManager.open();
         RealmManager.diamondColorDao().removeAll();
         RealmManager.close();
     }
+
+
     private void updateDiamondColors(DiamondColor diamondColor) {
         RealmManager.open();
         RealmManager.diamondColorDao().save(diamondColor);
         RealmManager.close();
     }
+
+
+
+
+
+
+
+
 
     /****************************************************************************/
     /****************[ Load all Diamond Size ]****************/
@@ -227,16 +273,27 @@ public class FirebaseUtil {
         });
 
     }
+
+
+
     private void clearDiamondSize(){
         RealmManager.open();
         RealmManager.diamondSizeDao().removeAll();
         RealmManager.close();
     }
+
+
     private void updateDiamondSize(DiamondSize diamondSize) {
         RealmManager.open();
         RealmManager.diamondSizeDao().save(diamondSize);
         RealmManager.close();
     }
+
+
+
+
+
+
 
     /****************************************************************************/
     /****************[ Loas all FAQ's ]****************/
@@ -262,16 +319,53 @@ public class FirebaseUtil {
             }
         });
     }
+
+
     private void clearFaqTable(){
         RealmManager.open();
         RealmManager.faqDao().removeAll();
         RealmManager.close();
     }
+
+
     private void updateFaq(FAQTable faqTable) {
         RealmManager.open();
         RealmManager.faqDao().save(faqTable);
         RealmManager.close();
     }
+
+
+
+
+
+
+
+
+    /****************************************************************************/
+    /****************[ Loas all Admin Panels ]****************/
+    /****************************************************************************/
+
+    private void loadALLAdminPanelItems() {
+        Query lastQuery = dbReference.child("admin_panel");
+        lastQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    for (DataSnapshot snapshot: dataSnapshot.getChildren())
+                    {
+                        Log.e(snapshot.getKey(), snapshot.getValue().toString());
+                        Stash.put(snapshot.getKey(), snapshot.getValue());
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+
 
     /****************************************************************************/
     /****************[ Load all cart Items ]****************/
@@ -297,6 +391,56 @@ public class FirebaseUtil {
     }
 
 
+
+
+
+    private void uploadAdminModel(){
+
+        ArrayList<String> arrayListCut = new ArrayList<>();
+        arrayListCut.add("Idel");
+        arrayListCut.add("Excellent");
+        arrayListCut.add("Very Good");
+        arrayListCut.add("Good");
+        arrayListCut.add("Fair");
+
+        ArrayList<String> arrayListPolish = new ArrayList<>();
+        arrayListPolish.add("Excellent");
+        arrayListPolish.add("Very Good");
+        arrayListPolish.add("Good");
+        arrayListPolish.add("Fair");
+
+        ArrayList<String> arrayListSymmetry = new ArrayList<>();
+        arrayListSymmetry.add("Excellent");
+        arrayListSymmetry.add("Very Good");
+        arrayListSymmetry.add("Good");
+        arrayListSymmetry.add("Fair");
+
+        ArrayList<String> arrayListFluorescence = new ArrayList<>();
+        arrayListFluorescence.add("None");
+        arrayListFluorescence.add("Faint");
+        arrayListFluorescence.add("Slight");
+        arrayListFluorescence.add("Medium");
+        arrayListFluorescence.add("Strong");
+        arrayListFluorescence.add("Very Strong");
+
+
+        Map<String, ArrayList<String>> adminPanelItems = new HashMap<>();
+        adminPanelItems.put("admin_cut",arrayListCut);
+        adminPanelItems.put("admin_polish",arrayListPolish);
+        adminPanelItems.put("admin_symmetry",arrayListSymmetry);
+        adminPanelItems.put("admin_fluorescence",arrayListFluorescence);
+
+        dbReference.child("admin_panel").setValue(adminPanelItems).addOnSuccessListener(aVoid -> {
+            Log.e("admin_panel", "admin_panel updated");
+        }).addOnFailureListener(e -> {
+            Log.e("admin_panel failed", e.getLocalizedMessage());
+        });
+    }
+
+
+
+
+
     /****************************************************************************/
     /****************[ SYNC data on the server ]****************/
     /****************************************************************************/
@@ -311,6 +455,13 @@ public class FirebaseUtil {
                 });
     }
 
+
+
+
+
+
+
+
     /****************************************************************************/
     /****************[ Set user profile ]****************/
     /****************************************************************************/
@@ -324,6 +475,11 @@ public class FirebaseUtil {
 
                 });
     }
+
+
+
+
+
 
     /****************************************************************************/
     /****************************************************************************/

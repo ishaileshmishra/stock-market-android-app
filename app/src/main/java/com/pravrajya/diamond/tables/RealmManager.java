@@ -1,5 +1,4 @@
 package com.pravrajya.diamond.tables;
-
 import com.pravrajya.diamond.tables.diamondColor.DiamondColorDao;
 import com.pravrajya.diamond.tables.diamondCut.DiamondCutDao;
 import com.pravrajya.diamond.tables.diamondSize.DiamondSizeDao;
@@ -62,6 +61,11 @@ public class RealmManager {
         checkForOpenRealm();
         return new FaqDao(mRealm);
     }
+
+    /*public static AdminPanelDao adminPanelDao (){
+        checkForOpenRealm();
+        return new AdminPanelDao(mRealm);
+    }*/
 
     public static void clear() {
         checkForOpenRealm();

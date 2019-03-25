@@ -4,7 +4,7 @@
 
     <RelativeLayout
         android:id="@+id/adminContainer"
-        tools:context=".views.admin.views.sticky_crud.CRUDActivity"
+        tools:context=".views.admin.views.admin_crud.CRUDActivity"
         android:orientation="vertical"
         android:background="@color/white"
         android:layout_width="match_parent"
@@ -20,9 +20,7 @@
                 android:layout_marginTop="@dimen/bottom_sheet_drawable_padding"
                 android:paddingBottom="@dimen/fab_margin"
                 android:orientation="vertical">
-
                 <!--Color Layout-->
-
                 <TextView
                     android:id="@+id/tvColor"
                     android:layout_width="match_parent"
@@ -44,6 +42,7 @@
                     android:layout_marginBottom="@dimen/top_margin"
                     android:orientation="vertical">
 
+                    <!--Product and weight section-->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -87,70 +86,244 @@
                     </LinearLayout>
 
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputHighPrice"
+                    <!--Price Section, Low, High, Current-->
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etHighPrice"
-                            android:layout_width="match_parent"
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputHighPrice"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/fab_margin"
-                            android:inputType="number"
-                            android:hint="@string/provide_hight_price" />
+                            android:layout_weight="1">
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etHighPrice"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/fab_margin"
+                                android:inputType="number"
+                                android:hint="@string/provide_hight_price" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputLayoutLowPrice"
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayoutLowPrice"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etLowPrice"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="number"
+                                android:layout_marginTop="@dimen/fab_margin"
+                                android:hint="@string/provide_low_price" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayoutPrice"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etPrice"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="number"
+                                android:layout_marginTop="@dimen/fab_margin"
+                                android:hint="@string/provide_price" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
+
+                    <!--Shape Size Color-->
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etLowPrice"
-                            android:layout_width="match_parent"
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayoutShape"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:layout_marginTop="@dimen/fab_margin"
-                            android:hint="@string/provide_low_price" />
+                            android:layout_weight="1">
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etShape"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="false"
+                                android:longClickable="false"
+                                android:layout_marginTop="@dimen/fab_margin"
+                                android:hint="@string/provide_shape" />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputLayoutPrice"
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayoutSize"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etSize"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="false"
+                                android:longClickable="false"
+                                android:layout_marginTop="@dimen/fab_margin"
+                                android:hint="@string/provide_size" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayoutColor"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etColor"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="false"
+                                android:longClickable="false"
+                                android:layout_marginTop="@dimen/fab_margin"
+                                android:hint="@string/provide_color" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
+                    <!--Clarity Cut Polish-->
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etPrice"
-                            android:layout_width="match_parent"
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayoutClarity"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:layout_marginTop="@dimen/fab_margin"
-                            android:hint="@string/provide_price" />
+                            android:layout_weight="1">
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etClarity"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="false"
+                                android:longClickable="false"
+                                android:layout_marginTop="@dimen/fab_margin"
+                                android:hint="@string/provide_clarity" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btnAddProduct"
-                        android:layout_width="200dp"
-                        android:layout_height="40sp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/gray_round_btn"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="@dimen/fab_margin"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginTop="@dimen/fab_margin"
-                        android:text="@string/add_product"/>
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayoutCut"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etCut"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/fab_margin"
+                                android:focusable="false"
+                                android:longClickable="false"
+                                android:hint="@string/provide_cut" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayoutPolish"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etPolish"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="false"
+                                android:longClickable="false"
+                                android:layout_marginTop="@dimen/fab_margin"
+                                android:hint="@string/provide_polish" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
+
+                    <!--Symmetry Fluorenscence-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayoutSymmetry"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etSymmetry"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="false"
+                                android:longClickable="false"
+                                android:layout_marginTop="@dimen/fab_margin"
+                                android:hint="@string/provide_symmetry" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayoutFluorescence"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etFluorescence"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="false"
+                                android:longClickable="false"
+                                android:layout_marginTop="@dimen/fab_margin"
+                                android:hint="@string/provide_fluorescence" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
-
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAddProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gray_round_btn"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_alignParentBottom="true"
+            android:text="@string/add_product"/>
     </RelativeLayout>
 </layout>

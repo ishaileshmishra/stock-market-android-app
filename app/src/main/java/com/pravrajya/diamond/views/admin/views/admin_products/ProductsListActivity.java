@@ -1,4 +1,4 @@
-package com.pravrajya.diamond.views.admin.views.crud_operation;
+package com.pravrajya.diamond.views.admin.views.admin_products;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
@@ -22,7 +22,7 @@ import com.pravrajya.diamond.utils.ItemDecoration;
 import com.pravrajya.diamond.views.BaseActivity;
 import com.pravrajya.diamond.views.admin.adapters.AdminListAdapter;
 import com.pravrajya.diamond.tables.product.ProductTable;
-import com.pravrajya.diamond.views.admin.views.sticky_crud.CRUDActivity;
+import com.pravrajya.diamond.views.admin.views.admin_crud.CRUDActivity;
 import com.pravrajya.diamond.views.admin.views.offers.AddOfferActivity;
 
 import static com.pravrajya.diamond.utils.FirebaseUtil.getDatabase;

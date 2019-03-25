@@ -1,4 +1,4 @@
-package com.pravrajya.diamond.views.admin.views.sticky_crud;
+package com.pravrajya.diamond.views.admin.views.admin_crud;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -6,28 +6,38 @@ import android.os.Bundle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import de.mrapp.android.bottomsheet.BottomSheet;
 import io.realm.Realm;
 import io.realm.RealmResults;
+
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import com.fxn.stash.Stash;
 import com.google.firebase.database.DatabaseReference;
 import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.databinding.ContentAdminBinding;
 import com.pravrajya.diamond.tables.diamondColor.DiamondColor;
+import com.pravrajya.diamond.tables.diamondCut.DiamondCut;
+import com.pravrajya.diamond.tables.diamondSize.DiamondSize;
+import com.pravrajya.diamond.utils.Constants;
 import com.pravrajya.diamond.views.BaseActivity;
 import com.pravrajya.diamond.views.admin.adapters.ChipAdapter;
 import com.pravrajya.diamond.tables.product.ProductList;
 import com.pravrajya.diamond.tables.product.ProductTable;
 import com.pravrajya.diamond.tables.RealmManager;
 import com.pravrajya.diamond.utils.ClickListener;
-import com.pravrajya.diamond.views.admin.views.crud_operation.ProductsListActivity;
+import com.pravrajya.diamond.views.admin.views.admin_products.ProductsListActivity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -73,6 +83,8 @@ public class CRUDActivity extends BaseActivity {
 
 
 
+
+
     @SuppressLint("SetTextI18n")
     private void btnClickHandler() {
 
@@ -89,6 +101,7 @@ public class CRUDActivity extends BaseActivity {
             assert diamondColor != null;
             selectedColorChip = diamondColor.getColor();
             Toast.makeText(getApplicationContext(), selectedColorChip, Toast.LENGTH_SHORT).show();
+
         }));
 
 
@@ -114,14 +127,23 @@ public class CRUDActivity extends BaseActivity {
         }
         /*****************************************************************************/
 
+        loadSelectedOptions();
 
         binding.btnAddProduct.setOnClickListener(view->{
 
             String product   = Objects.requireNonNull(binding.etProduct.getText()).toString().trim();
-            String productWeight   = Objects.requireNonNull(binding.etProductWeight.getText()).toString().trim();
+            String Weight    = Objects.requireNonNull(binding.etProductWeight.getText()).toString().trim();
             String highPrice = Objects.requireNonNull(binding.etHighPrice.getText()).toString().trim();
             String lowPrice  = Objects.requireNonNull(binding.etLowPrice.getText()).toString().trim();
             String price     = Objects.requireNonNull(binding.etPrice.getText()).toString().trim();
+            String shape     = Objects.requireNonNull(binding.etShape.getText().toString().trim());
+            String size      = Objects.requireNonNull(binding.etSize.getText().toString().trim());
+            String color     = Objects.requireNonNull(binding.etColor.getText().toString().trim());
+            String clarity   = Objects.requireNonNull(binding.etClarity.getText().toString().trim());
+            String cut       = Objects.requireNonNull(binding.etCut.getText().toString().trim());
+            String polish    = Objects.requireNonNull(binding.etPolish.getText().toString().trim());
+            String symmetry  = Objects.requireNonNull(binding.etSymmetry.getText().toString().trim());
+            String fluorescence = Objects.requireNonNull(binding.etFluorescence.getText().toString().trim());
 
             if (selectedColorChip ==null){
                 Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
@@ -130,7 +152,7 @@ public class CRUDActivity extends BaseActivity {
             } else if (product.isEmpty()){
                 clearAllErrors(binding.etProduct);
                 binding.textInputLayoutProduct.setError("Product can not be empty");
-            }else if (productWeight.isEmpty()){
+            }else if (Weight.isEmpty()){
                 clearAllErrors(binding.etProductWeight);
                 binding.textInputLayoutProductWeight.setError("Product Weight can not be empty");
             }else if (highPrice.isEmpty()){
@@ -151,15 +173,38 @@ public class CRUDActivity extends BaseActivity {
             }else if (price.length()<3){
                 clearAllErrors(binding.etPrice);
                 binding.textInputLayoutPrice.setError("Price can not be less than 100");
+            }else if (shape.isEmpty()){
+                clearAllErrors(binding.etShape);
+                binding.textInputLayoutShape.setError("Please select shape");
+            }else if (size.isEmpty()){
+                clearAllErrors(binding.etSize);
+                binding.textInputLayoutSize.setError("Please select Size");
+            }else if (color.isEmpty()){
+                clearAllErrors(binding.etColor);
+                binding.textInputLayoutColor.setError("Please select Color Type");
+            }else if (clarity.isEmpty()){
+                clearAllErrors(binding.etClarity);
+                binding.textInputLayoutClarity.setError("Please select Clarity Type");
+            }else if (cut.isEmpty()){
+                clearAllErrors(binding.etCut);
+                binding.textInputLayoutCut.setError("Please select Cut Type");
+            }else if (polish.isEmpty()){
+                clearAllErrors(binding.etPolish);
+                binding.textInputLayoutPolish.setError("Please select Polish Type");
+            }else if (symmetry.isEmpty()){
+                clearAllErrors(binding.etSymmetry);
+                binding.textInputLayoutSymmetry.setError("Please select Symmetry Type");
+            }else if (fluorescence.isEmpty()){
+                clearAllErrors(binding.etFluorescence);
+                binding.textInputLayoutSymmetry.setError("Please select Symmetry Type");
             }else {
 
                 String uniqueID = UUID.randomUUID().toString();
-                /* In case you are updating the data then we set uniqueId as selectedProduct Id*/
                 if (selectedProductId!=null) {uniqueID = selectedProductId;}
                 /******************************************************/
                 ProductList productList = new ProductList();
                 productList.setProduct(product);
-                productList.setProductWeight(productWeight);
+                productList.setProductWeight(Weight);
                 productList.setHigh(highPrice);
                 productList.setLow(lowPrice);
                 productList.setPrice(price);
@@ -183,23 +228,125 @@ public class CRUDActivity extends BaseActivity {
 
 
 
+    private void loadSelectedOptions() {
 
-    private void clearAllErrors(View requestFocus){
+        binding.etShape.setOnClickListener(view->{
+            loadShapes(binding.etShape);
+        });binding.etSize.setOnClickListener(view->{
+            loadSizes(binding.etSize);
+        });binding.etColor.setOnClickListener(view->{
+            loadColors(binding.etColor);
+        });binding.etClarity.setOnClickListener(view->{
+            loadClarity(binding.etClarity);
+        });binding.etCut.setOnClickListener(view->{
+            loadAdminItem(binding.etCut, Constants.ADMIN_CUT);
+        });binding.etPolish.setOnClickListener(view->{
+            loadAdminItem(binding.etPolish, Constants.ADMIN_POLISH);
+        });binding.etSymmetry.setOnClickListener(view->{
+            loadAdminItem(binding.etSymmetry, Constants.ADMIN_SYMMETRY);
+        });binding.etFluorescence.setOnClickListener(view->{
+            loadAdminItem(binding.etFluorescence, Constants.ADMIN_FLUORESCENCE);
+        });
+
+    }
+
+    private void loadShapes(EditText editText){
+        final RealmResults<DiamondCut> diamondCuts = realm.where(DiamondCut.class).findAll();
+        BottomSheet.Builder builder = new BottomSheet.Builder(this);
+        BottomSheet bottomSheet = builder.create();
+        for (int pos = 0; pos<diamondCuts.size(); pos++){
+            builder.addItem(pos, diamondCuts.get(pos).getCut_type());
+        }
+        bottomSheet.show();
+        builder.setOnItemClickListener((parent, view, position, id) -> { editText.setText(diamondCuts.get(position).getCut_type()); });
+
+    }
+
+    private void loadSizes(EditText editText){
+        final RealmResults<DiamondSize> diamondSizes = realm.where(DiamondSize.class).findAll();
+        BottomSheet.Builder builder = new BottomSheet.Builder(this);
+        BottomSheet bottomSheet = builder.create();
+
+        for (int pos = 0; pos<diamondSizes.size(); pos++){
+            if (pos!=(diamondSizes.size()-1)){
+                builder.addItem(pos, diamondSizes.get(pos).getSize());
+            }
+        }
+        bottomSheet.show();
+        builder.setOnItemClickListener((parent, view, position, id) -> { editText.setText(diamondSizes.get(position).getSize()); });
+
+    }
+
+    private void loadColors(EditText editText){
+        final RealmResults<DiamondColor> diamondColors = realm.where(DiamondColor.class).findAll();
+        BottomSheet.Builder builder = new BottomSheet.Builder(this);
+        BottomSheet bottomSheet = builder.create();
+        for (int pos = 0; pos<diamondColors.size(); pos++){
+            builder.addItem(pos, diamondColors.get(pos).getColor());
+        }
+        bottomSheet.show();
+        builder.setOnItemClickListener((parent, view, position, id) -> { editText.setText(diamondColors.get(position).getColor()); });
+
+    }
+
+    private void loadClarity(EditText editText){
+        final RealmResults<ProductTable> productTables = realm.where(ProductTable.class).findAll();
+        BottomSheet.Builder builder = new BottomSheet.Builder(this);
+        BottomSheet bottomSheet = builder.create();
+        for (int pos = 0; pos<productTables.size(); pos++){
+            builder.addItem(pos, productTables.get(pos).getProductLists().getProduct());
+        }
+        bottomSheet.show();
+        builder.setOnItemClickListener((parent, view, position, id) -> { editText.setText(productTables.get(position).getProductLists().getProduct()); });
+
+    }
+
+    private void loadAdminItem(EditText editText, String key){
+
+        BottomSheet.Builder builder = new BottomSheet.Builder(this);
+        ArrayList<String> stringArrayList = Stash.getArrayList(key, String.class);
+        BottomSheet bottomSheet = builder.create();
+        for (int pos = 0; pos < stringArrayList.size(); pos++) { builder.addItem(pos, stringArrayList.get(pos)); }
+        bottomSheet.show();
+        builder.setOnItemClickListener((parent, view, position, id) -> {
+            editText.setText(stringArrayList.get(position)); });
+    }
+
+    private void clearAllErrors(View requestFocus)
+    {
         if (requestFocus!=null){ requestFocus.requestFocus(); }
         binding.textInputLayoutProduct.setError(null);
         binding.textInputHighPrice.setError(null);
         binding.textInputLayoutProductWeight.setError(null);
         binding.textInputLayoutLowPrice.setError(null);
         binding.textInputLayoutPrice.setError(null);
+
+        binding.textInputLayoutShape.setError(null);
+        binding.textInputLayoutSize.setError(null);
+        binding.textInputLayoutColor.setError(null);
+        binding.textInputLayoutClarity.setError(null);
+        binding.textInputLayoutCut.setError(null);
+        binding.textInputLayoutPolish.setError(null);
+        binding.textInputLayoutSymmetry.setError(null);
+        binding.textInputLayoutFluorescence.setError(null);
     }
-    private void clearEditTexts(){
+
+    private void clearEditTexts()
+    {
         binding.etProduct.setText("");
         binding.etProductWeight.setText("");
         binding.etHighPrice.setText("");
         binding.etLowPrice.setText("");
         binding.etProduct.setText("");
+        binding.etShape.setText("");
+        binding.etSize.setText("");
+        binding.etColor.setText("");
+        binding.etClarity.setText("");
+        binding.etCut.setText("");
+        binding.etPolish.setText("");
+        binding.etSymmetry.setText("");
+        binding.etFluorescence.setText("");
     }
-
 
     private void showAlertDialog(String title, String subtitle, ProductTable productTable ){
 
@@ -224,8 +371,6 @@ public class CRUDActivity extends BaseActivity {
         //loadProductTable();
     }
 
-
-
     public void syncProductToServer(ProductTable productTable){
         showProgressDialog(productTable.getProductLists().getProduct()+" syncing to server...");
         dbReference.child("products").child(productTable.getId()).setValue(productTable)
@@ -242,14 +387,6 @@ public class CRUDActivity extends BaseActivity {
                 });
     }
 
-
-
-    private void loadProductTable(){
-        final RealmResults<ProductTable> loadProductTable = realm.where(ProductTable.class).findAll();
-        for (ProductTable table:loadProductTable){
-            Log.e(table.getProductLists().getProduct(), table.toString());
-        }
-    }
 
 
     @Override
