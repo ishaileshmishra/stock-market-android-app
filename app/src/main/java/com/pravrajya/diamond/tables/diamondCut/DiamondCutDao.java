@@ -25,9 +25,6 @@ public class DiamondCutDao {
         return mRealm.where(DiamondCut.class).findAll();
     }
 
-    public RealmResults<DiamondCut> loadAllAsync() {
-        return mRealm.where(DiamondCut.class).findAll();
-    }
 
     public RealmObject loadBy(String uid) {
         return mRealm.where(DiamondCut.class).equalTo("uid", uid).findFirst();

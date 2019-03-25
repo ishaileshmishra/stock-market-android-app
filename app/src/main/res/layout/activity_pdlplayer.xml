@@ -5,7 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".api.player.PDLPlayerActivity">
+        tools:context=".api.video_player.PDLPlayerActivity">
 
         <com.halilibo.bvpkotlin.BetterVideoPlayer
             android:id="@+id/player"

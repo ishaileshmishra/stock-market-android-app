@@ -6,13 +6,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.firebase.database.DatabaseReference;
-import com.kodmap.library.kmrecyclerviewstickyheader.KmHeaderItemDecoration;
 import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.databinding.ActivityAdminProductBinding;
 import com.pravrajya.diamond.tables.product.ProductTable;
 import com.pravrajya.diamond.utils.ClickListener;
 import com.pravrajya.diamond.views.BaseActivity;
-import com.pravrajya.diamond.views.admin.views.sticky_crud.CRUDActivity;
+import com.pravrajya.diamond.views.admin.views.admin_crud.CRUDActivity;
 import com.pravrajya.diamond.views.admin.views.offers.AddOfferActivity;
 
 import java.util.ArrayList;

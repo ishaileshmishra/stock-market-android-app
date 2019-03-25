@@ -1,4 +1,4 @@
-package com.pravrajya.diamond.api.youtube;
+package com.pravrajya.diamond.api.video_player;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

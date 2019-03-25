@@ -121,5 +121,13 @@
     <string name="my_player_activity">Video Player</string>
     <string name="watch_vedio">Watch Video</string>
     <string name="ronud">RONUD</string>
+    <string name="provide_shape">Shape</string>
+    <string name="provide_size">Size</string>
+    <string name="provide_color">Color</string>
+    <string name="provide_clarity">Clarity</string>
+    <string name="provide_cut">Cut</string>
+    <string name="provide_polish">Polish</string>
+    <string name="provide_symmetry">Symmetry</string>
+    <string name="provide_fluorescence">Fluorescence</string>
 
 </resources>

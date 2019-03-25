@@ -120,4 +120,9 @@ public class BaseActivity extends AppCompatActivity {
         return matcher.matches();
     }
 
+
+    public static void shakeView(Context context, View view){
+        Animation shake = AnimationUtils.loadAnimation(context, R.anim.shake);
+        view.startAnimation(shake);
+    }
 }

@@ -18,4 +18,9 @@ public class Constants {
     public static final String DEFAULT_COLOR = "white";
     public static final String DEVELOPER_INFO = "@Copyright "+ BuildConfig.VERSION_NAME;
     public static final String TEST_URL = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
+
+    public static final String ADMIN_CUT = "admin_cut";
+    public static final String ADMIN_FLUORESCENCE = "admin_fluorescence";
+    public static final String ADMIN_POLISH = "admin_polish";
+    public static final String ADMIN_SYMMETRY = "admin_symmetry";
 }

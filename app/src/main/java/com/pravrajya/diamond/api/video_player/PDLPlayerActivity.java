@@ -1,9 +1,8 @@
-package com.pravrajya.diamond.api.player;
+package com.pravrajya.diamond.api.video_player;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -20,6 +19,8 @@ public class PDLPlayerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().hide();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_pdlplayer);
         binding.player.setSource(Uri.parse(TEST_URL));
     }
