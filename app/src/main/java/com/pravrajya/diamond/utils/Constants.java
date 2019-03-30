@@ -6,6 +6,7 @@ public class Constants {
 
     public static final String DIAMOND_COLOR = "diamondColor";
     public static final String DIAMOND_CUT = "cut_type";
+    public static final String DIAMOND_CUT_URL = "diamond_cut_url";
     public static final String DRAWER_SELECTION = "selected_drawer_path";
     public static final String SELECTED_COLOR = "selectedColor";
     public static final String USER_PROFILE = "USER_PROFILE";

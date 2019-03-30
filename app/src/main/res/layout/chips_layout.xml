@@ -15,7 +15,7 @@
             android:paddingTop="@dimen/spacing_4"
             android:paddingBottom="@dimen/spacing_4"
             android:layout_margin="@dimen/com_facebook_auth_dialog_corner_radius"
-            android:text="RONUD"
+            android:text="@string/ronud"
             android:background="@drawable/round_shape"
             android:layout_marginStart="@dimen/spacing_4"
             />

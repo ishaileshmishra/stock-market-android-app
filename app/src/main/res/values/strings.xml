@@ -129,5 +129,7 @@
     <string name="provide_polish">Polish</string>
     <string name="provide_symmetry">Symmetry</string>
     <string name="provide_fluorescence">Fluorescence</string>
+    <string name="not_available">Not available</string>
+    <string name="ronud">RONUD</string>
 
 </resources>

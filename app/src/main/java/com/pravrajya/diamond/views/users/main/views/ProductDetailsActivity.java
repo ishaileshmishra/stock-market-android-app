@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.fxn.stash.Stash;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -41,6 +43,7 @@ import java.util.Objects;
 import static com.pravrajya.diamond.utils.Constants.CART;
 import static com.pravrajya.diamond.utils.Constants.DIAMOND_CUT;
 import static com.pravrajya.diamond.utils.Constants.DRAWER_SELECTION;
+import static com.pravrajya.diamond.utils.Constants.PROFILE_ICON;
 import static com.pravrajya.diamond.utils.Constants.USERS;
 import static com.pravrajya.diamond.utils.Constants.USER_PROFILE;
 
@@ -94,39 +97,13 @@ public class ProductDetailsActivity extends BaseActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle(Objects.requireNonNull(table).getProductLists().getProduct());
 
 
-        String CUT_TYPE = Stash.getString(DIAMOND_CUT);
-        Log.e("CUT_TYPE", CUT_TYPE);
-        if (CUT_TYPE.equalsIgnoreCase("round")){
-            String uri = "@drawable/round_cut";
-            setLogoImage(uri, getResources().getString(R.string.round_brilient_cut));
-        }else if (CUT_TYPE.equalsIgnoreCase("princess")){
-            String uri = "@drawable/princess_cut";
-            setLogoImage(uri, getResources().getString(R.string.princess_cut));
-        }else if (CUT_TYPE.equalsIgnoreCase("pear")){
-            String uri = "@drawable/pear_cut";
-            setLogoImage(uri, getResources().getString(R.string.pear_cut));
-        }else if (CUT_TYPE.equalsIgnoreCase("oval")){
-            String uri = "@drawable/oval_cut";
-            setLogoImage(uri, getResources().getString(R.string.oval_cut));
-        }else if (CUT_TYPE.equalsIgnoreCase("marquise")){
-            String uri = "@drawable/marquise_cut";
-            setLogoImage(uri, getResources().getString(R.string.marquise_cut));
-        }else if (CUT_TYPE.equalsIgnoreCase("fancy cut")){
-            String uri = "@drawable/marquise_cut";
-            setLogoImage(uri, "Not available");
-        }else if (CUT_TYPE.equalsIgnoreCase("emerald")){
-            String uri = "@drawable/emerald_cut";
-            setLogoImage(uri, getResources().getString(R.string.emerald_cut));
-        }else if (CUT_TYPE.equalsIgnoreCase("Cushion")){
-            String uri = "@drawable/cushion_cut";
-            setLogoImage(uri, getResources().getString(R.string.cushin_cut));
-        }
+        loadPreview();
 
 
         PATH = Stash.getString(DRAWER_SELECTION)+" --> "+table.getProductLists().getProduct();
-        String[] root = PATH.split("-->");
-        String shape =root[0];
-        String size  =root[1];
+        String[] root    = PATH.split("-->");
+        String shape     = root[0];
+        String size      = root[1];
         int colorGRAY    = getResources().getColor(R.color.lightGray);
         int colorWhite   = getResources().getColor(R.color.white);
         String getWeight = table.getProductLists().getProductWeight();
@@ -150,23 +127,22 @@ public class ProductDetailsActivity extends BaseActivity {
 
     }
 
-    private void setLogoImage(String uri, String cutText) {
 
-        int imageResource = getResources().getIdentifier(uri, null, getPackageName());
+
+
+    private void loadPreview() {
+        //String CUT_TYPE = Stash.getString(DIAMOND_CUT);
+        String cut_url = Stash.getString(Constants.DIAMOND_CUT_URL);
         ImageView imageView = new ImageView(getApplicationContext());
-        Drawable res = getResources().getDrawable(imageResource);
-        imageView.setImageDrawable(res);
+        Glide.with(getApplicationContext()).load(cut_url)
+                .apply(new RequestOptions().override(PROFILE_ICON, PROFILE_ICON))
+                //.apply(RequestOptions.circleCropTransform())
+                .into(imageView);
+
         applyMargin(imageView);
         binding.linearLayout.addView(imageView);
-
-        /*TextView textView = new TextView(getApplicationContext());
-        TextViewCompat.setTextAppearance(textView, R.style.AppTextSmall);
-        textView.setTextSize(14);
-        textView.setText(cutText);
-        applyMargin(textView);
-        binding.linearLayout.addView(textView);*/
-
     }
+
 
     private View addCustomView(String title, String titleInfo, int color) {
         View customLinear = LayoutInflater.from(this).inflate(R.layout.custom_text_view, binding.linearLayout, false);
@@ -242,14 +218,14 @@ public class ProductDetailsActivity extends BaseActivity {
 
     private void watchVedio() {
 
-        AppCompatButton compatButton = new AppCompatButton(this);
+        /*AppCompatButton compatButton = new AppCompatButton(this);
         compatButton.setText("Watch Video");
         compatButton.setTextColor(Color.RED);
         compatButton.setBackgroundResource(R.drawable.gray_round_btn);
         applyMargin(compatButton);
+        binding.linearLayout.addView(compatButton);*/
 
-        binding.linearLayout.addView(compatButton);
-        compatButton.setOnClickListener(v -> {
+        binding.btnWatchVideo.setOnClickListener(v -> {
 
             AlertView alert = new AlertView("Watch Video", "Select Your Preferences", AlertStyle.BOTTOM_SHEET);
             alert.addAction(new AlertAction("Watch Online", AlertActionStyle.DEFAULT, action -> {

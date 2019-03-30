@@ -95,7 +95,7 @@ public class LoginViewActivity extends BaseActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             assert user != null;
-                            setUserProfile(user.getUid(), user.getEmail(), "", "");
+                            setUserProfile(user);
                         } else {
                             errorToast(Objects.requireNonNull(task.getException()).getLocalizedMessage());
                         }
@@ -184,7 +184,7 @@ public class LoginViewActivity extends BaseActivity {
             if (task.isSuccessful()) {
                 FirebaseUser user = mAuth.getCurrentUser();
                 if (user!=null){
-                    setUserProfile(user.getUid(), user.getEmail(), user.getDisplayName(), user.getPhotoUrl().toString());
+                    setUserProfile(user);
                 }
             } else {
                 errorToast(task.getException().getLocalizedMessage());
@@ -200,7 +200,7 @@ public class LoginViewActivity extends BaseActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user!=null){
-                            setUserProfile(user.getUid(), user.getEmail(), user.getDisplayName(), user.getPhotoUrl().toString());
+                            setUserProfile(user);
                         }
                     } else {
                         errorToast(task.getException().getLocalizedMessage());
@@ -210,8 +210,11 @@ public class LoginViewActivity extends BaseActivity {
 
 
 
-    private void setUserProfile(String uid, String email, String name, String userProfile) {
-        Stash.put(USER_PROFILE,new UserProfile(uid, email, name, userProfile));
+    private void setUserProfile(FirebaseUser user) {
+
+        Stash.put(USER_PROFILE,new UserProfile(user.getUid(), user.getEmail(),
+                user.getDisplayName(), "", user.getPhoneNumber(), user.getProviders().toString(),
+                user.getPhotoUrl().toString()));
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();
     }

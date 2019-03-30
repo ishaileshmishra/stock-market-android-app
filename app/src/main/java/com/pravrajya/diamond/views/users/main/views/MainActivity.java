@@ -214,7 +214,9 @@ public class MainActivity extends BaseActivity {
         recyclerView.addOnItemTouchListener(new ClickListener(getApplicationContext(), recyclerView, (view, position) -> {
             DiamondCut diamondCut = diamondCutList.get(position);
             selectedChipItem = diamondCut.getCut_type();
+            String cut_type_url = diamondCut.getCut_url();
             Stash.put(Constants.DIAMOND_CUT, selectedChipItem);
+            Stash.put(Constants.DIAMOND_CUT_URL, cut_type_url);
             runOnUiThread(() -> loadDrawerExpandableList(selectedChipItem));
         }));
     }

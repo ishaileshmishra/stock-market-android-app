@@ -1,20 +1,14 @@
 package com.pravrajya.diamond.views.admin.adapters;
 
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.TextView;
-
 import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.tables.product.ProductList;
 import com.pravrajya.diamond.tables.product.ProductTable;
-
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import io.realm.RealmResults;
