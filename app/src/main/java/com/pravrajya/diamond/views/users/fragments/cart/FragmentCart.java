@@ -103,15 +103,13 @@ public class FragmentCart extends BaseFragment implements DeletionSwipeHelper.On
 
             if (offerTable!=null){
                 Log.i("OfferTable", "offer found");
-                cartModels.add(new CartModel(offerTable.getUid(),
-                        offerTable.getTitle(), offerTable.getPrice()));
+                cartModels.add(new CartModel(offerTable.getUid(), offerTable.getTitle(), offerTable.getPrice()));
             }
 
             if (productTable!=null){
                 Log.i("ProductTable", "product found");
-                cartModels.add(new CartModel(productTable.getId(),
-                        item_id_array[1],
-                        productTable.getProductLists().getPrice()));
+                cartModels.add(new CartModel(productTable.getId(), item_id_array[1],
+                        productTable.getPrice()));
             }
         });
 
@@ -130,8 +128,7 @@ public class FragmentCart extends BaseFragment implements DeletionSwipeHelper.On
         binding.recyclerView.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
 
-        ItemTouchHelper.Callback callback = new DeletionSwipeHelper(0,
-                ItemTouchHelper.START, getActivity(), this);
+        ItemTouchHelper.Callback callback = new DeletionSwipeHelper(0, ItemTouchHelper.START, getActivity(), this);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(binding.recyclerView);
 

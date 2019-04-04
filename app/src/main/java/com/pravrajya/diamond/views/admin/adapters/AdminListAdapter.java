@@ -7,7 +7,6 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.TextView;
 import com.pravrajya.diamond.R;
-import com.pravrajya.diamond.tables.product.ProductList;
 import com.pravrajya.diamond.tables.product.ProductTable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,16 +29,17 @@ public class AdminListAdapter extends RecyclerView.Adapter<AdminListAdapter.MyVi
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        ProductList item = itemList.get(position).getProductLists();
+        ProductTable item = itemList.get(position);
         if (position % 2 == 1) {
             holder.viewColor.setBackgroundColor(holder.viewColor.getContext().getResources().getColor(R.color.colorPrimary));
         } else {
             holder.viewColor.setBackgroundColor(holder.viewColor.getContext().getResources().getColor(R.color.colorAccent));
         }
-        holder.tvItem.setText(item.getProduct());
+        holder.tvItem.setText(item.getClarity());
         if (item.getProductWeight()==null){
             holder.tvWeight.setText("0.0");
         }else { holder.tvWeight.setText(item.getProductWeight());}
+
         holder.tvHigh.setText(item.getHigh());
         holder.tvLow.setText(item.getLow());
         holder.tvPrice.setText(item.getPrice());

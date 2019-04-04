@@ -1,18 +1,16 @@
 package com.pravrajya.diamond.views.users.main.views;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.ContextCompat;
 import androidx.core.widget.TextViewCompat;
 import androidx.databinding.DataBindingUtil;
 import io.realm.Realm;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,8 +27,7 @@ import com.irozon.alertview.AlertStyle;
 import com.irozon.alertview.AlertView;
 import com.irozon.alertview.objects.AlertAction;
 import com.pravrajya.diamond.R;
-import com.pravrajya.diamond.api.video_player.PDLPlayerActivity;
-import com.pravrajya.diamond.api.video_player.YouTubeActivity;
+import com.pravrajya.diamond.api.video_player.WatchVideoActivity;
 import com.pravrajya.diamond.databinding.ActivityProductDetailBinding;
 import com.pravrajya.diamond.tables.product.ProductTable;
 import com.pravrajya.diamond.utils.Constants;
@@ -41,7 +38,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import static com.pravrajya.diamond.utils.Constants.CART;
-import static com.pravrajya.diamond.utils.Constants.DIAMOND_CUT;
 import static com.pravrajya.diamond.utils.Constants.DRAWER_SELECTION;
 import static com.pravrajya.diamond.utils.Constants.PROFILE_ICON;
 import static com.pravrajya.diamond.utils.Constants.USERS;
@@ -57,6 +53,7 @@ public class ProductDetailsActivity extends BaseActivity {
     private ArrayList<String> cartList = new ArrayList<>();
     private DatabaseReference dbReference;
     private UserProfile userNew;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,6 +71,9 @@ public class ProductDetailsActivity extends BaseActivity {
         loadInformation();
         buyBtnClickHandler();
     }
+
+
+
 
     /**
      * Formate mailed from Rushil
@@ -94,36 +94,27 @@ public class ProductDetailsActivity extends BaseActivity {
     private void loadInformation() {
 
         ProductTable table = realm.where(ProductTable.class).equalTo(Constants.ID, selectedUID).findFirst();
-        Objects.requireNonNull(getSupportActionBar()).setTitle(Objects.requireNonNull(table).getProductLists().getProduct());
-
-
+        getSupportActionBar().setTitle(table.getClarity());
         loadPreview();
 
-
-        PATH = Stash.getString(DRAWER_SELECTION)+" --> "+table.getProductLists().getProduct();
-        String[] root    = PATH.split("-->");
-        String shape     = root[0];
-        String size      = root[1];
-        int colorGRAY    = getResources().getColor(R.color.lightGray);
-        int colorWhite   = getResources().getColor(R.color.white);
-        String getWeight = table.getProductLists().getProductWeight();
-        if (getWeight==null){ getWeight = "1.2"; }
-        binding.linearLayout.addView(addCustomView("Title", getWeight+" CARAT "+root[0], colorWhite));
-        binding.linearLayout.addView(addCustomView("Stock ID", "P105", colorGRAY));
-        binding.linearLayout.addView(addCustomView("Shape", shape, colorWhite));
-        binding.linearLayout.addView(addCustomView("Size", size, colorGRAY));
-        binding.linearLayout.addView(addCustomView("Color", table.getDiamondColor().toUpperCase(), colorWhite));
-        binding.linearLayout.addView(addCustomView("Clarity",table.getProductLists().getProduct(), colorGRAY));
-        binding.linearLayout.addView(addCustomView("Cut", "Fair", colorWhite));
-        binding.linearLayout.addView(addCustomView("Polish", "Good", colorGRAY));
-        binding.linearLayout.addView(addCustomView("Fluorescence", "Faint", colorWhite));
-        binding.linearLayout.addView(addCustomView("Symmetry", "Excellent", colorGRAY));
-        binding.linearLayout.addView(addCustomView("Culet", "None", colorWhite));
-        binding.linearLayout.addView(addCustomView("High Price/Carat",table.getProductLists().getHigh(), colorGRAY));
-        binding.linearLayout.addView(addCustomView("Price/Carat",table.getProductLists().getPrice(), colorWhite));
-        binding.linearLayout.addView(addCustomView("Low Price/Carat",table.getProductLists().getLow(), colorGRAY));
-
-        watchVedio();
+        PATH = Stash.getString(DRAWER_SELECTION)+" --> "+table.getClarity();
+        //PATH = table.getShape()+"-"+table.getSize()+"-"+table.getColor()+"-"+table.getClarity();
+        int colorGRAY    = ContextCompat.getColor(getApplicationContext(), R.color.lightGray);
+        int colorWhite   = ContextCompat.getColor(getApplicationContext(), R.color.white);
+        binding.linearLayout.addView(addCustomView("Title", table.getProductWeight()+" CARAT "+table.getShape(), colorWhite));
+        binding.linearLayout.addView(addCustomView("Stock ID", table.getStockId().toUpperCase(), colorGRAY));
+        binding.linearLayout.addView(addCustomView("Shape", table.getShape().toUpperCase(), colorWhite));
+        binding.linearLayout.addView(addCustomView("Size", table.getSize().toUpperCase(), colorGRAY));
+        binding.linearLayout.addView(addCustomView("Color", table.getColor().toUpperCase(), colorWhite));
+        binding.linearLayout.addView(addCustomView("Clarity",table.getClarity().toUpperCase(), colorGRAY));
+        binding.linearLayout.addView(addCustomView("Cut", table.getCut().toUpperCase(), colorWhite));
+        binding.linearLayout.addView(addCustomView("Polish", table.getPolish().toUpperCase(), colorGRAY));
+        binding.linearLayout.addView(addCustomView("Fluorescence", table.getFluorescence().toUpperCase(), colorWhite));
+        binding.linearLayout.addView(addCustomView("Symmetry", table.getSymmetry().toUpperCase(), colorGRAY));
+        binding.linearLayout.addView(addCustomView("Culet", "Not Applicable", colorWhite));
+        binding.linearLayout.addView(addCustomView("High Price/Carat",table.getHigh(), colorGRAY));
+        binding.linearLayout.addView(addCustomView("Price/Carat",table.getPrice(), colorWhite));
+        binding.linearLayout.addView(addCustomView("Low Price/Carat",table.getLow(), colorGRAY));
 
     }
 
@@ -209,15 +200,28 @@ public class ProductDetailsActivity extends BaseActivity {
         if (id == android.R.id.home) {
             finish();
             return true;
+        }else if (id == R.id.action_play) {
+            startActivity(new Intent(getApplicationContext(), WatchVideoActivity.class));
+            overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail_menu, menu);
+        return true;
+    }
+
+
 
     private void watchVedio() {
 
+        //startActivity(new Intent(getApplicationContext(), WatchVideoActivity.class));
+        //overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
         /*AppCompatButton compatButton = new AppCompatButton(this);
         compatButton.setText("Watch Video");
         compatButton.setTextColor(Color.RED);
@@ -225,18 +229,18 @@ public class ProductDetailsActivity extends BaseActivity {
         applyMargin(compatButton);
         binding.linearLayout.addView(compatButton);*/
 
-        binding.btnWatchVideo.setOnClickListener(v -> {
+        /*binding.btnWatchVideo.setOnClickListener(v -> {
 
             AlertView alert = new AlertView("Watch Video", "Select Your Preferences", AlertStyle.BOTTOM_SHEET);
             alert.addAction(new AlertAction("Watch Online", AlertActionStyle.DEFAULT, action -> {
-                startActivity(new Intent(getApplicationContext(), PDLPlayerActivity.class));
+                startActivity(new Intent(getApplicationContext(), WatchVideoActivity.class));
             }));
             alert.addAction(new AlertAction("Youtube", AlertActionStyle.NEGATIVE, action -> {
                 startActivity(new Intent(getApplicationContext(), YouTubeActivity.class));
             }));
             alert.show(this);
 
-        });
+        });*/
 
     }
 

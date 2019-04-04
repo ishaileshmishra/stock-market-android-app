@@ -17,6 +17,6 @@
         android:id="@+id/navigation_cart"
         android:icon="@drawable/ic_shopping_cart"
         android:backgroundTint="@color/colorDrawerItem"
-        android:title="@string/title_orders" />
+        android:title="@string/title_cart" />
 
 </menu>

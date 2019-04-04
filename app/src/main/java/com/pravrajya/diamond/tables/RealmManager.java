@@ -1,11 +1,11 @@
 package com.pravrajya.diamond.tables;
+import com.pravrajya.diamond.tables.diamondClarity.DiamondClarityDao;
 import com.pravrajya.diamond.tables.diamondColor.DiamondColorDao;
 import com.pravrajya.diamond.tables.diamondCut.DiamondCutDao;
 import com.pravrajya.diamond.tables.diamondSize.DiamondSizeDao;
 import com.pravrajya.diamond.tables.faq.FaqDao;
 import com.pravrajya.diamond.tables.offers.OfferTableDao;
 import com.pravrajya.diamond.tables.order.CartTableDao;
-import com.pravrajya.diamond.tables.product.ProductList;
 import com.pravrajya.diamond.tables.product.ProductTableDao;
 
 import io.realm.Realm;
@@ -51,6 +51,11 @@ public class RealmManager {
         return new DiamondColorDao(mRealm);
     }
 
+    public static DiamondClarityDao diamondClarityDao() {
+        checkForOpenRealm();
+        return new DiamondClarityDao(mRealm);
+    }
+
     public static DiamondSizeDao diamondSizeDao(){
         checkForOpenRealm();
         return new DiamondSizeDao(mRealm);
@@ -67,12 +72,6 @@ public class RealmManager {
         return new AdminPanelDao(mRealm);
     }*/
 
-    public static void clear() {
-        checkForOpenRealm();
-        mRealm.executeTransaction(realm -> {
-            realm.delete(ProductList.class);
-        });
-    }
 
     private static void checkForOpenRealm() {
         if (mRealm == null || mRealm.isClosed()) {

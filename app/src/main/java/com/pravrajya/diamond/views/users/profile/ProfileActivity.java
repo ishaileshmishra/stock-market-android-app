@@ -51,7 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
                 loadPreview(binding.ivBack, userNew.getProfileImage());
                 loadProfile(binding.ivProfileIcon, userNew.getProfileImage());
             }
-            if (!userNew.getName().isEmpty()){
+            if (userNew.getName()!=null && !userNew.getName().isEmpty()){
                 binding.tvName.setText(userNew.getName());
                 getSupportActionBar().setTitle(userNew.getName());
             }else {
@@ -75,8 +75,6 @@ public class ProfileActivity extends AppCompatActivity {
             }else {
                 binding.tvLoggedInBy.setVisibility(View.GONE);
             }
-
-
 
 
         }else { binding.cardView.setVisibility(View.INVISIBLE); }

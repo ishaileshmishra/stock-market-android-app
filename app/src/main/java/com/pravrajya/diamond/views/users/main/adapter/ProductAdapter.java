@@ -62,12 +62,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         ProductTable item = itemList.get(position);
         assert item != null;
 
-        if (item.getProductLists().getProductWeight()==null){ holder.tvWeight.setText("1.2 CT");
-        }else { holder.tvWeight.setText(item.getProductLists().getProductWeight()+" CT"); }
-        holder.tvItem.setText(item.getProductLists().getProduct());
-        holder.tvHigh.setText(item.getProductLists().getHigh());
-        holder.tvLow.setText(item.getProductLists().getLow());
-        holder.tvPrice.setText(item.getProductLists().getPrice());
+        if (item.getProductWeight()==null){ holder.tvWeight.setText("1.2 CT");
+        }else { holder.tvWeight.setText(item.getProductWeight()+" CT"); }
+        holder.tvItem.setText(item.getClarity());
+        holder.tvHigh.setText(item.getHigh());
+        holder.tvLow.setText(item.getLow());
+        holder.tvPrice.setText(item.getPrice());
 
         //animateBlinkView(holder.tvPrice);
 
@@ -80,7 +80,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
             holder.tvPrice.setBackgroundResource(R.drawable.roundedbutton_primary);
             holder.tvPrice.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_drop_up, 0);
             holder.tvPrice.setTextColor(Color.WHITE);
-            int price = Integer.parseInt(item.getProductLists().getPrice());
+            int price = Integer.parseInt(item.getPrice());
             holder.tvPrice.setText(String.valueOf(price+3));
         }
 

@@ -15,16 +15,12 @@
       },
       "oauth_client": [
         {
-          "client_id": "534879477500-jn3fjsh786273ltt8f14qf55u2v1i8sl.apps.googleusercontent.com",
+          "client_id": "534879477500-0d8a3n7sc0gqhi8tsb2t93neqil3ude3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.pravrajya.diamond",
-            "certificate_hash": "cbbd5e12583101441e56dcecb8cbf2d30d8e8edc"
+            "certificate_hash": "129c9510d985b6c650a52c783317b50db4afae0a"
           }
-        },
-        {
-          "client_id": "534879477500-hce79pt2b4iqtsdtesdlj3qgt9g9ef9g.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [
@@ -33,20 +29,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
               "client_id": "534879477500-hce79pt2b4iqtsdtesdlj3qgt9g9ef9g.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }

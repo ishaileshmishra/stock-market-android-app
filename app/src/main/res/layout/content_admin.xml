@@ -20,8 +20,9 @@
                 android:layout_marginTop="@dimen/bottom_sheet_drawable_padding"
                 android:paddingBottom="@dimen/fab_margin"
                 android:orientation="vertical">
+
                 <!--Color Layout-->
-                <TextView
+                <!--<TextView
                     android:id="@+id/tvColor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -33,7 +34,7 @@
                     android:id="@+id/colorRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/fab_margin" />
+                    android:padding="@dimen/fab_margin" />-->
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
@@ -57,11 +58,11 @@
                             style="@style/AppTextSmall">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/etProduct"
+                                android:id="@+id/etStockId"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="textCapWords"
-                                android:hint="@string/product" />
+                                android:hint="@string/stock_id" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 

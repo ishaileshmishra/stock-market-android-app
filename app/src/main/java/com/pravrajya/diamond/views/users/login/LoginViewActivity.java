@@ -168,7 +168,7 @@ public class LoginViewActivity extends BaseActivity {
 
             } catch (ApiException e) {
                 View parentLayout = findViewById(android.R.id.content);
-                Snackbar.make(parentLayout, "Google sign in failed.", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(parentLayout, "Google sign in failed."+e.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();
             }
         }else if (requestCode == FACEBOOK_SIGN_IN) {
             callbackManager.onActivityResult(requestCode, resultCode, data);
@@ -212,9 +212,15 @@ public class LoginViewActivity extends BaseActivity {
 
     private void setUserProfile(FirebaseUser user) {
 
-        Stash.put(USER_PROFILE,new UserProfile(user.getUid(), user.getEmail(),
+        String photo = "";
+        if (user.getPhotoUrl()!=null){
+            photo = user.getPhotoUrl().toString();
+        }
+
+
+        Stash.put(USER_PROFILE, new UserProfile(user.getUid(), user.getEmail(),
                 user.getDisplayName(), "", user.getPhoneNumber(), user.getProviders().toString(),
-                user.getPhotoUrl().toString()));
+                photo));
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();
     }

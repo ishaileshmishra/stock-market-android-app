@@ -9,18 +9,6 @@
         android:background="@color/colorWhite"
         tools:context=".views.users.main.views.ProductDetailsActivity">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnWatchVideo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:background="@android:color/transparent"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="bold"
-            android:text="@string/watch_vedio"
-            tools:ignore="RelativeOverlap" />
 
         <ScrollView
             android:layout_width="match_parent"

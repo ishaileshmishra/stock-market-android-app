@@ -10,8 +10,9 @@ import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.databinding.ActivityPdlplayerBinding;
 
 import static com.pravrajya.diamond.utils.Constants.TEST_URL;
+import static com.pravrajya.diamond.utils.Constants.VIDS_LINK;
 
-public class PDLPlayerActivity extends AppCompatActivity {
+public class WatchVideoActivity extends AppCompatActivity {
 
     // https://github.com/halilozercan/BetterVideoPlayer
     ActivityPdlplayerBinding binding;
@@ -22,7 +23,7 @@ public class PDLPlayerActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_pdlplayer);
-        binding.player.setSource(Uri.parse(TEST_URL));
+        binding.player.setSource(Uri.parse(VIDS_LINK));
     }
 
 

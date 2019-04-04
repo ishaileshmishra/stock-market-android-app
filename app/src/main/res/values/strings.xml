@@ -13,7 +13,6 @@
     <string name="title_home">Home</string>
     <string name="title_cart">Cart</string>
     <string name="title_offers">Offers</string>
-    <string name="title_orders">Cart</string>
     <string name="about_us">Pravrajya Diamond Llp is a Limited Liability Partnership firm incorporated on 23 October 2017.
         It is registered at Registrar of Companies, Mumbai. Its total obligation of contribution is Rs. 100,000.
         \n\nDesignated Partners of Pravrajya Diamond Llp are Shah Vishal Vinod and Mehta Nishit Hasmukhbhai.
@@ -120,7 +119,6 @@
     <string name="profile">Profile</string>
     <string name="my_player_activity">Video Player</string>
     <string name="watch_vedio">Watch Video</string>
-    <string name="ronud">RONUD</string>
     <string name="provide_shape">Shape</string>
     <string name="provide_size">Size</string>
     <string name="provide_color">Color</string>
@@ -131,5 +129,7 @@
     <string name="provide_fluorescence">Fluorescence</string>
     <string name="not_available">Not available</string>
     <string name="ronud">RONUD</string>
+    <string name="stock_id">Stock Id</string>
+    <string name="show_details">Show details..</string>
 
 </resources>

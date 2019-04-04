@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.databinding.ActivityMainLayoutBinding;
+import com.pravrajya.diamond.tables.diamondClarity.DiamondClarity;
 import com.pravrajya.diamond.tables.diamondColor.DiamondColor;
 import com.pravrajya.diamond.tables.diamondCut.DiamondCut;
 import com.pravrajya.diamond.tables.diamondSize.DiamondSize;
@@ -106,7 +107,7 @@ public class MainActivity extends BaseActivity {
                 selectedFragment = FragmentOffers.newInstance();
                 break;
             case R.id.navigation_cart:
-                titleString = getResources().getString(R.string.title_orders);
+                titleString = getResources().getString(R.string.title_cart);
                 selectedFragment = FragmentCart.newInstance();
                 break;
         }
@@ -125,7 +126,12 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        loadCartItems();
+
+        UserProfile userNew = (UserProfile)Stash.getObject(USER_PROFILE, UserProfile.class);
+        if (userNew!=null){
+            loadCartItems();
+        }
+
         realm         = Realm.getDefaultInstance();
         dbReference   = FirebaseDatabase.getInstance().getReference();
         binding       = DataBindingUtil.setContentView(this, R.layout.activity_main_layout);
@@ -153,6 +159,7 @@ public class MainActivity extends BaseActivity {
                             Manifest.permission.CALL_PHONE, Manifest.permission.CAMERA}, 101);
         }
 
+        //pushClarity();
     }
 
     @Override
@@ -178,23 +185,25 @@ public class MainActivity extends BaseActivity {
     private void loadDrawerHeader() {
 
         UserProfile userNew = (UserProfile)Stash.getObject(USER_PROFILE, UserProfile.class);
-        View navHeaderView = binding.navView.getHeaderView(0);
-        // Initialise the views
-        ImageView profileImage =  navHeaderView.findViewById(R.id.ivProfileIcon);
-        TextView tvName =  navHeaderView.findViewById(R.id.tvName);
-        TextView tvEmail =  navHeaderView.findViewById(R.id.tvEmail);
-        AppCompatButton btnProfile = navHeaderView.findViewById(R.id.btnProfile);
-        btnProfile.setOnClickListener(v -> {
-            binding.drawerLayout.closeDrawer(GravityCompat.START);
-            startActivity(new Intent(this, ProfileActivity.class));
-        });
 
-        // set all the views
-        tvName.setText(userNew.getName());
-        tvEmail.setText(userNew.getEmail());
-        if (!userNew.getProfileImage().isEmpty()) { loadProfilePreview(userNew.getProfileImage(), profileImage); }
-        RecyclerView productRecyclerView =  navHeaderView.findViewById(R.id.recyclerView);
-        loadProductType(productRecyclerView);
+        if (userNew!=null){
+            View navHeaderView = binding.navView.getHeaderView(0);
+            ImageView profileImage =  navHeaderView.findViewById(R.id.ivProfileIcon);
+            TextView tvName =  navHeaderView.findViewById(R.id.tvName);
+            TextView tvEmail =  navHeaderView.findViewById(R.id.tvEmail);
+            AppCompatButton btnProfile = navHeaderView.findViewById(R.id.btnProfile);
+            btnProfile.setOnClickListener(v -> {
+                binding.drawerLayout.closeDrawer(GravityCompat.START);
+                startActivity(new Intent(this, ProfileActivity.class));
+            });
+
+            // set all the views
+            tvName.setText(userNew.getName());
+            tvEmail.setText(userNew.getEmail());
+            if (!userNew.getProfileImage().isEmpty()) { loadProfilePreview(userNew.getProfileImage(), profileImage); }
+            RecyclerView productRecyclerView =  navHeaderView.findViewById(R.id.recyclerView);
+            loadProductType(productRecyclerView);
+        }
     }
 
     private void loadProfilePreview(String profileImage, ImageView view) {
@@ -215,7 +224,7 @@ public class MainActivity extends BaseActivity {
             DiamondCut diamondCut = diamondCutList.get(position);
             selectedChipItem = diamondCut.getCut_type();
             String cut_type_url = diamondCut.getCut_url();
-            Stash.put(Constants.DIAMOND_CUT, selectedChipItem);
+            Stash.put(Constants.SELECTED_CUT, selectedChipItem);
             Stash.put(Constants.DIAMOND_CUT_URL, cut_type_url);
             runOnUiThread(() -> loadDrawerExpandableList(selectedChipItem));
         }));
@@ -281,6 +290,7 @@ public class MainActivity extends BaseActivity {
                 fragment = new FragmentHome();
             }else {
 
+                Stash.put(Constants.SELECTED_SIZE, groupHeader);
                 Stash.put(SELECTED_COLOR, selectedItem);
                 fragment = new FragmentHome();
                 Objects.requireNonNull(getSupportActionBar()).setTitle(selectedItem.toUpperCase());
@@ -347,9 +357,28 @@ public class MainActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void pushFaqs(){
-        List<FAQTable> tables = new ArrayList<>();
-        dbReference.child("faq").setValue(tables).addOnSuccessListener(aVoid -> { }).addOnFailureListener(e -> { });
+    private void pushClarity(){
+        List<DiamondClarity> tables = new ArrayList<>();
+        tables.add(new DiamondClarity("FL",""));
+        tables.add(new DiamondClarity("IF",""));
+        tables.add(new DiamondClarity("VVS-1",""));
+        tables.add(new DiamondClarity("VVS-2",""));
+        tables.add(new DiamondClarity("VVS",""));
+        tables.add(new DiamondClarity("VS-1",""));
+        tables.add(new DiamondClarity("VS-2",""));
+        tables.add(new DiamondClarity("VS",""));
+        tables.add(new DiamondClarity("SI-1",""));
+        tables.add(new DiamondClarity("SI-2",""));
+        tables.add(new DiamondClarity("SI-3",""));
+        tables.add(new DiamondClarity("SI",""));
+        tables.add(new DiamondClarity("I-1",""));
+        tables.add(new DiamondClarity("I-2",""));
+        tables.add(new DiamondClarity("I-3",""));
+        tables.add(new DiamondClarity("I-4",""));
+        tables.add(new DiamondClarity("I-5",""));
+        tables.add(new DiamondClarity("I-6",""));
+        tables.add(new DiamondClarity("I-7",""));
+        dbReference.child(Constants.DIAMOND_CLARITY).setValue(tables).addOnSuccessListener(aVoid -> { }).addOnFailureListener(e -> { });
     }
 
     private void addBadgeView(int counter) {

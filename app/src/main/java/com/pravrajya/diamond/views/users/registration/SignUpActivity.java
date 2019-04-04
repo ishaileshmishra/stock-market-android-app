@@ -3,7 +3,6 @@ package com.pravrajya.diamond.views.users.registration;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-
 import com.fxn.stash.Stash;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -12,12 +11,11 @@ import com.pravrajya.diamond.databinding.ActivityProfileBinding;
 import com.pravrajya.diamond.views.BaseActivity;
 import com.pravrajya.diamond.views.users.login.UserProfile;
 import com.pravrajya.diamond.views.users.main.views.MainActivity;
-
 import java.util.Objects;
-
 import androidx.databinding.DataBindingUtil;
-
 import static com.pravrajya.diamond.utils.Constants.USER_PROFILE;
+
+
 
 public class SignUpActivity extends BaseActivity {
 

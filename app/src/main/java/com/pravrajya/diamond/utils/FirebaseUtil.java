@@ -10,6 +10,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.pravrajya.diamond.tables.RealmManager;
+import com.pravrajya.diamond.tables.diamondClarity.DiamondClarity;
 import com.pravrajya.diamond.tables.diamondColor.DiamondColor;
 import com.pravrajya.diamond.tables.diamondCut.DiamondCut;
 import com.pravrajya.diamond.tables.diamondSize.DiamondSize;
@@ -49,6 +50,7 @@ public class FirebaseUtil {
         loadALLOffers();
         loadALLDiamondCut();
         loadALLDiamondColor();
+        loadALLDiamondClarity();
         loadALLDiamondSize();
         loadALLAdminPanelItems();
     }
@@ -244,6 +246,48 @@ public class FirebaseUtil {
 
 
 
+
+
+    /****************************************************************************/
+    /****************[ Load all Diamond Clarity ]****************/
+    /****************************************************************************/
+
+    private void loadALLDiamondClarity(){
+        Query lastQuery = dbReference.child(Constants.DIAMOND_CLARITY);//.orderByChild("color");
+        lastQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    AsyncTask.execute(() -> clearDiamondClarity());
+                    for (DataSnapshot snapshot: dataSnapshot.getChildren())
+                    {
+                        DiamondClarity diamondClarity = snapshot.getValue(DiamondClarity.class);
+                        AsyncTask.execute(() -> updateDiamondClarity(diamondClarity));
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+    }
+
+
+
+    private void clearDiamondClarity(){
+        RealmManager.open();
+        RealmManager.diamondClarityDao().removeAll();
+        RealmManager.close();
+    }
+
+
+    private void updateDiamondClarity(DiamondClarity diamondClarity) {
+        RealmManager.open();
+        RealmManager.diamondClarityDao().save(diamondClarity);
+        RealmManager.close();
+    }
 
 
 

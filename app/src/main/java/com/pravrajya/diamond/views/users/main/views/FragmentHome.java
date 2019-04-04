@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.pravrajya.diamond.R;
-import com.pravrajya.diamond.tables.product.ProductList;
 import com.pravrajya.diamond.utils.Constants;
 import com.pravrajya.diamond.utils.ItemDecoration;
 import com.pravrajya.diamond.views.users.fragments.BaseFragment;
@@ -39,15 +39,18 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 import static com.pravrajya.diamond.utils.Constants.DEFAULT_COLOR;
+import static com.pravrajya.diamond.utils.Constants.DEFAULT_CUT;
+import static com.pravrajya.diamond.utils.Constants.DEFAULT_SIZE;
 
 
 public class FragmentHome extends BaseFragment {
 
-    private String SELECTED_COLOR;
+    private String COLOR;
+    private String CUT;
+    private String SIZE;
     private ContentMainBinding binding;
-
     private RealmResults<ProductTable> dataModel;
-    private int DELAY_IN_MILLIS=5000;
+    private int DELAY_IN_MILLIS = 5000;
     private Boolean        isRefreshing = true;
     private Realm          realm;
     private ProductAdapter adapter;
@@ -68,14 +71,38 @@ public class FragmentHome extends BaseFragment {
         activity = (MainActivity)getActivity();
         realm = Realm.getDefaultInstance();
 
-        if (!Stash.getString(Constants.SELECTED_COLOR).equalsIgnoreCase("")) {
-            SELECTED_COLOR = Stash.getString(Constants.SELECTED_COLOR);
+        COLOR = Stash.getString(Constants.SELECTED_COLOR);
+        CUT   = Stash.getString(Constants.SELECTED_CUT);
+        SIZE  = Stash.getString(Constants.SELECTED_SIZE);
+
+        Log.e("SELECTED_COLOR", COLOR);
+        Log.e("SELECTED_CUT", CUT);
+        Log.e("SELECTED_SIZE", SIZE);
+
+        if (!COLOR.equalsIgnoreCase("")) {
+            COLOR = Stash.getString(Constants.SELECTED_COLOR);
         } else {
-            SELECTED_COLOR = DEFAULT_COLOR;
+            COLOR = DEFAULT_COLOR;
         }
 
-        dataModel = realm.where(ProductTable.class).equalTo(Constants.DIAMOND_COLOR, SELECTED_COLOR).findAll();
-        if (dataModel.size()==0){
+        if (!CUT.equalsIgnoreCase("")) {
+            CUT = Stash.getString(Constants.SELECTED_CUT);
+        } else {
+            CUT = DEFAULT_CUT;
+        }
+
+        if (!SIZE.equalsIgnoreCase("")) {
+            SIZE = Stash.getString(Constants.SELECTED_SIZE);
+        } else {
+            SIZE = DEFAULT_SIZE;
+        }
+
+
+
+        dataModel = realm.where(ProductTable.class).contains("color",COLOR).contains("size",SIZE).contains("shape",CUT).findAll();
+
+        if (dataModel.isLoaded())
+        if (dataModel.size() == 0){
             binding.headingLayout.setVisibility(View.GONE);
             binding.recyclerView.setVisibility(View.GONE);
             binding.info.setVisibility(View.VISIBLE);
@@ -98,7 +125,8 @@ public class FragmentHome extends BaseFragment {
     private void onRefresh(){
 
         binding.swipeRefreshLayout.setRefreshing(true);
-        dataModel = realm.where(ProductTable.class).equalTo(Constants.DIAMOND_COLOR, SELECTED_COLOR).findAll();
+
+        dataModel = realm.where(ProductTable.class).contains("color",COLOR).contains("size",SIZE).contains("shape",CUT).findAll();
         adapter.notifyDataSetChanged();
         adapter.updateData( isRefreshing);
         binding.swipeRefreshLayout.setRefreshing(false);
@@ -134,17 +162,7 @@ public class FragmentHome extends BaseFragment {
     }
 
 
-    private ArrayList<ItemModel> getClarityModels(){
-        ArrayList<ItemModel> modelArrayList = new ArrayList<>();
-        if (dataModel.size()>0){
-            dataModel.forEach(table -> {
-                ProductList eachItem = table.getProductLists();
-                modelArrayList.add(new ItemModel(eachItem.getProduct(),eachItem.getProductWeight(),eachItem.getHigh(),eachItem.getLow(),eachItem.getPrice()));
-            });
-        }
 
-        return modelArrayList;
-    }
 
     private void loadRecyclerView() {
 
