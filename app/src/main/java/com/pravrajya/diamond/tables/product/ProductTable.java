@@ -15,14 +15,15 @@ public class ProductTable extends RealmObject {
     private String low;
     private String price;
     private String shape;
+    private String shade;
     private String size;
     private String clarity;
     private String cut;
     private String polish;
     private String symmetry;
+    private String culet;
     private String fluorescence;
     private String licence;
-
 
 
     public ProductTable() {
@@ -85,6 +86,14 @@ public class ProductTable extends RealmObject {
         this.shape = shape;
     }
 
+    public String getShade() {
+        return shade;
+    }
+
+    public void setShade(String shade) {
+        this.shade = shade;
+    }
+
     public String getSize() {
         return size;
     }
@@ -131,6 +140,14 @@ public class ProductTable extends RealmObject {
 
     public void setSymmetry(String symmetry) {
         this.symmetry = symmetry;
+    }
+
+    public String getCulet() {
+        return culet;
+    }
+
+    public void setCulet(String culet) {
+        this.culet = culet;
     }
 
     public String getFluorescence() {

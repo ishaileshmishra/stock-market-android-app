@@ -101,20 +101,69 @@ public class ProductDetailsActivity extends BaseActivity {
         //PATH = table.getShape()+"-"+table.getSize()+"-"+table.getColor()+"-"+table.getClarity();
         int colorGRAY    = ContextCompat.getColor(getApplicationContext(), R.color.lightGray);
         int colorWhite   = ContextCompat.getColor(getApplicationContext(), R.color.white);
-        binding.linearLayout.addView(addCustomView("Title", table.getProductWeight()+" CARAT "+table.getShape(), colorWhite));
-        binding.linearLayout.addView(addCustomView("Stock ID", table.getStockId().toUpperCase(), colorGRAY));
-        binding.linearLayout.addView(addCustomView("Shape", table.getShape().toUpperCase(), colorWhite));
-        binding.linearLayout.addView(addCustomView("Size", table.getSize().toUpperCase(), colorGRAY));
-        binding.linearLayout.addView(addCustomView("Color", table.getColor().toUpperCase(), colorWhite));
-        binding.linearLayout.addView(addCustomView("Clarity",table.getClarity().toUpperCase(), colorGRAY));
-        binding.linearLayout.addView(addCustomView("Cut", table.getCut().toUpperCase(), colorWhite));
-        binding.linearLayout.addView(addCustomView("Polish", table.getPolish().toUpperCase(), colorGRAY));
-        binding.linearLayout.addView(addCustomView("Fluorescence", table.getFluorescence().toUpperCase(), colorWhite));
-        binding.linearLayout.addView(addCustomView("Symmetry", table.getSymmetry().toUpperCase(), colorGRAY));
-        binding.linearLayout.addView(addCustomView("Culet", "Not Applicable", colorWhite));
-        binding.linearLayout.addView(addCustomView("High Price/Carat",table.getHigh(), colorGRAY));
-        binding.linearLayout.addView(addCustomView("Price/Carat",table.getPrice(), colorWhite));
-        binding.linearLayout.addView(addCustomView("Low Price/Carat",table.getLow(), colorGRAY));
+
+        if (table.getProductWeight()!=null && table.getShape()!=null){
+            binding.linearLayout.addView(addCustomView("Title", table.getProductWeight()+" CARAT "+table.getShape(), colorGRAY));
+            binding.linearLayout.addView(addCustomView("Weight", table.getProductWeight()+" CARAT ", colorWhite));
+        }
+
+        if (table.getLicence()!=null){
+            binding.linearLayout.addView(addCustomView("Licence", table.getLicence(), colorWhite));
+        }
+
+        if (table.getStockId()!=null){
+            binding.linearLayout.addView(addCustomView("Stock Id", table.getStockId().toUpperCase(), colorGRAY));
+        }
+        if (table.getShape()!=null){
+            binding.linearLayout.addView(addCustomView("Shape", table.getShape().toUpperCase(), colorWhite));
+        }
+
+        if (table.getSize()!=null){
+            binding.linearLayout.addView(addCustomView("Size", table.getSize().toUpperCase(), colorGRAY));
+        }
+
+        if (table.getColor()!=null && table.getShade()!= null){
+            binding.linearLayout.addView(addCustomView("Color", table.getColor().toUpperCase()+"   "+table.getShade().toUpperCase(), colorWhite));
+        }else {
+            binding.linearLayout.addView(addCustomView("Color", table.getColor().toUpperCase(), colorWhite));
+        }
+
+
+        if (table.getClarity()!=null){
+            binding.linearLayout.addView(addCustomView("Clarity",table.getClarity().toUpperCase(), colorGRAY));
+        }
+
+        if (table.getCut()!=null){
+            binding.linearLayout.addView(addCustomView("Cut", table.getCut().toUpperCase(), colorWhite));
+        }
+
+        if (table.getPolish()!=null){
+            binding.linearLayout.addView(addCustomView("Polish", table.getPolish().toUpperCase(), colorGRAY));
+        }
+
+        if (table.getFluorescence()!=null){
+            binding.linearLayout.addView(addCustomView("Fluorescence", table.getFluorescence().toUpperCase(), colorWhite));
+        }
+
+        if (table.getSymmetry()!=null){
+            binding.linearLayout.addView(addCustomView("Symmetry", table.getSymmetry().toUpperCase(), colorGRAY));
+        }
+
+        if (table.getCulet()!=null){
+            binding.linearLayout.addView(addCustomView("Culet", table.getCulet().toUpperCase(), colorWhite));
+        }
+
+        if (table.getHigh()!=null){
+            binding.linearLayout.addView(addCustomView("High Price",table.getHigh()+"/Carat", colorGRAY));
+        }
+
+        if (table.getPrice()!=null){
+            binding.linearLayout.addView(addCustomView("Price",table.getPrice()+"/Carat", colorWhite));
+        }
+
+        if (table.getPrice()!=null){
+            binding.linearLayout.addView(addCustomView("Low Price",table.getLow()+"/Carat", colorGRAY));
+        }
 
     }
 
@@ -189,9 +238,9 @@ public class ProductDetailsActivity extends BaseActivity {
                         successToast("Added to cart");
                         onBackPressed();
                     }).addOnFailureListener(e -> {
-                        hideProgressDialog();
-                        errorToast("Failed to add in cart");
-                    });
+                hideProgressDialog();
+                errorToast("Failed to add in cart");
+            });
     }
 
     @Override

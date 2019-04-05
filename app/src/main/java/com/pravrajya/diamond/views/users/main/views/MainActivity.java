@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -40,6 +41,7 @@ import com.pravrajya.diamond.views.users.fragments.terms.FragmentTermsCondition;
 import com.pravrajya.diamond.views.users.profile.ProfileActivity;
 import com.pravrajya.diamond.views.users.registration.SignUpActivity;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -122,6 +124,7 @@ public class MainActivity extends BaseActivity {
 
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

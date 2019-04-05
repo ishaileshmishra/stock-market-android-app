@@ -7,7 +7,8 @@
         android:layout_height="wrap_content"
         android:elevation="@dimen/bottom_sheet_divider_indent"
         app:cardCornerRadius="@dimen/com_facebook_auth_dialog_corner_radius_oversized"
-        android:padding="@dimen/fab_margin">
+        android:layout_margin="@dimen/com_facebook_auth_dialog_corner_radius"
+        android:padding="@dimen/bottom_sheet_divider_indent">
 
         <LinearLayout
             android:orientation="vertical"
@@ -92,5 +93,6 @@
                 android:orientation="vertical"/>
 
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 </layout>

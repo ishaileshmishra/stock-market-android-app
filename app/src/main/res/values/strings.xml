@@ -70,18 +70,12 @@
     <string name="rate_fluctuate">Up/Down</string>
     <string name="action_add_new_offer">Add new offer</string>
 
-    <integer-array name="color_items">
-        <item>@color/colorPrimary</item>
-        <item>@color/lightGray</item>
-        <item>@color/colorAccent</item>
-        <item>@color/red_google</item>
-        <item>@color/blue_facebook</item>
-        <item>@color/semi_black</item>
-        <item>@color/lightGray</item>
-        <item>@color/lightGray</item>
-        <item>@color/lightGray</item>
-        <item>@color/lightGray</item>
-    </integer-array>
+    <string-array name="array_licence">
+        <item>NONE</item>
+        <item>GIA</item>
+        <item>IGI</item>
+    </string-array>
+
 
     <string name="title_activity_add_offer">AddOfferActivity</string>
     <string name="something_additional">Something additional..</string>
@@ -131,5 +125,8 @@
     <string name="ronud">RONUD</string>
     <string name="stock_id">Stock Id</string>
     <string name="show_details">Show details..</string>
+    <string name="provide_culet">Culet</string>
+    <string name="provide_cert">Cert Number</string>
+    <string name="shade">Shade</string>
 
 </resources>

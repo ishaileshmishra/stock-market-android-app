@@ -7,7 +7,6 @@ public class Constants {
     public static final String DIAMOND_COLOR = "color";
     public static final String DIAMOND_SIZE = "size";
     public static final String DIAMOND_CUT = "cut";
-
     public static final String SELECTED_SIZE = "selected_size";
     public static final String DIAMOND_CLARITY = "diamond_clarity";
     public static final String SELECTED_CUT = "cut_type";
@@ -30,8 +29,8 @@ public class Constants {
     public static final String ADMIN_FLUORESCENCE = "admin_fluorescence";
     public static final String ADMIN_POLISH = "admin_polish";
     public static final String ADMIN_SYMMETRY = "admin_symmetry";
-
-
+    public static final String ADMIN_CULET = "admin_culet";
+    public static final String ADMIN_COLOR_SHADE = "admin_color_shade";
     public static final String VIDS_LINK = "https://firebasestorage.googleapis.com/v0/b/pdlfirebaseproject.appspot.com/o/videos%2Fvideo1.mp4?alt=media&token=921ceb6b-c0be-4925-a09a-4eb3b89a8536";
 
 }

@@ -9,9 +9,12 @@ import de.mrapp.android.bottomsheet.BottomSheet;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fxn.stash.Stash;
@@ -45,6 +48,16 @@ public class CRUDActivity extends BaseActivity {
     private String selectedProductId = null;
     private DatabaseReference dbReference;
 
+    public String getSelected_licence() {
+        return this.selected_licence;
+    }
+
+    public void setSelected_licence(String selected_licence) {
+        this.selected_licence = selected_licence;
+    }
+
+    private String selected_licence;
+
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -73,8 +86,6 @@ public class CRUDActivity extends BaseActivity {
         btnClickHandler();
     }
 
-
-
     private void updateProduct(){
 
         if (selectedProductId !=null)
@@ -97,15 +108,8 @@ public class CRUDActivity extends BaseActivity {
 
     }
 
-
-
-
-
-
-
     @SuppressLint("SetTextI18n")
     private void btnClickHandler() {
-
         binding.btnAddProduct.setOnClickListener(view->{
 
             String stockId   = Objects.requireNonNull(binding.etStockId.getText()).toString().trim();
@@ -120,7 +124,10 @@ public class CRUDActivity extends BaseActivity {
             String cut       = Objects.requireNonNull(binding.etCut.getText().toString().trim());
             String polish    = Objects.requireNonNull(binding.etPolish.getText().toString().trim());
             String symmetry  = Objects.requireNonNull(binding.etSymmetry.getText().toString().trim());
+            String culet     = Objects.requireNonNull(binding.etCulet.getText().toString().trim());
             String fluores   = Objects.requireNonNull(binding.etFluorescence.getText().toString().trim());
+            String certNumber= Objects.requireNonNull(binding.etCertNo.getText()).toString().trim();
+            String shade     = Objects.requireNonNull(binding.etShade.getText()).toString();
 
             if (stockId.isEmpty()){
                 clearAllErrors("Stock ID", binding.textInputLayoutProduct, binding.etStockId);
@@ -140,6 +147,8 @@ public class CRUDActivity extends BaseActivity {
                 binding.textInputLayoutPrice.setError("Price can not be less than 100");
             }else if (shape.isEmpty()){
                 clearAllErrors("Shape",binding.textInputLayoutShape, binding.etShape);
+            }else if (shade.isEmpty()){
+                clearAllErrors("Shade",binding.textInputLayoutShade, binding.etShade);
             }else if (size.isEmpty()){
                 clearAllErrors("Size",binding.textInputLayoutSize, binding.etSize);
             }else if (color.isEmpty()){
@@ -152,6 +161,8 @@ public class CRUDActivity extends BaseActivity {
                 clearAllErrors("Polish",binding.textInputLayoutPolish, binding.etPolish);
             }else if (symmetry.isEmpty()){
                 clearAllErrors("Symmetry",binding.textInputLayoutSymmetry, binding.etSymmetry);
+            }else if (culet.isEmpty()){
+                clearAllErrors("Culet",binding.textInputLayoutCulet, binding.etCulet);
             }else if (fluores.isEmpty()){
                 clearAllErrors("Fluorescence",binding.textInputLayoutFluorescence, binding.textInputLayoutFluorescence);
             }else {
@@ -160,6 +171,7 @@ public class CRUDActivity extends BaseActivity {
                 if (selectedProductId!=null) {
                     uniqueID = selectedProductId;
                 }
+
 
                 /******************************************************/
 
@@ -172,14 +184,17 @@ public class CRUDActivity extends BaseActivity {
                 productTable.setLow(lowPrice);
                 productTable.setPrice(price);
                 productTable.setShape(shape);
+                productTable.setShade(shade);
                 productTable.setSize(size);
                 productTable.setColor(color);
                 productTable.setClarity(clarity);
                 productTable.setCut(cut);
                 productTable.setPolish(polish);
                 productTable.setSymmetry(symmetry);
+                productTable.setCulet(culet);
                 productTable.setFluorescence(fluores);
-                productTable.setLicence("None");
+                productTable.setLicence(getSelected_licence()+":"+certNumber);
+
 
                 /******************************************************/
 
@@ -191,10 +206,7 @@ public class CRUDActivity extends BaseActivity {
                 }
             }
         });
-
     }
-
-
 
     private void loadSelectedOptions() {
         binding.etShape.setOnClickListener(view->{ loadShapes(binding.etShape);
@@ -204,12 +216,27 @@ public class CRUDActivity extends BaseActivity {
         });binding.etCut.setOnClickListener(view->{ loadAdminItem(binding.etCut, Constants.ADMIN_CUT);
         });binding.etPolish.setOnClickListener(view->{ loadAdminItem(binding.etPolish, Constants.ADMIN_POLISH);
         });binding.etSymmetry.setOnClickListener(view->{ loadAdminItem(binding.etSymmetry, Constants.ADMIN_SYMMETRY);
+        });binding.etCulet.setOnClickListener(view->{ loadAdminItem(binding.etCulet, Constants.ADMIN_CULET);
         });binding.etFluorescence.setOnClickListener(view->{ loadAdminItem(binding.etFluorescence, Constants.ADMIN_FLUORESCENCE);
+        });binding.etShade.setOnClickListener(view->{ loadAdminItem(binding.etShade, Constants.ADMIN_COLOR_SHADE);
         });
+
+        binding.licenceSpinn.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if (parent.getItemAtPosition(position)!=null){
+                    setSelected_licence(parent.getItemAtPosition(position).toString());
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
     }
-
-
-
 
     private void loadShapes(EditText editText){
         final RealmResults<DiamondCut> diamondCuts = realm.where(DiamondCut.class).findAll();
@@ -288,12 +315,14 @@ public class CRUDActivity extends BaseActivity {
         binding.textInputLayoutLowPrice.setError(null);
         binding.textInputLayoutPrice.setError(null);
         binding.textInputLayoutShape.setError(null);
+        binding.textInputLayoutShade.setError(null);
         binding.textInputLayoutSize.setError(null);
         binding.textInputLayoutColor.setError(null);
         binding.textInputLayoutClarity.setError(null);
         binding.textInputLayoutCut.setError(null);
         binding.textInputLayoutPolish.setError(null);
         binding.textInputLayoutSymmetry.setError(null);
+        binding.textInputLayoutCulet.setError(null);
         binding.textInputLayoutFluorescence.setError(null);
 
         if (inputLayout!=null){
@@ -308,15 +337,16 @@ public class CRUDActivity extends BaseActivity {
         binding.etHighPrice.setText("");
         binding.etLowPrice.setText("");
         binding.etShape.setText("");
+        binding.etShade.setText("");
         binding.etSize.setText("");
         binding.etColor.setText("");
         binding.etClarity.setText("");
         binding.etCut.setText("");
         binding.etPolish.setText("");
         binding.etSymmetry.setText("");
+        binding.etCulet.setText("");
         binding.etFluorescence.setText("");
     }
-
 
     private void showAlertDialog(String title, String subtitle, ProductTable productTable ){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -337,7 +367,6 @@ public class CRUDActivity extends BaseActivity {
 
     }
 
-
     public void syncProductToServer(ProductTable productTable){
         showProgressDialog(productTable.getClarity()+" syncing to server...");
         dbReference.child("products").child(productTable.getId()).setValue(productTable)
@@ -356,8 +385,6 @@ public class CRUDActivity extends BaseActivity {
                     Toast.makeText(getApplicationContext(), "Uploading Failed", Toast.LENGTH_SHORT).show();
                 });
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
