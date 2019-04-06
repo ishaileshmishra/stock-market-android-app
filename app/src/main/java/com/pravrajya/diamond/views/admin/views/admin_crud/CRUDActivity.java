@@ -64,7 +64,7 @@ public class CRUDActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.content_admin);
-        getSupportActionBar().setTitle("Add new product");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Add new product");
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         realm = Realm.getDefaultInstance();
@@ -91,6 +91,7 @@ public class CRUDActivity extends BaseActivity {
         if (selectedProductId !=null)
         {
             ProductTable product = realm.where(ProductTable.class).equalTo(ID, selectedProductId).findFirst();
+            assert product != null;
             binding.etStockId.setText(product.getStockId());
             binding.etHighPrice.setText(product.getHigh());
             binding.etLowPrice.setText(product.getLow());
@@ -209,7 +210,8 @@ public class CRUDActivity extends BaseActivity {
     }
 
     private void loadSelectedOptions() {
-        binding.etShape.setOnClickListener(view->{ loadShapes(binding.etShape);
+        binding.etShape.setOnClickListener(view->{
+            loadShapes(binding.etShape);
         });binding.etSize.setOnClickListener(view->{ loadSizes(binding.etSize);
         });binding.etColor.setOnClickListener(view->{ loadColors(binding.etColor);
         });binding.etClarity.setOnClickListener(view->{ loadClarity(binding.etClarity);
@@ -247,7 +249,10 @@ public class CRUDActivity extends BaseActivity {
             builder.addItem(pos, diamondCuts.get(pos).getCut_type());
         }
         bottomSheet.show();
-        builder.setOnItemClickListener((parent, view, position, id) -> { editText.setText(diamondCuts.get(position).getCut_type()); });
+        builder.setOnItemClickListener((parent, view, position, id) -> {
+            editText.setText(diamondCuts.get(position).getCut_type());
+
+        });
 
     }
 

@@ -9,6 +9,7 @@ import io.realm.Realm;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,6 +30,7 @@ import com.irozon.alertview.objects.AlertAction;
 import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.api.video_player.WatchVideoActivity;
 import com.pravrajya.diamond.databinding.ActivityProductDetailBinding;
+import com.pravrajya.diamond.tables.diamondCut.DiamondCut;
 import com.pravrajya.diamond.tables.product.ProductTable;
 import com.pravrajya.diamond.utils.Constants;
 import com.pravrajya.diamond.views.BaseActivity;
@@ -60,10 +62,10 @@ public class ProductDetailsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         dbReference = FirebaseDatabase.getInstance().getReference();
-        userNew = (UserProfile) Stash.getObject(USER_PROFILE, UserProfile.class);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_product_detail);
+        userNew  = (UserProfile) Stash.getObject(USER_PROFILE, UserProfile.class);
+        binding  = DataBindingUtil.setContentView(this, R.layout.activity_product_detail);
         cartList = Stash.getArrayList(Constants.CART_ITEMS, String.class);
-        realm = Realm.getDefaultInstance();
+        realm    = Realm.getDefaultInstance();
 
         Objects.requireNonNull(getSupportActionBar()).setElevation(0);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -95,7 +97,7 @@ public class ProductDetailsActivity extends BaseActivity {
 
         ProductTable table = realm.where(ProductTable.class).equalTo(Constants.ID, selectedUID).findFirst();
         getSupportActionBar().setTitle(table.getClarity());
-        loadPreview();
+        loadPreview(table);
 
         PATH = Stash.getString(DRAWER_SELECTION)+" --> "+table.getClarity();
         //PATH = table.getShape()+"-"+table.getSize()+"-"+table.getColor()+"-"+table.getClarity();
@@ -108,7 +110,7 @@ public class ProductDetailsActivity extends BaseActivity {
         }
 
         if (table.getLicence()!=null){
-            binding.linearLayout.addView(addCustomView("Licence", table.getLicence(), colorWhite));
+            binding.linearLayout.addView(addCustomView("Certificate", table.getLicence(), colorWhite));
         }
 
         if (table.getStockId()!=null){
@@ -127,7 +129,6 @@ public class ProductDetailsActivity extends BaseActivity {
         }else {
             binding.linearLayout.addView(addCustomView("Color", table.getColor().toUpperCase(), colorWhite));
         }
-
 
         if (table.getClarity()!=null){
             binding.linearLayout.addView(addCustomView("Clarity",table.getClarity().toUpperCase(), colorGRAY));
@@ -167,22 +168,14 @@ public class ProductDetailsActivity extends BaseActivity {
 
     }
 
-
-
-
-    private void loadPreview() {
-        //String CUT_TYPE = Stash.getString(DIAMOND_CUT);
-        String cut_url = Stash.getString(Constants.DIAMOND_CUT_URL);
+    private void loadPreview(ProductTable table) {
+        DiamondCut diamondCut = realm.where(DiamondCut.class).equalTo("cut_type",table.getShape()).findFirst();
         ImageView imageView = new ImageView(getApplicationContext());
-        Glide.with(getApplicationContext()).load(cut_url)
-                .apply(new RequestOptions().override(PROFILE_ICON, PROFILE_ICON))
-                //.apply(RequestOptions.circleCropTransform())
+        Glide.with(getApplicationContext()).load(diamondCut.getCut_url()).apply(new RequestOptions().override(300, 300))
                 .into(imageView);
-
         applyMargin(imageView);
         binding.linearLayout.addView(imageView);
     }
-
 
     private View addCustomView(String title, String titleInfo, int color) {
         View customLinear = LayoutInflater.from(this).inflate(R.layout.custom_text_view, binding.linearLayout, false);
@@ -254,18 +247,14 @@ public class ProductDetailsActivity extends BaseActivity {
             overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.detail_menu, menu);
         return true;
     }
-
-
 
     private void watchVedio() {
 

@@ -97,7 +97,6 @@ public class MainActivity extends BaseActivity {
 
         Fragment selectedFragment = null;
         String titleString= null;
-
         switch (item.getItemId()) {
 
             case R.id.navigation_home:
@@ -129,12 +128,8 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         UserProfile userNew = (UserProfile)Stash.getObject(USER_PROFILE, UserProfile.class);
-        if (userNew!=null){
-            loadCartItems();
-        }
-
+        if (userNew!=null){ loadCartItems(); }
         realm         = Realm.getDefaultInstance();
         dbReference   = FirebaseDatabase.getInstance().getReference();
         binding       = DataBindingUtil.setContentView(this, R.layout.activity_main_layout);
@@ -156,10 +151,8 @@ public class MainActivity extends BaseActivity {
         loadDrawerHeader();
 
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this,
-                    new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS,
-                            Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ANSWER_PHONE_CALLS,
-                            Manifest.permission.CALL_PHONE, Manifest.permission.CAMERA}, 101);
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ANSWER_PHONE_CALLS,
+                    Manifest.permission.CALL_PHONE, Manifest.permission.CAMERA}, 101);
         }
 
         //pushClarity();
@@ -242,14 +235,12 @@ public class MainActivity extends BaseActivity {
         List<String> diamondSize = new ArrayList<>();
         RealmResults<DiamondSize> diamondSizeList = realm.where(DiamondSize.class).findAll();
         diamondSizeList.forEach(diamond->{
-            //Log.e("diamondSizes", diamond.getSize());
             diamondSize.add(diamond.getSize());
         });
 
         List<String> diamondColors = new ArrayList<>();
         RealmResults<DiamondColor> diamondColorList = realm.where(DiamondColor.class).findAll();
         diamondColorList.forEach(diamond->{
-            //Log.e("diamondColor", diamond.getColor());
             diamondColors.add(diamond.getColor());
         });
 
