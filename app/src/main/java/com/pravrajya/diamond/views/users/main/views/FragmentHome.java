@@ -106,7 +106,7 @@ public class FragmentHome extends BaseFragment {
             binding.headingLayout.setVisibility(View.GONE);
             binding.recyclerView.setVisibility(View.GONE);
             binding.info.setVisibility(View.VISIBLE);
-            binding.info.setText("No Items Available");
+            binding.info.setText("No Products Found");
             binding.chart.setVisibility(View.INVISIBLE);
         }
 

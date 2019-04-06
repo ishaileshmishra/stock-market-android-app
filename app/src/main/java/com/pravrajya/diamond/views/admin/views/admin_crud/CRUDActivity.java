@@ -102,6 +102,7 @@ public class CRUDActivity extends BaseActivity {
             binding.etColor.setText(product.getColor());
             binding.etClarity.setText(product.getClarity());
             binding.etCut.setText(product.getCut());
+            binding.etCulet.setText(product.getCulet());
             binding.etPolish.setText(product.getPolish());
             binding.etSymmetry.setText(product.getSymmetry());
             binding.etFluorescence.setText(product.getFluorescence());
@@ -194,7 +195,11 @@ public class CRUDActivity extends BaseActivity {
                 productTable.setSymmetry(symmetry);
                 productTable.setCulet(culet);
                 productTable.setFluorescence(fluores);
-                productTable.setLicence(getSelected_licence()+":"+certNumber);
+
+                if (!getSelected_licence().equalsIgnoreCase("NONE") && !certNumber.isEmpty()){
+                    productTable.setLicence(getSelected_licence()+":"+certNumber);
+                }
+
 
 
                 /******************************************************/

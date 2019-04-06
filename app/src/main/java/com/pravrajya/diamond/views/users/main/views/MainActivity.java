@@ -23,6 +23,7 @@ import com.pravrajya.diamond.tables.diamondColor.DiamondColor;
 import com.pravrajya.diamond.tables.diamondCut.DiamondCut;
 import com.pravrajya.diamond.tables.diamondSize.DiamondSize;
 import com.pravrajya.diamond.tables.faq.FAQTable;
+import com.pravrajya.diamond.tables.product.ProductTable;
 import com.pravrajya.diamond.utils.ClickListener;
 import com.pravrajya.diamond.utils.Constants;
 import com.pravrajya.diamond.utils.MessageEvent;
@@ -63,6 +64,7 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -127,7 +129,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         UserProfile userNew = (UserProfile)Stash.getObject(USER_PROFILE, UserProfile.class);
         if (userNew!=null){ loadCartItems(); }
         realm         = Realm.getDefaultInstance();
@@ -234,14 +235,12 @@ public class MainActivity extends BaseActivity {
 
         List<String> diamondSize = new ArrayList<>();
         RealmResults<DiamondSize> diamondSizeList = realm.where(DiamondSize.class).findAll();
-        diamondSizeList.forEach(diamond->{
-            diamondSize.add(diamond.getSize());
+        diamondSizeList.forEach(diamond->{ diamondSize.add(diamond.getSize());
         });
 
         List<String> diamondColors = new ArrayList<>();
         RealmResults<DiamondColor> diamondColorList = realm.where(DiamondColor.class).findAll();
-        diamondColorList.forEach(diamond->{
-            diamondColors.add(diamond.getColor());
+        diamondColorList.forEach(diamond->{ diamondColors.add(diamond.getColor());
         });
 
         List<String> othersItems = Arrays.asList("News", "About Us", "Terms and Conditions","Help","Logout");
@@ -251,15 +250,31 @@ public class MainActivity extends BaseActivity {
         ExpandableDrawerAdapter expandableDrawerAdapter = new ExpandableDrawerAdapter(this, diamondSize, listDataChild);
         expandableListView.setAdapter(expandableDrawerAdapter);
         expandableListView.setOnGroupExpandListener(groupPosition -> {
+
+            //****************************************************************************************/
+            /*on group size selection*/
+            String groupHeader = diamondSize.get(groupPosition); // +0.90
+            RealmResults<ProductTable> productTables = realm.where(ProductTable.class)
+                    .contains("size",groupHeader)
+                    .contains("shape",selectedChipItem).findAll();
+
+            if (productTables.size()==0){
+                Toast.makeText(this, "No Products Found", Toast.LENGTH_SHORT).show();
+            }
+            //****************************************************************************************//
+
             if (lastExpandedPosition != -1 && groupPosition != lastExpandedPosition) {
                 expandableListView.collapseGroup(lastExpandedPosition);
             }
             lastExpandedPosition = groupPosition;
+
         });
         expandableListView.expandGroup(length);
         expandableListView.setOnChildClickListener((parent, view, groupPosition, childPosition, id) -> {
 
+            /*group Size selected*/
             String groupHeader = diamondSize.get(groupPosition); // +0.90
+            /*group Color selected*/
             String selectedItem = listDataChild.get(groupHeader).get(childPosition); // White
             view.setSelected(true);
             if (view_Group != null) { view_Group.setBackgroundColor(Color.WHITE); }

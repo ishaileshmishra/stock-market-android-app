@@ -22,10 +22,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     private Boolean isRefreshing;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvItem, tvWeight, tvHigh, tvLow, tvPrice;
+        TextView tvItem, tvWeight, tvHigh, tvLow, tvPrice, tvCertificates;
 
         MyViewHolder(View view) {
             super(view);
+            tvCertificates = view.findViewById(R.id.tvCertificates);
             tvWeight =  view.findViewById(R.id.tvWeight);
             tvItem   =  view.findViewById(R.id.tvItem);
             tvHigh   =  view.findViewById(R.id.tvHigh);
@@ -51,7 +52,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_list_row, parent, false);
-        //View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.trade_list_item, parent, false);
         return new MyViewHolder(itemView);
     }
 
@@ -62,8 +62,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         ProductTable item = itemList.get(position);
         assert item != null;
 
-        if (item.getProductWeight()==null){ holder.tvWeight.setText("1.2 CT");
-        }else { holder.tvWeight.setText(item.getProductWeight()+" CT"); }
+        if (item.getLicence()!=null){
+            holder.tvCertificates.setText(item.getLicence());
+            holder.tvCertificates.setVisibility(View.VISIBLE);
+        }
+
+        String weight_licence = item.getProductWeight()+" CT";
+        holder.tvWeight.setText(weight_licence);
         holder.tvItem.setText(item.getClarity());
         holder.tvHigh.setText(item.getHigh());
         holder.tvLow.setText(item.getLow());
