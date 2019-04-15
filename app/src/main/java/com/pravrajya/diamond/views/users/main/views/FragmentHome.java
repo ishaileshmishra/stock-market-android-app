@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,10 +62,10 @@ public class FragmentHome extends BaseFragment {
 
     public FragmentHome() { }
 
+
     @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         binding = DataBindingUtil.inflate(inflater, R.layout.content_main, container, false);
         activity = (MainActivity)getActivity();
         realm = Realm.getDefaultInstance();
@@ -75,42 +74,22 @@ public class FragmentHome extends BaseFragment {
         CUT   = Stash.getString(Constants.SELECTED_CUT);
         SIZE  = Stash.getString(Constants.SELECTED_SIZE);
 
-        Log.e("SELECTED_COLOR", COLOR);
-        Log.e("SELECTED_CUT", CUT);
-        Log.e("SELECTED_SIZE", SIZE);
-
-        if (!COLOR.equalsIgnoreCase("")) {
-            COLOR = Stash.getString(Constants.SELECTED_COLOR);
-        } else {
-            COLOR = DEFAULT_COLOR;
-        }
-
-        if (!CUT.equalsIgnoreCase("")) {
-            CUT = Stash.getString(Constants.SELECTED_CUT);
-        } else {
-            CUT = DEFAULT_CUT;
-        }
-
-        if (!SIZE.equalsIgnoreCase("")) {
-            SIZE = Stash.getString(Constants.SELECTED_SIZE);
-        } else {
-            SIZE = DEFAULT_SIZE;
-        }
+        if (!COLOR.equalsIgnoreCase("")) { COLOR = Stash.getString(Constants.SELECTED_COLOR);
+        } else { COLOR = DEFAULT_COLOR; }
+        if (!CUT.equalsIgnoreCase("")) { CUT = Stash.getString(Constants.SELECTED_CUT);
+        } else { CUT = DEFAULT_CUT; }
+        if (!SIZE.equalsIgnoreCase("")) { SIZE = Stash.getString(Constants.SELECTED_SIZE);
+        } else { SIZE = DEFAULT_SIZE; }
 
 
-
-        dataModel = realm.where(ProductTable.class).contains("color",COLOR).contains("size",SIZE).contains("shape",CUT).findAll();
-
-        if (dataModel.isLoaded())
-        if (dataModel.size() == 0){
-            binding.headingLayout.setVisibility(View.GONE);
-            binding.recyclerView.setVisibility(View.GONE);
-            binding.info.setVisibility(View.VISIBLE);
-            binding.info.setText("No Products Found");
-            binding.chart.setVisibility(View.INVISIBLE);
-        }
+        dataModel = realm.where(ProductTable.class)
+                .contains("color",COLOR)
+                .contains("size", SIZE)
+                .contains("shape",CUT)
+                .findAll();
 
         loadRecyclerView();
+        onRefresh();
         startAnimGraph();
         binding.swipeRefreshLayout.setOnRefreshListener(this::onRefresh);
         return binding.getRoot();
@@ -124,12 +103,26 @@ public class FragmentHome extends BaseFragment {
 
     private void onRefresh(){
 
-        binding.swipeRefreshLayout.setRefreshing(true);
+        dataModel = realm.where(ProductTable.class)
+                .contains("color",COLOR)
+                .contains("size",SIZE)
+                .contains("shape",CUT)
+                .findAll();
 
-        dataModel = realm.where(ProductTable.class).contains("color",COLOR).contains("size",SIZE).contains("shape",CUT).findAll();
-        adapter.notifyDataSetChanged();
-        adapter.updateData( isRefreshing);
-        binding.swipeRefreshLayout.setRefreshing(false);
+        if (dataModel.isLoaded())
+            if (dataModel.size() == 0){
+                binding.headingLayout.setVisibility(View.GONE);
+                binding.recyclerView.setVisibility(View.GONE);
+                binding.info.setVisibility(View.VISIBLE);
+                binding.info.setText("No Products Found");
+                binding.chart.setVisibility(View.INVISIBLE);
+            }else {
+
+                binding.swipeRefreshLayout.setRefreshing(true);
+                adapter.notifyDataSetChanged();
+                adapter.updateData( isRefreshing);
+                binding.swipeRefreshLayout.setRefreshing(false);
+            }
     }
 
     private void startAnimGraph() {
@@ -144,14 +137,12 @@ public class FragmentHome extends BaseFragment {
                 if (isRefreshing){
                     activity.runOnUiThread(() -> {
                         isRefreshing = false;
-                        //binding.headingLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                         adapter.updateData(isRefreshing);
                     });
 
                 }else {
                     activity.runOnUiThread(() -> {
                         isRefreshing = true;
-                        //binding.headingLayout.setBackgroundColor(getResources().getColor(R.color.red_google));
                         adapter.updateData(isRefreshing);
                     });
                 }
@@ -203,8 +194,8 @@ public class FragmentHome extends BaseFragment {
         chart.setPinchZoom(false);
         chart.setViewPortOffsets(10, 0, 10, 0);
         chart.setData(data);
-        Legend l = chart.getLegend();
-        l.setEnabled(false);
+        Legend legend = chart.getLegend();
+        legend.setEnabled(false);
         chart.getAxisLeft().setEnabled(false);
         chart.getAxisLeft().setSpaceTop(40);
         chart.getAxisLeft().setSpaceBottom(40);

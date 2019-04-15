@@ -24,10 +24,10 @@ public class ProductTable extends RealmObject {
     private String culet;
     private String fluorescence;
     private String licence;
+    private String vedioLink;
 
 
-    public ProductTable() {
-    }
+    public ProductTable() { }
 
 
     public String getId() {
@@ -166,6 +166,9 @@ public class ProductTable extends RealmObject {
         this.licence = licence;
     }
 
+    public String getVedioLink() { return vedioLink; }
+
+    public void setVedioLink(String vedioLink) { this.vedioLink = vedioLink; }
 
 
     @Override
@@ -179,13 +182,16 @@ public class ProductTable extends RealmObject {
                 ", low='" + low + '\'' +
                 ", price='" + price + '\'' +
                 ", shape='" + shape + '\'' +
+                ", shade='" + shade + '\'' +
                 ", size='" + size + '\'' +
                 ", clarity='" + clarity + '\'' +
                 ", cut='" + cut + '\'' +
                 ", polish='" + polish + '\'' +
                 ", symmetry='" + symmetry + '\'' +
+                ", culet='" + culet + '\'' +
                 ", fluorescence='" + fluorescence + '\'' +
                 ", licence='" + licence + '\'' +
+                ", vedioLink='" + vedioLink + '\'' +
                 '}';
     }
 }

@@ -1,39 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/colorWhite"
-        tools:context=".views.users.main.views.ProductDetailsActivity">
+        android:layout_height="match_parent">
 
-
-        <ScrollView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="70dp">
+            android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/fab_margin"
-                android:orientation="vertical"/>
+                android:orientation="vertical">
 
-        </ScrollView>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/btnBUY"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@drawable/roundedbutton_primary"
-            android:textColor="@color/colorWhite"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/fab_margin"
-            android:text="@string/buy"
-            style="@style/AppTextMedium"/>
-    </RelativeLayout>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/viewImageLogo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fab_margin"
+                        android:layout_centerInParent="true"
+                        android:background="@mipmap/ic_launcher_round"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/top_margin40"
+                        android:layout_height="@dimen/top_margin40"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/ic_slow_motion_video"/>
+
+                </RelativeLayout>
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/fab_margin"
+                    android:orientation="vertical"/>
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnBUY"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/roundedbutton_primary"
+                android:textColor="@color/colorWhite"
+                android:layout_margin="@dimen/fab_margin"
+                android:text="@string/buy"
+                android:layout_marginTop="@dimen/top_margin"
+                android:layout_alignParentBottom="true"
+                style="@style/AppTextMedium"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 </layout>

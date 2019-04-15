@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.Filter;
 import android.widget.TextView;
 import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.tables.product.ProductTable;

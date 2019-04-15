@@ -27,15 +27,13 @@ import androidx.databinding.DataBindingUtil;
  */
 public class SplashActivity extends BaseActivity {
 
-    private String BACKGROUND = "https://firebasestorage.googleapis.com/v0/b/pdlfirebaseproject.appspot.com/o/splash_screen%2Fimage_background.jpg?alt=media&token=95552799-9f02-4a7c-ab46-a6143009799f";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().setNavigationBarColor(getResources().getColor(android.R.color.transparent));
         ActivitySplashBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_splash);
         binding.tvDeveloper.setText(Constants.DEVELOPER_INFO);

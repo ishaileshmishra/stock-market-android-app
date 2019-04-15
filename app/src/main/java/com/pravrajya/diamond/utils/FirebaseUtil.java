@@ -513,6 +513,7 @@ public class FirebaseUtil {
         arrayColorShade.add("X");
         arrayColorShade.add("Y");
         arrayColorShade.add("Z");
+        arrayColorShade.add("Fancy");
 
 
 

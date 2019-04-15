@@ -22,7 +22,6 @@ import com.pravrajya.diamond.tables.diamondClarity.DiamondClarity;
 import com.pravrajya.diamond.tables.diamondColor.DiamondColor;
 import com.pravrajya.diamond.tables.diamondCut.DiamondCut;
 import com.pravrajya.diamond.tables.diamondSize.DiamondSize;
-import com.pravrajya.diamond.tables.faq.FAQTable;
 import com.pravrajya.diamond.tables.product.ProductTable;
 import com.pravrajya.diamond.utils.ClickListener;
 import com.pravrajya.diamond.utils.Constants;
@@ -36,11 +35,10 @@ import com.pravrajya.diamond.views.users.main.adapter.ExpandableDrawerAdapter;
 import com.pravrajya.diamond.views.users.fragments.offers.FragmentOffers;
 import com.pravrajya.diamond.views.users.fragments.cart.FragmentCart;
 import com.pravrajya.diamond.views.users.fragments.about.FragmentAboutUs;
-import com.pravrajya.diamond.views.users.fragments.help.FragmentFAQ;
+import com.pravrajya.diamond.views.users.fragments.tutorials.FragmentTutorials;
 import com.pravrajya.diamond.views.users.fragments.news.view.FragmentNews;
 import com.pravrajya.diamond.views.users.fragments.terms.FragmentTermsCondition;
 import com.pravrajya.diamond.views.users.profile.ProfileActivity;
-import com.pravrajya.diamond.views.users.registration.SignUpActivity;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatButton;
@@ -156,7 +154,7 @@ public class MainActivity extends BaseActivity {
                     Manifest.permission.CALL_PHONE, Manifest.permission.CAMERA}, 101);
         }
 
-        //pushClarity();
+        pushClarity();
     }
 
     @Override
@@ -206,8 +204,7 @@ public class MainActivity extends BaseActivity {
     private void loadProfilePreview(String profileImage, ImageView view) {
         Glide.with(getApplicationContext()).load(profileImage)
                 .apply(new RequestOptions().override(PROFILE_ICON, PROFILE_ICON))
-                .apply(RequestOptions.circleCropTransform())
-                .into(view);
+                .apply(RequestOptions.circleCropTransform()).into(view);
     }
 
     private void loadProductType(RecyclerView recyclerView){
@@ -243,7 +240,7 @@ public class MainActivity extends BaseActivity {
         diamondColorList.forEach(diamond->{ diamondColors.add(diamond.getColor());
         });
 
-        List<String> othersItems = Arrays.asList("News", "About Us", "Terms and Conditions","Help","Logout");
+        List<String> othersItems = Arrays.asList("News", "About Us", "Terms and Conditions","Tutorials","Logout");
         for (String diamond: diamondSize) { listDataChild.put(diamond, diamondColors); }
         int length = diamondSize.size()-1;
         listDataChild.put(diamondSize.get(length), othersItems);
@@ -291,9 +288,9 @@ public class MainActivity extends BaseActivity {
             }else if (selectedItem.equalsIgnoreCase("Terms and Conditions")){
                 setActionBarTitle(selectedItem);
                 fragment = new FragmentTermsCondition();
-            }else if (selectedItem.equalsIgnoreCase("Help")){
+            }else if (selectedItem.equalsIgnoreCase("Tutorials")){
                 setActionBarTitle(selectedItem);
-                fragment = new FragmentFAQ();
+                fragment = new FragmentTutorials();
             }else if (selectedItem.equalsIgnoreCase("Logout")){
                 appLogout();
                 fragment = new FragmentHome();
@@ -368,25 +365,25 @@ public class MainActivity extends BaseActivity {
 
     private void pushClarity(){
         List<DiamondClarity> tables = new ArrayList<>();
-        tables.add(new DiamondClarity("FL",""));
-        tables.add(new DiamondClarity("IF",""));
-        tables.add(new DiamondClarity("VVS-1",""));
-        tables.add(new DiamondClarity("VVS-2",""));
-        tables.add(new DiamondClarity("VVS",""));
-        tables.add(new DiamondClarity("VS-1",""));
-        tables.add(new DiamondClarity("VS-2",""));
-        tables.add(new DiamondClarity("VS",""));
-        tables.add(new DiamondClarity("SI-1",""));
-        tables.add(new DiamondClarity("SI-2",""));
-        tables.add(new DiamondClarity("SI-3",""));
-        tables.add(new DiamondClarity("SI",""));
-        tables.add(new DiamondClarity("I-1",""));
-        tables.add(new DiamondClarity("I-2",""));
-        tables.add(new DiamondClarity("I-3",""));
-        tables.add(new DiamondClarity("I-4",""));
-        tables.add(new DiamondClarity("I-5",""));
-        tables.add(new DiamondClarity("I-6",""));
-        tables.add(new DiamondClarity("I-7",""));
+        tables.add(new DiamondClarity("FL","1"));
+        tables.add(new DiamondClarity("IF","2"));
+        tables.add(new DiamondClarity("VVS-1","3"));
+        tables.add(new DiamondClarity("VVS-2","4"));
+        tables.add(new DiamondClarity("VVS","5"));
+        tables.add(new DiamondClarity("VS-1","6"));
+        tables.add(new DiamondClarity("VS-2","7"));
+        tables.add(new DiamondClarity("VS","8"));
+        tables.add(new DiamondClarity("SI-1","9"));
+        tables.add(new DiamondClarity("SI-2","10"));
+        tables.add(new DiamondClarity("SI-3","11"));
+        tables.add(new DiamondClarity("SI","12"));
+        tables.add(new DiamondClarity("I-1","13"));
+        tables.add(new DiamondClarity("I-2","14"));
+        tables.add(new DiamondClarity("I-3","15"));
+        tables.add(new DiamondClarity("I-4","16"));
+        tables.add(new DiamondClarity("I-5","17"));
+        tables.add(new DiamondClarity("I-6","18"));
+        tables.add(new DiamondClarity("I-7","19"));
         dbReference.child(Constants.DIAMOND_CLARITY).setValue(tables).addOnSuccessListener(aVoid -> { }).addOnFailureListener(e -> { });
     }
 

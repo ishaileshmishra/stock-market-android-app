@@ -102,7 +102,8 @@ public class CRUDActivity extends BaseActivity {
             binding.etColor.setText(product.getColor());
             binding.etClarity.setText(product.getClarity());
             binding.etCut.setText(product.getCut());
-            binding.etCulet.setText(product.getCulet());
+            //binding.etCulet.setText(product.getCulet());
+            binding.etVideoLink.setText(product.getVedioLink());
             binding.etPolish.setText(product.getPolish());
             binding.etSymmetry.setText(product.getSymmetry());
             binding.etFluorescence.setText(product.getFluorescence());
@@ -130,6 +131,7 @@ public class CRUDActivity extends BaseActivity {
             String fluores   = Objects.requireNonNull(binding.etFluorescence.getText().toString().trim());
             String certNumber= Objects.requireNonNull(binding.etCertNo.getText()).toString().trim();
             String shade     = Objects.requireNonNull(binding.etShade.getText()).toString();
+            String videoLink     = Objects.requireNonNull(binding.etVideoLink.getText()).toString();
 
             if (stockId.isEmpty()){
                 clearAllErrors("Stock ID", binding.textInputLayoutProduct, binding.etStockId);
@@ -149,9 +151,9 @@ public class CRUDActivity extends BaseActivity {
                 binding.textInputLayoutPrice.setError("Price can not be less than 100");
             }else if (shape.isEmpty()){
                 clearAllErrors("Shape",binding.textInputLayoutShape, binding.etShape);
-            }else if (shade.isEmpty()){
+            }/*else if (shade.isEmpty()){
                 clearAllErrors("Shade",binding.textInputLayoutShade, binding.etShade);
-            }else if (size.isEmpty()){
+            }*/else if (size.isEmpty()){
                 clearAllErrors("Size",binding.textInputLayoutSize, binding.etSize);
             }else if (color.isEmpty()){
                 clearAllErrors("Color",binding.textInputLayoutColor, binding.etColor);
@@ -166,7 +168,9 @@ public class CRUDActivity extends BaseActivity {
             }else if (culet.isEmpty()){
                 clearAllErrors("Culet",binding.textInputLayoutCulet, binding.etCulet);
             }else if (fluores.isEmpty()){
-                clearAllErrors("Fluorescence",binding.textInputLayoutFluorescence, binding.textInputLayoutFluorescence);
+                clearAllErrors("Fluorescence",binding.textInputLayoutFluorescence, binding.etFluorescence);
+            }else if (videoLink.isEmpty()){
+                clearAllErrors("Video Link",binding.textInputLayoutVideo, binding.etVideoLink);
             }else {
 
                 String uniqueID = UUID.randomUUID().toString();
@@ -195,6 +199,7 @@ public class CRUDActivity extends BaseActivity {
                 productTable.setSymmetry(symmetry);
                 productTable.setCulet(culet);
                 productTable.setFluorescence(fluores);
+                productTable.setVedioLink(videoLink);
 
                 if (!getSelected_licence().equalsIgnoreCase("NONE") && !certNumber.isEmpty()){
                     productTable.setLicence(getSelected_licence()+":"+certNumber);

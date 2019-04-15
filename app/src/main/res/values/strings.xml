@@ -128,5 +128,6 @@
     <string name="provide_culet">Culet</string>
     <string name="provide_cert">Cert Number</string>
     <string name="shade">Shade</string>
+    <string name="provide_vedio_link">Provide video link</string>
 
 </resources>

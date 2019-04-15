@@ -1,4 +1,4 @@
-package com.pravrajya.diamond.views.users.fragments.help;
+package com.pravrajya.diamond.views.users.fragments.tutorials;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -19,13 +19,13 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 
-public class FragmentFAQ extends Fragment {
+public class FragmentTutorials extends Fragment {
 
 
     private ContentHelpBinding binding;
-    private FaqAdapter faqAdapter;
+    private TutorialAdapter tutorialAdapter;
 
-    public FragmentFAQ() { }
+    public FragmentTutorials() { }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -35,7 +35,7 @@ public class FragmentFAQ extends Fragment {
         RealmResults<FAQTable> faqTable = realm.where(FAQTable.class).findAll();
         binding.swipeRefresh.setOnRefreshListener(() -> {
             binding.swipeRefresh.setRefreshing(false);
-            faqAdapter.notifyDataSetChanged();
+            tutorialAdapter.notifyDataSetChanged();
         });
 
         loadRecyclerView(faqTable);
@@ -45,12 +45,12 @@ public class FragmentFAQ extends Fragment {
 
     private void loadRecyclerView(RealmResults<FAQTable> faqTable){
 
-        faqAdapter = new FaqAdapter(faqTable);
+        tutorialAdapter = new TutorialAdapter(faqTable);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         binding.recyclerView.setLayoutManager(layoutManager);
         binding.recyclerView.addItemDecoration(new ItemDecoration(requireContext()));
-        binding.recyclerView.setAdapter(faqAdapter);
-        faqAdapter.notifyDataSetChanged();
+        binding.recyclerView.setAdapter(tutorialAdapter);
+        tutorialAdapter.notifyDataSetChanged();
 
     }
 

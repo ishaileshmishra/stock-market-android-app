@@ -1,4 +1,4 @@
-package com.pravrajya.diamond.views.users.fragments.help;
+package com.pravrajya.diamond.views.users.fragments.tutorials;
 
 
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import io.realm.RealmResults;
 
-public class FaqAdapter extends RecyclerView.Adapter<FaqAdapter.MyViewHolder> {
+public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.MyViewHolder> {
 
     private RealmResults<FAQTable> itemList;
 
@@ -26,7 +26,7 @@ public class FaqAdapter extends RecyclerView.Adapter<FaqAdapter.MyViewHolder> {
     }
 
 
-    public FaqAdapter(RealmResults<FAQTable> itemList) {
+    public TutorialAdapter(RealmResults<FAQTable> itemList) {
         this.itemList = itemList;
     }
 

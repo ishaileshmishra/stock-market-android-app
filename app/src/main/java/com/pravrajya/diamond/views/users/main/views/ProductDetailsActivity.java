@@ -8,6 +8,8 @@ import io.realm.Realm;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +31,7 @@ import com.irozon.alertview.AlertView;
 import com.irozon.alertview.objects.AlertAction;
 import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.api.video_player.WatchVideoActivity;
+import com.pravrajya.diamond.api.video_player.YouTubeActivity;
 import com.pravrajya.diamond.databinding.ActivityProductDetailBinding;
 import com.pravrajya.diamond.tables.diamondCut.DiamondCut;
 import com.pravrajya.diamond.tables.product.ProductTable;
@@ -60,129 +63,77 @@ public class ProductDetailsActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding  = DataBindingUtil.setContentView(this, R.layout.activity_product_detail);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0000ffff")));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        instantiateVariables();
+    }
+
+
+
+    private void instantiateVariables() {
 
         dbReference = FirebaseDatabase.getInstance().getReference();
-        userNew  = (UserProfile) Stash.getObject(USER_PROFILE, UserProfile.class);
-        binding  = DataBindingUtil.setContentView(this, R.layout.activity_product_detail);
-        cartList = Stash.getArrayList(Constants.CART_ITEMS, String.class);
-        realm    = Realm.getDefaultInstance();
-
-        Objects.requireNonNull(getSupportActionBar()).setElevation(0);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        userNew     = (UserProfile) Stash.getObject(USER_PROFILE, UserProfile.class);
+        cartList    = Stash.getArrayList(Constants.CART_ITEMS, String.class);
+        realm       = Realm.getDefaultInstance();
         selectedUID = getIntent().getStringExtra("id");
-        loadInformation();
+
+        ProductTable table = realm.where(ProductTable.class).equalTo(Constants.ID, selectedUID).findFirst();
+        getSupportActionBar().setTitle(table.getClarity());
+        loadInformation(table);
+
         buyBtnClickHandler();
     }
 
 
 
+    private void loadInformation(ProductTable table) {
 
-    /**
-     * Formate mailed from Rushil
-     * -Title.  (As it is right now )
-     * -Shape   (round/pear/ whatever is selected)
-     * -Size.   (+0.90,+1.00, whatever size is selected)
-     * -Color   (white,nwlb,wlb, whatever colour is selected)
-     * -Clarity (vsi,vs1, whatever clarity is selected)
-     * -Cut.    (Fair, good, very good or excellent)
-     * -Polish. (Fair, good, very good or excellent)
-     * -Fluorescence. (None,faint,strong,very strong)
-     * -Symmetry.     (Fair, good, very good or excellent)-
-     * -High Price  $342
-     * -Price.      $212
-     * -low price   $100
-     */
-    @SuppressLint("ResourceType")
-    private void loadInformation() {
+        loadImagePreview(table);
 
-        ProductTable table = realm.where(ProductTable.class).equalTo(Constants.ID, selectedUID).findFirst();
-        getSupportActionBar().setTitle(table.getClarity());
-        loadPreview(table);
-
-        PATH = Stash.getString(DRAWER_SELECTION)+" --> "+table.getClarity();
-        //PATH = table.getShape()+"-"+table.getSize()+"-"+table.getColor()+"-"+table.getClarity();
+        PATH = table.getShape()+" --> "+table.getSize()+" --> "+table.getColor()+" --> "+table.getClarity();
         int colorGRAY    = ContextCompat.getColor(getApplicationContext(), R.color.lightGray);
         int colorWhite   = ContextCompat.getColor(getApplicationContext(), R.color.white);
 
-        if (table.getProductWeight()!=null && table.getShape()!=null){
-            binding.linearLayout.addView(addCustomView("Title", table.getProductWeight()+" CARAT "+table.getShape(), colorGRAY));
-            binding.linearLayout.addView(addCustomView("Weight", table.getProductWeight()+" CARAT ", colorWhite));
-        }
-
-        if (table.getLicence()!=null){
-            binding.linearLayout.addView(addCustomView("Certificate", table.getLicence(), colorWhite));
-        }
-
-        if (table.getStockId()!=null){
-            binding.linearLayout.addView(addCustomView("Stock Id", table.getStockId().toUpperCase(), colorGRAY));
-        }
-        if (table.getShape()!=null){
-            binding.linearLayout.addView(addCustomView("Shape", table.getShape().toUpperCase(), colorWhite));
-        }
-
-        if (table.getSize()!=null){
-            binding.linearLayout.addView(addCustomView("Size", table.getSize().toUpperCase(), colorGRAY));
-        }
-
-        if (table.getColor()!=null && table.getShade()!= null){
-            binding.linearLayout.addView(addCustomView("Color", table.getColor().toUpperCase()+"   "+table.getShade().toUpperCase(), colorWhite));
-        }else {
-            binding.linearLayout.addView(addCustomView("Color", table.getColor().toUpperCase(), colorWhite));
-        }
-
-        if (table.getClarity()!=null){
-            binding.linearLayout.addView(addCustomView("Clarity",table.getClarity().toUpperCase(), colorGRAY));
-        }
-
-        if (table.getCut()!=null){
-            binding.linearLayout.addView(addCustomView("Cut", table.getCut().toUpperCase(), colorWhite));
-        }
-
-        if (table.getPolish()!=null){
-            binding.linearLayout.addView(addCustomView("Polish", table.getPolish().toUpperCase(), colorGRAY));
-        }
-
-        if (table.getFluorescence()!=null){
-            binding.linearLayout.addView(addCustomView("Fluorescence", table.getFluorescence().toUpperCase(), colorWhite));
-        }
-
-        if (table.getSymmetry()!=null){
-            binding.linearLayout.addView(addCustomView("Symmetry", table.getSymmetry().toUpperCase(), colorGRAY));
-        }
-
-        if (table.getCulet()!=null){
-            binding.linearLayout.addView(addCustomView("Culet", table.getCulet().toUpperCase(), colorWhite));
-        }
-
-        if (table.getHigh()!=null){
-            binding.linearLayout.addView(addCustomView("High Price",table.getHigh()+"/Carat", colorGRAY));
-        }
-
-        if (table.getPrice()!=null){
-            binding.linearLayout.addView(addCustomView("Price",table.getPrice()+"/Carat", colorWhite));
-        }
-
-        if (table.getPrice()!=null){
-            binding.linearLayout.addView(addCustomView("Low Price",table.getLow()+"/Carat", colorGRAY));
-        }
+        if (table.getStockId()!=null){ binding.linearLayout.addView(addCustomView("Stock Id", table.getStockId().toUpperCase(), colorGRAY)); }
+        if ( table.getShape()!=null){ binding.linearLayout.addView(addCustomView("Title", table.getProductWeight()+" CARAT "+table.getShape(), colorWhite)); }
+        if (table.getLicence()!=null){ binding.linearLayout.addView(addCustomView("Certificate", table.getLicence(), colorGRAY)); }
+        if (table.getSize()!=null){ binding.linearLayout.addView(addCustomView("Size", table.getSize().toUpperCase(), colorWhite)); }
+        if (table.getProductWeight()!=null){ binding.linearLayout.addView(addCustomView("Weight", table.getProductWeight()+" CARAT ", colorGRAY)); }
+        if (table.getShape()!=null){ binding.linearLayout.addView(addCustomView("Shape", table.getShape().toUpperCase(), colorWhite)); }
+        if (table.getColor()!=null && table.getShade()!= null) { binding.linearLayout.addView(addCustomView("Color", table.getColor().toUpperCase()+"   "+table.getShade().toUpperCase(), colorGRAY));
+        }else { binding.linearLayout.addView(addCustomView("Color", table.getColor().toUpperCase(), colorGRAY)); }
+        if (table.getClarity()!=null){ binding.linearLayout.addView(addCustomView("Clarity",table.getClarity().toUpperCase(), colorWhite)); }
+        if (table.getCut()!=null){ binding.linearLayout.addView(addCustomView("Cut", table.getCut().toUpperCase(), colorGRAY)); }
+        if (table.getPolish()!=null){ binding.linearLayout.addView(addCustomView("Polish", table.getPolish().toUpperCase(), colorWhite)); }
+        if (table.getFluorescence()!=null){ binding.linearLayout.addView(addCustomView("Fluorescence", table.getFluorescence().toUpperCase(), colorGRAY)); }
+        if (table.getSymmetry()!=null){ binding.linearLayout.addView(addCustomView("Symmetry", table.getSymmetry().toUpperCase(), colorWhite)); }
+        if (table.getCulet()!=null){ binding.linearLayout.addView(addCustomView("Culet", table.getCulet().toUpperCase(), colorGRAY)); }
+        if (table.getHigh()!=null){ binding.linearLayout.addView(addCustomView("High Price",table.getHigh()+"/Carat", colorWhite)); }
+        if (table.getPrice()!=null){ binding.linearLayout.addView(addCustomView("Price",table.getPrice()+"/Carat", colorGRAY)); }
+        if (table.getPrice()!=null){ binding.linearLayout.addView(addCustomView("Low Price",table.getLow()+"/Carat", colorWhite)); }
 
     }
 
-    private void loadPreview(ProductTable table) {
+    private void loadImagePreview(ProductTable table) {
         DiamondCut diamondCut = realm.where(DiamondCut.class).equalTo("cut_type",table.getShape()).findFirst();
-        ImageView imageView = new ImageView(getApplicationContext());
         Glide.with(getApplicationContext()).load(diamondCut.getCut_url()).apply(new RequestOptions().override(300, 300))
-                .into(imageView);
-        applyMargin(imageView);
-        binding.linearLayout.addView(imageView);
+                .into(binding.viewImageLogo);
+        //binding.viewImageLogo.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), YouTubeActivity.class)));
+        binding.viewImageLogo.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), WatchVideoActivity.class);
+            intent.putExtra("vedio_link",String.valueOf(table.getVedioLink()));
+            startActivity(intent);
+        });
     }
 
     private View addCustomView(String title, String titleInfo, int color) {
         View customLinear = LayoutInflater.from(this).inflate(R.layout.custom_text_view, binding.linearLayout, false);
-        TextView tvTitle = customLinear.findViewById(R.id.title);
-        TextView tvInfo =  customLinear.findViewById(R.id.content);
+        TextView tvTitle  = customLinear.findViewById(R.id.title);
+        TextView tvInfo   =  customLinear.findViewById(R.id.content);
 
-        // style of textview
         TextViewCompat.setTextAppearance(tvTitle, R.style.AppTextSmall);
         TextViewCompat.setTextAppearance(tvInfo, R.style.AppTextSmall);
 
@@ -192,12 +143,6 @@ public class ProductDetailsActivity extends BaseActivity {
         return customLinear;
     }
 
-    private void applyMargin(View view){
-        LinearLayout.LayoutParams params = new LinearLayout
-                .LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(10, 16, 10, 16);
-        view.setLayoutParams(params);
-    }
 
     private void buyBtnClickHandler(){
 
@@ -242,11 +187,11 @@ public class ProductDetailsActivity extends BaseActivity {
         if (id == android.R.id.home) {
             finish();
             return true;
-        }else if (id == R.id.action_play) {
+        }/*else if (id == R.id.action_play) {
             startActivity(new Intent(getApplicationContext(), WatchVideoActivity.class));
             overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
             return true;
-        }
+        }*/
         return super.onOptionsItemSelected(item);
     }
 
