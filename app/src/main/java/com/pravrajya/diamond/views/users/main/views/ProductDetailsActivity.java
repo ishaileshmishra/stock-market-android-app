@@ -130,10 +130,10 @@ public class ProductDetailsActivity extends BaseActivity {
     }
 
     private View addCustomView(String title, String titleInfo, int color) {
+
         View customLinear = LayoutInflater.from(this).inflate(R.layout.custom_text_view, binding.linearLayout, false);
         TextView tvTitle  = customLinear.findViewById(R.id.title);
-        TextView tvInfo   =  customLinear.findViewById(R.id.content);
-
+        TextView tvInfo   = customLinear.findViewById(R.id.content);
         TextViewCompat.setTextAppearance(tvTitle, R.style.AppTextSmall);
         TextViewCompat.setTextAppearance(tvInfo, R.style.AppTextSmall);
 
