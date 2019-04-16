@@ -2,22 +2,16 @@ package com.pravrajya.diamond.api.video_player;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.databinding.ActivityPdlplayerBinding;
-
 import java.util.Objects;
 
 
