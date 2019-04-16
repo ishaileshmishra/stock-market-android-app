@@ -51,10 +51,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.admin.views.products.AdminProductsActivity" />
+        <!--<activity android:name=".views.admin.views.products.AdminProductsActivity" />-->
         <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts" />
         <activity
-            android:name=".api.video_player.PDLPlayerActivity"
+            android:name=".api.video_player.WatchVideoActivity"
             android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
             android:label="@string/my_player_activity" />
     </application>

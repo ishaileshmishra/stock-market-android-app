@@ -3,7 +3,6 @@ package com.pravrajya.diamond.views.users.registration;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-
 import com.fxn.stash.Stash;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -12,12 +11,11 @@ import com.pravrajya.diamond.databinding.ActivityProfileBinding;
 import com.pravrajya.diamond.views.BaseActivity;
 import com.pravrajya.diamond.views.users.login.UserProfile;
 import com.pravrajya.diamond.views.users.main.views.MainActivity;
-
 import java.util.Objects;
-
 import androidx.databinding.DataBindingUtil;
-
 import static com.pravrajya.diamond.utils.Constants.USER_PROFILE;
+
+
 
 public class SignUpActivity extends BaseActivity {
 
@@ -82,7 +80,7 @@ public class SignUpActivity extends BaseActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         assert user != null;
-                        setUserProfile(user.getUid(), user.getEmail(), name, "");
+                        setUserProfile(user);
                     } else {
                         errorToast(Objects.requireNonNull(task.getException()).getLocalizedMessage());
                     }
@@ -90,8 +88,10 @@ public class SignUpActivity extends BaseActivity {
     }
 
 
-    private void setUserProfile(String uid, String email, String name, String userProfile) {
-        Stash.put(USER_PROFILE,new UserProfile(uid, email, name, userProfile));
+    private void setUserProfile(FirebaseUser user) {
+        Stash.put(USER_PROFILE,new UserProfile(user.getUid(), user.getEmail(),
+                user.getDisplayName(), user.getProviderData().toString(), user.getPhoneNumber(), user.getProviders().toString(),
+                user.getPhotoUrl().toString()));
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();
     }

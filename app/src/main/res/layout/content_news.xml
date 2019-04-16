@@ -10,6 +10,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/top_margin">
+
+            <RelativeLayout
+                android:id="@+id/rlWebview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"

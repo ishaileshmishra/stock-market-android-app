@@ -20,8 +20,9 @@
                 android:layout_marginTop="@dimen/bottom_sheet_drawable_padding"
                 android:paddingBottom="@dimen/fab_margin"
                 android:orientation="vertical">
+
                 <!--Color Layout-->
-                <TextView
+                <!--<TextView
                     android:id="@+id/tvColor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -33,7 +34,7 @@
                     android:id="@+id/colorRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/fab_margin" />
+                    android:padding="@dimen/fab_margin" />-->
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
@@ -57,11 +58,11 @@
                             style="@style/AppTextSmall">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/etProduct"
+                                android:id="@+id/etStockId"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="textCapWords"
-                                android:hint="@string/product" />
+                                android:hint="@string/stock_id" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -84,7 +85,6 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>
-
 
                     <!--Price Section, Low, High, Current-->
                     <LinearLayout
@@ -144,7 +144,6 @@
 
                     </LinearLayout>
 
-
                     <!--Shape Size Color-->
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -202,6 +201,24 @@
                                 android:longClickable="false"
                                 android:layout_marginTop="@dimen/fab_margin"
                                 android:hint="@string/provide_color" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayoutShade"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etShade"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="false"
+                                android:longClickable="false"
+                                android:layout_marginTop="@dimen/fab_margin"
+                                android:hint="@string/shade" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -268,7 +285,6 @@
 
                     </LinearLayout>
 
-
                     <!--Symmetry Fluorenscence-->
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -294,6 +310,25 @@
 
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayoutCulet"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <!--none,very small, small, medium, large,very large,broken.-->
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etCulet"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/fab_margin"
+                                android:focusable="false"
+                                android:longClickable="false"
+                                android:hint="@string/provide_culet" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/textInputLayoutFluorescence"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -312,6 +347,59 @@
 
                     </LinearLayout>
 
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayoutVideo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etVideoLink"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:layout_marginTop="@dimen/fab_margin"
+                            android:hint="@string/provide_vedio_link" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!--Licence-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/licenceSpinn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:spinnerMode="dropdown"
+                            android:drawSelectorOnTop="true"
+                            android:layout_gravity="center"
+                            android:entries="@array/array_licence"
+                            android:layout_marginTop="@dimen/fab_margin"/>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayoutCertNo"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etCertNo"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:longClickable="false"
+                                android:inputType="text"
+                                android:layout_marginTop="@dimen/fab_margin"
+                                android:hint="@string/provide_cert" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
+
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
@@ -319,10 +407,12 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAddProduct"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/top_margin40"
             android:background="@drawable/gray_round_btn"
             android:textColor="@color/black"
             android:textStyle="bold"
+            android:layout_margin="@dimen/fab_margin"
+            android:layout_marginBottom="@dimen/com_facebook_auth_dialog_corner_radius_oversized"
             android:layout_alignParentBottom="true"
             android:text="@string/add_product"/>
     </RelativeLayout>

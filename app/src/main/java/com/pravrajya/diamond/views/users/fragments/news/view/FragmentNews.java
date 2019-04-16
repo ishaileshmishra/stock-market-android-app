@@ -6,6 +6,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
 import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.databinding.ContentNewsBinding;
 import com.pravrajya.diamond.api.APIClient;
@@ -41,14 +44,26 @@ public class FragmentNews extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.content_news, container, false);
-
         binding.swipeRefresh.setRefreshing(true);
-        loadRecyclerView();
-        loadNewsArticles();
         binding.swipeRefresh.setOnRefreshListener(this::loadNewsArticles);
+        //loadWebViewNews();
 
+        //loadNewsArticles();
         return binding.getRoot();
     }
+
+
+
+    private void loadWebViewNews(){
+        WebView webView = new WebView(getActivity());
+        webView.setWebViewClient(new WebViewClient());
+        webView.loadUrl("https://www.diamonds.net/News/Articles.aspx");
+        binding.rlWebview.addView(webView);
+
+    }
+
+
+
 
     private void loadRecyclerView(){
 
@@ -68,8 +83,6 @@ public class FragmentNews extends Fragment {
         }));
 
     }
-
-
 
     private void loadNewsArticles(){
 
@@ -92,6 +105,8 @@ public class FragmentNews extends Fragment {
                     }
                     adapter.notifyDataSetChanged();
                 }
+
+                loadRecyclerView();
             }
 
             @Override

@@ -1,16 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".views.users.profile.ProfileActivity">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/showAlert"
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivBack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="show alert"
-            android:layout_centerInParent="true"/>
+            app:cardCornerRadius="@dimen/bottom_sheet_divider_indent"
+            app:cardUseCompatPadding="true"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:layout_alignParentBottom="true">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivProfileIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/not_available"
+                    android:drawableStart="@drawable/user_icon"
+                    android:drawablePadding="@dimen/com_facebook_auth_dialog_corner_radius_oversized"
+                    style="@style/AppTextSmall"
+                    android:padding="@dimen/com_facebook_auth_dialog_corner_radius_oversized"/>
+
+                <TextView
+                    android:id="@+id/tvEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/not_available"
+                    android:drawableStart="@drawable/ic_email"
+                    android:drawablePadding="@dimen/com_facebook_auth_dialog_corner_radius_oversized"
+                    style="@style/AppTextSmall"
+                    android:padding="@dimen/com_facebook_auth_dialog_corner_radius_oversized"/>
+
+
+                <TextView
+                    android:id="@+id/tvMobile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/not_available"
+                    android:drawableStart="@drawable/ic_smartphone"
+                    android:drawablePadding="@dimen/com_facebook_auth_dialog_corner_radius_oversized"
+                    style="@style/AppTextSmall"
+                    android:padding="@dimen/com_facebook_auth_dialog_corner_radius_oversized"/>
+
+                <TextView
+                    android:id="@+id/tvLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/not_available"
+                    android:drawableStart="@drawable/user_location"
+                    android:drawablePadding="@dimen/com_facebook_auth_dialog_corner_radius_oversized"
+                    style="@style/AppTextSmall"
+                    android:padding="@dimen/com_facebook_auth_dialog_corner_radius_oversized"/>
+
+                <TextView
+                    android:id="@+id/tvLoggedInBy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/not_available"
+                    android:drawableStart="@drawable/ic_https_black"
+                    android:drawablePadding="@dimen/com_facebook_auth_dialog_corner_radius_oversized"
+                    style="@style/AppTextSmall"
+                    android:padding="@dimen/com_facebook_auth_dialog_corner_radius_oversized"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.cardview.widget.CardView>
+
+
     </RelativeLayout>
 </layout>

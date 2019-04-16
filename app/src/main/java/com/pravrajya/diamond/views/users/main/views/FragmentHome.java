@@ -18,7 +18,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.pravrajya.diamond.R;
-import com.pravrajya.diamond.tables.product.ProductList;
 import com.pravrajya.diamond.utils.Constants;
 import com.pravrajya.diamond.utils.ItemDecoration;
 import com.pravrajya.diamond.views.users.fragments.BaseFragment;
@@ -39,15 +38,18 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 import static com.pravrajya.diamond.utils.Constants.DEFAULT_COLOR;
+import static com.pravrajya.diamond.utils.Constants.DEFAULT_CUT;
+import static com.pravrajya.diamond.utils.Constants.DEFAULT_SIZE;
 
 
 public class FragmentHome extends BaseFragment {
 
-    private String SELECTED_COLOR;
+    private String COLOR;
+    private String CUT;
+    private String SIZE;
     private ContentMainBinding binding;
-
     private RealmResults<ProductTable> dataModel;
-    private int DELAY_IN_MILLIS=5000;
+    private int DELAY_IN_MILLIS = 5000;
     private Boolean        isRefreshing = true;
     private Realm          realm;
     private ProductAdapter adapter;
@@ -60,30 +62,34 @@ public class FragmentHome extends BaseFragment {
 
     public FragmentHome() { }
 
+
     @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         binding = DataBindingUtil.inflate(inflater, R.layout.content_main, container, false);
         activity = (MainActivity)getActivity();
         realm = Realm.getDefaultInstance();
 
-        if (!Stash.getString(Constants.SELECTED_COLOR).equalsIgnoreCase("")) {
-            SELECTED_COLOR = Stash.getString(Constants.SELECTED_COLOR);
-        } else {
-            SELECTED_COLOR = DEFAULT_COLOR;
-        }
+        COLOR = Stash.getString(Constants.SELECTED_COLOR);
+        CUT   = Stash.getString(Constants.SELECTED_CUT);
+        SIZE  = Stash.getString(Constants.SELECTED_SIZE);
 
-        dataModel = realm.where(ProductTable.class).equalTo(Constants.DIAMOND_COLOR, SELECTED_COLOR).findAll();
-        if (dataModel.size()==0){
-            binding.headingLayout.setVisibility(View.GONE);
-            binding.recyclerView.setVisibility(View.GONE);
-            binding.info.setVisibility(View.VISIBLE);
-            binding.info.setText("No Items Available");
-            binding.chart.setVisibility(View.INVISIBLE);
-        }
+        if (!COLOR.equalsIgnoreCase("")) { COLOR = Stash.getString(Constants.SELECTED_COLOR);
+        } else { COLOR = DEFAULT_COLOR; }
+        if (!CUT.equalsIgnoreCase("")) { CUT = Stash.getString(Constants.SELECTED_CUT);
+        } else { CUT = DEFAULT_CUT; }
+        if (!SIZE.equalsIgnoreCase("")) { SIZE = Stash.getString(Constants.SELECTED_SIZE);
+        } else { SIZE = DEFAULT_SIZE; }
+
+
+        dataModel = realm.where(ProductTable.class)
+                .contains("color",COLOR)
+                .contains("size", SIZE)
+                .contains("shape",CUT)
+                .findAll();
 
         loadRecyclerView();
+        onRefresh();
         startAnimGraph();
         binding.swipeRefreshLayout.setOnRefreshListener(this::onRefresh);
         return binding.getRoot();
@@ -97,11 +103,26 @@ public class FragmentHome extends BaseFragment {
 
     private void onRefresh(){
 
-        binding.swipeRefreshLayout.setRefreshing(true);
-        dataModel = realm.where(ProductTable.class).equalTo(Constants.DIAMOND_COLOR, SELECTED_COLOR).findAll();
-        adapter.notifyDataSetChanged();
-        adapter.updateData( isRefreshing);
-        binding.swipeRefreshLayout.setRefreshing(false);
+        dataModel = realm.where(ProductTable.class)
+                .contains("color",COLOR)
+                .contains("size",SIZE)
+                .contains("shape",CUT)
+                .findAll();
+
+        if (dataModel.isLoaded())
+            if (dataModel.size() == 0){
+                binding.headingLayout.setVisibility(View.GONE);
+                binding.recyclerView.setVisibility(View.GONE);
+                binding.info.setVisibility(View.VISIBLE);
+                binding.info.setText("No Products Found");
+                binding.chart.setVisibility(View.INVISIBLE);
+            }else {
+
+                binding.swipeRefreshLayout.setRefreshing(true);
+                adapter.notifyDataSetChanged();
+                adapter.updateData( isRefreshing);
+                binding.swipeRefreshLayout.setRefreshing(false);
+            }
     }
 
     private void startAnimGraph() {
@@ -116,14 +137,12 @@ public class FragmentHome extends BaseFragment {
                 if (isRefreshing){
                     activity.runOnUiThread(() -> {
                         isRefreshing = false;
-                        //binding.headingLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                         adapter.updateData(isRefreshing);
                     });
 
                 }else {
                     activity.runOnUiThread(() -> {
                         isRefreshing = true;
-                        //binding.headingLayout.setBackgroundColor(getResources().getColor(R.color.red_google));
                         adapter.updateData(isRefreshing);
                     });
                 }
@@ -134,17 +153,7 @@ public class FragmentHome extends BaseFragment {
     }
 
 
-    private ArrayList<ItemModel> getClarityModels(){
-        ArrayList<ItemModel> modelArrayList = new ArrayList<>();
-        if (dataModel.size()>0){
-            dataModel.forEach(table -> {
-                ProductList eachItem = table.getProductLists();
-                modelArrayList.add(new ItemModel(eachItem.getProduct(),eachItem.getProductWeight(),eachItem.getHigh(),eachItem.getLow(),eachItem.getPrice()));
-            });
-        }
 
-        return modelArrayList;
-    }
 
     private void loadRecyclerView() {
 
@@ -185,8 +194,8 @@ public class FragmentHome extends BaseFragment {
         chart.setPinchZoom(false);
         chart.setViewPortOffsets(10, 0, 10, 0);
         chart.setData(data);
-        Legend l = chart.getLegend();
-        l.setEnabled(false);
+        Legend legend = chart.getLegend();
+        legend.setEnabled(false);
         chart.getAxisLeft().setEnabled(false);
         chart.getAxisLeft().setSpaceTop(40);
         chart.getAxisLeft().setSpaceBottom(40);

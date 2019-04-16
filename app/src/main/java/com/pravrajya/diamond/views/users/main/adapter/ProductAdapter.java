@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.Filter;
 import android.widget.TextView;
 import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.tables.product.ProductTable;
@@ -22,10 +21,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     private Boolean isRefreshing;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvItem, tvWeight, tvHigh, tvLow, tvPrice;
+        TextView tvItem, tvWeight, tvHigh, tvLow, tvPrice, tvCertificates;
 
         MyViewHolder(View view) {
             super(view);
+            tvCertificates = view.findViewById(R.id.tvCertificates);
             tvWeight =  view.findViewById(R.id.tvWeight);
             tvItem   =  view.findViewById(R.id.tvItem);
             tvHigh   =  view.findViewById(R.id.tvHigh);
@@ -51,7 +51,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_list_row, parent, false);
-        //View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.trade_list_item, parent, false);
         return new MyViewHolder(itemView);
     }
 
@@ -62,12 +61,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         ProductTable item = itemList.get(position);
         assert item != null;
 
-        if (item.getProductLists().getProductWeight()==null){ holder.tvWeight.setText("1.2 CT");
-        }else { holder.tvWeight.setText(item.getProductLists().getProductWeight()+" CT"); }
-        holder.tvItem.setText(item.getProductLists().getProduct());
-        holder.tvHigh.setText(item.getProductLists().getHigh());
-        holder.tvLow.setText(item.getProductLists().getLow());
-        holder.tvPrice.setText(item.getProductLists().getPrice());
+        if (item.getLicence()!=null){
+            holder.tvCertificates.setText(item.getLicence());
+            holder.tvCertificates.setVisibility(View.VISIBLE);
+        }
+
+        String weight_licence = item.getProductWeight()+" CT";
+        holder.tvWeight.setText(weight_licence);
+        holder.tvItem.setText(item.getClarity());
+        holder.tvHigh.setText(item.getHigh());
+        holder.tvLow.setText(item.getLow());
+        holder.tvPrice.setText(item.getPrice());
 
         //animateBlinkView(holder.tvPrice);
 
@@ -80,7 +84,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
             holder.tvPrice.setBackgroundResource(R.drawable.roundedbutton_primary);
             holder.tvPrice.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_drop_up, 0);
             holder.tvPrice.setTextColor(Color.WHITE);
-            int price = Integer.parseInt(item.getProductLists().getPrice());
+            int price = Integer.parseInt(item.getPrice());
             holder.tvPrice.setText(String.valueOf(price+3));
         }
 

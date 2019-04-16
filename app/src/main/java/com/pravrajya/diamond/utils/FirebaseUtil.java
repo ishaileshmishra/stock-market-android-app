@@ -10,6 +10,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.pravrajya.diamond.tables.RealmManager;
+import com.pravrajya.diamond.tables.diamondClarity.DiamondClarity;
 import com.pravrajya.diamond.tables.diamondColor.DiamondColor;
 import com.pravrajya.diamond.tables.diamondCut.DiamondCut;
 import com.pravrajya.diamond.tables.diamondSize.DiamondSize;
@@ -20,11 +21,19 @@ import com.pravrajya.diamond.views.users.login.User;
 import com.pravrajya.diamond.views.users.login.UserProfile;
 import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
+
+import static com.pravrajya.diamond.utils.Constants.ADMIN_COLOR_SHADE;
+import static com.pravrajya.diamond.utils.Constants.ADMIN_CULET;
+import static com.pravrajya.diamond.utils.Constants.ADMIN_CUT;
+import static com.pravrajya.diamond.utils.Constants.ADMIN_FLUORESCENCE;
+import static com.pravrajya.diamond.utils.Constants.ADMIN_POLISH;
+import static com.pravrajya.diamond.utils.Constants.ADMIN_SYMMETRY;
 import static com.pravrajya.diamond.utils.Constants.USERS;
 import static com.pravrajya.diamond.utils.Constants.USER_PROFILE;
 
@@ -49,8 +58,11 @@ public class FirebaseUtil {
         loadALLOffers();
         loadALLDiamondCut();
         loadALLDiamondColor();
+        loadALLDiamondClarity();
         loadALLDiamondSize();
         loadALLAdminPanelItems();
+
+        //uploadAdminModel();
     }
 
 
@@ -246,6 +258,48 @@ public class FirebaseUtil {
 
 
 
+    /****************************************************************************/
+    /****************[ Load all Diamond Clarity ]****************/
+    /****************************************************************************/
+
+    private void loadALLDiamondClarity(){
+        Query lastQuery = dbReference.child(Constants.DIAMOND_CLARITY);//.orderByChild("color");
+        lastQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    AsyncTask.execute(() -> clearDiamondClarity());
+                    for (DataSnapshot snapshot: dataSnapshot.getChildren())
+                    {
+                        DiamondClarity diamondClarity = snapshot.getValue(DiamondClarity.class);
+                        AsyncTask.execute(() -> updateDiamondClarity(diamondClarity));
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+    }
+
+
+
+    private void clearDiamondClarity(){
+        RealmManager.open();
+        RealmManager.diamondClarityDao().removeAll();
+        RealmManager.close();
+    }
+
+
+    private void updateDiamondClarity(DiamondClarity diamondClarity) {
+        RealmManager.open();
+        RealmManager.diamondClarityDao().save(diamondClarity);
+        RealmManager.close();
+    }
+
+
 
 
 
@@ -424,11 +478,53 @@ public class FirebaseUtil {
         arrayListFluorescence.add("Very Strong");
 
 
+        ArrayList<String> arrayListCulet = new ArrayList<>();
+        arrayListCulet.add("None");
+        arrayListCulet.add("Very Small");
+        arrayListCulet.add("Small");
+        arrayListCulet.add("Medium");
+        arrayListCulet.add("Large");
+        arrayListCulet.add("Very Large");
+        arrayListCulet.add("Broken");
+
+
+        ArrayList<String> arrayColorShade = new ArrayList<>();
+        arrayColorShade.add("D");
+        arrayColorShade.add("E");
+        arrayColorShade.add("F");
+        arrayColorShade.add("G");
+        arrayColorShade.add("H");
+        arrayColorShade.add("I");
+        arrayColorShade.add("I");
+        arrayColorShade.add("J");
+        arrayColorShade.add("K");
+        arrayColorShade.add("L");
+        arrayColorShade.add("M");
+        arrayColorShade.add("N");
+        arrayColorShade.add("O");
+        arrayColorShade.add("P");
+        arrayColorShade.add("Q");
+        arrayColorShade.add("R");
+        arrayColorShade.add("S");
+        arrayColorShade.add("T");
+        arrayColorShade.add("U");
+        arrayColorShade.add("V");
+        arrayColorShade.add("W");
+        arrayColorShade.add("X");
+        arrayColorShade.add("Y");
+        arrayColorShade.add("Z");
+        arrayColorShade.add("Fancy");
+
+
+
+
         Map<String, ArrayList<String>> adminPanelItems = new HashMap<>();
-        adminPanelItems.put("admin_cut",arrayListCut);
-        adminPanelItems.put("admin_polish",arrayListPolish);
-        adminPanelItems.put("admin_symmetry",arrayListSymmetry);
-        adminPanelItems.put("admin_fluorescence",arrayListFluorescence);
+        adminPanelItems.put(ADMIN_CUT,arrayListCut);
+        adminPanelItems.put(ADMIN_POLISH,arrayListPolish);
+        adminPanelItems.put(ADMIN_SYMMETRY,arrayListSymmetry);
+        adminPanelItems.put(ADMIN_FLUORESCENCE,arrayListFluorescence);
+        adminPanelItems.put(ADMIN_CULET, arrayListCulet);
+        adminPanelItems.put(ADMIN_COLOR_SHADE, arrayColorShade);
 
         dbReference.child("admin_panel").setValue(adminPanelItems).addOnSuccessListener(aVoid -> {
             Log.e("admin_panel", "admin_panel updated");

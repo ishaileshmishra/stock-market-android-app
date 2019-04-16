@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -17,10 +18,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.databinding.ActivityMainLayoutBinding;
+import com.pravrajya.diamond.tables.diamondClarity.DiamondClarity;
 import com.pravrajya.diamond.tables.diamondColor.DiamondColor;
 import com.pravrajya.diamond.tables.diamondCut.DiamondCut;
 import com.pravrajya.diamond.tables.diamondSize.DiamondSize;
-import com.pravrajya.diamond.tables.faq.FAQTable;
+import com.pravrajya.diamond.tables.product.ProductTable;
 import com.pravrajya.diamond.utils.ClickListener;
 import com.pravrajya.diamond.utils.Constants;
 import com.pravrajya.diamond.utils.MessageEvent;
@@ -33,12 +35,12 @@ import com.pravrajya.diamond.views.users.main.adapter.ExpandableDrawerAdapter;
 import com.pravrajya.diamond.views.users.fragments.offers.FragmentOffers;
 import com.pravrajya.diamond.views.users.fragments.cart.FragmentCart;
 import com.pravrajya.diamond.views.users.fragments.about.FragmentAboutUs;
-import com.pravrajya.diamond.views.users.fragments.help.FragmentFAQ;
+import com.pravrajya.diamond.views.users.fragments.tutorials.FragmentTutorials;
 import com.pravrajya.diamond.views.users.fragments.news.view.FragmentNews;
 import com.pravrajya.diamond.views.users.fragments.terms.FragmentTermsCondition;
 import com.pravrajya.diamond.views.users.profile.ProfileActivity;
-import com.pravrajya.diamond.views.users.registration.SignUpActivity;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -60,6 +62,7 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -94,7 +97,6 @@ public class MainActivity extends BaseActivity {
 
         Fragment selectedFragment = null;
         String titleString= null;
-
         switch (item.getItemId()) {
 
             case R.id.navigation_home:
@@ -106,7 +108,7 @@ public class MainActivity extends BaseActivity {
                 selectedFragment = FragmentOffers.newInstance();
                 break;
             case R.id.navigation_cart:
-                titleString = getResources().getString(R.string.title_orders);
+                titleString = getResources().getString(R.string.title_cart);
                 selectedFragment = FragmentCart.newInstance();
                 break;
         }
@@ -121,11 +123,12 @@ public class MainActivity extends BaseActivity {
 
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        loadCartItems();
+        UserProfile userNew = (UserProfile)Stash.getObject(USER_PROFILE, UserProfile.class);
+        if (userNew!=null){ loadCartItems(); }
         realm         = Realm.getDefaultInstance();
         dbReference   = FirebaseDatabase.getInstance().getReference();
         binding       = DataBindingUtil.setContentView(this, R.layout.activity_main_layout);
@@ -147,12 +150,11 @@ public class MainActivity extends BaseActivity {
         loadDrawerHeader();
 
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this,
-                    new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS,
-                            Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ANSWER_PHONE_CALLS,
-                            Manifest.permission.CALL_PHONE, Manifest.permission.CAMERA}, 101);
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ANSWER_PHONE_CALLS,
+                    Manifest.permission.CALL_PHONE, Manifest.permission.CAMERA}, 101);
         }
 
+        pushClarity();
     }
 
     @Override
@@ -178,30 +180,31 @@ public class MainActivity extends BaseActivity {
     private void loadDrawerHeader() {
 
         UserProfile userNew = (UserProfile)Stash.getObject(USER_PROFILE, UserProfile.class);
-        View navHeaderView = binding.navView.getHeaderView(0);
-        // Initialise the views
-        ImageView profileImage =  navHeaderView.findViewById(R.id.ivProfileIcon);
-        TextView tvName =  navHeaderView.findViewById(R.id.tvName);
-        TextView tvEmail =  navHeaderView.findViewById(R.id.tvEmail);
-        AppCompatButton btnProfile = navHeaderView.findViewById(R.id.btnProfile);
-        btnProfile.setOnClickListener(v -> {
-            binding.drawerLayout.closeDrawer(GravityCompat.START);
-            startActivity(new Intent(this, ProfileActivity.class));
-        });
 
-        // set all the views
-        tvName.setText(userNew.getName());
-        tvEmail.setText(userNew.getEmail());
-        if (!userNew.getProfileImage().isEmpty()) { loadProfilePreview(userNew.getProfileImage(), profileImage); }
-        RecyclerView productRecyclerView =  navHeaderView.findViewById(R.id.recyclerView);
-        loadProductType(productRecyclerView);
+        if (userNew!=null){
+            View navHeaderView = binding.navView.getHeaderView(0);
+            ImageView profileImage =  navHeaderView.findViewById(R.id.ivProfileIcon);
+            TextView tvName =  navHeaderView.findViewById(R.id.tvName);
+            TextView tvEmail =  navHeaderView.findViewById(R.id.tvEmail);
+            AppCompatButton btnProfile = navHeaderView.findViewById(R.id.btnProfile);
+            btnProfile.setOnClickListener(v -> {
+                binding.drawerLayout.closeDrawer(GravityCompat.START);
+                startActivity(new Intent(this, ProfileActivity.class));
+            });
+
+            // set all the views
+            tvName.setText(userNew.getName());
+            tvEmail.setText(userNew.getEmail());
+            if (!userNew.getProfileImage().isEmpty()) { loadProfilePreview(userNew.getProfileImage(), profileImage); }
+            RecyclerView productRecyclerView =  navHeaderView.findViewById(R.id.recyclerView);
+            loadProductType(productRecyclerView);
+        }
     }
 
     private void loadProfilePreview(String profileImage, ImageView view) {
         Glide.with(getApplicationContext()).load(profileImage)
                 .apply(new RequestOptions().override(PROFILE_ICON, PROFILE_ICON))
-                .apply(RequestOptions.circleCropTransform())
-                .into(view);
+                .apply(RequestOptions.circleCropTransform()).into(view);
     }
 
     private void loadProductType(RecyclerView recyclerView){
@@ -214,7 +217,9 @@ public class MainActivity extends BaseActivity {
         recyclerView.addOnItemTouchListener(new ClickListener(getApplicationContext(), recyclerView, (view, position) -> {
             DiamondCut diamondCut = diamondCutList.get(position);
             selectedChipItem = diamondCut.getCut_type();
-            Stash.put(Constants.DIAMOND_CUT, selectedChipItem);
+            String cut_type_url = diamondCut.getCut_url();
+            Stash.put(Constants.SELECTED_CUT, selectedChipItem);
+            Stash.put(Constants.DIAMOND_CUT_URL, cut_type_url);
             runOnUiThread(() -> loadDrawerExpandableList(selectedChipItem));
         }));
     }
@@ -227,34 +232,46 @@ public class MainActivity extends BaseActivity {
 
         List<String> diamondSize = new ArrayList<>();
         RealmResults<DiamondSize> diamondSizeList = realm.where(DiamondSize.class).findAll();
-        diamondSizeList.forEach(diamond->{
-            //Log.e("diamondSizes", diamond.getSize());
-            diamondSize.add(diamond.getSize());
+        diamondSizeList.forEach(diamond->{ diamondSize.add(diamond.getSize());
         });
 
         List<String> diamondColors = new ArrayList<>();
         RealmResults<DiamondColor> diamondColorList = realm.where(DiamondColor.class).findAll();
-        diamondColorList.forEach(diamond->{
-            //Log.e("diamondColor", diamond.getColor());
-            diamondColors.add(diamond.getColor());
+        diamondColorList.forEach(diamond->{ diamondColors.add(diamond.getColor());
         });
 
-        List<String> othersItems = Arrays.asList("News", "About Us", "Terms and Conditions","Help","Logout");
+        List<String> othersItems = Arrays.asList("News", "About Us", "Terms and Conditions","Tutorials","Logout");
         for (String diamond: diamondSize) { listDataChild.put(diamond, diamondColors); }
         int length = diamondSize.size()-1;
         listDataChild.put(diamondSize.get(length), othersItems);
         ExpandableDrawerAdapter expandableDrawerAdapter = new ExpandableDrawerAdapter(this, diamondSize, listDataChild);
         expandableListView.setAdapter(expandableDrawerAdapter);
         expandableListView.setOnGroupExpandListener(groupPosition -> {
+
+            //****************************************************************************************/
+            /*on group size selection*/
+            String groupHeader = diamondSize.get(groupPosition); // +0.90
+            RealmResults<ProductTable> productTables = realm.where(ProductTable.class)
+                    .contains("size",groupHeader)
+                    .contains("shape",selectedChipItem).findAll();
+
+            if (productTables.size()==0){
+                Toast.makeText(this, "No Products Found", Toast.LENGTH_SHORT).show();
+            }
+            //****************************************************************************************//
+
             if (lastExpandedPosition != -1 && groupPosition != lastExpandedPosition) {
                 expandableListView.collapseGroup(lastExpandedPosition);
             }
             lastExpandedPosition = groupPosition;
+
         });
         expandableListView.expandGroup(length);
         expandableListView.setOnChildClickListener((parent, view, groupPosition, childPosition, id) -> {
 
+            /*group Size selected*/
             String groupHeader = diamondSize.get(groupPosition); // +0.90
+            /*group Color selected*/
             String selectedItem = listDataChild.get(groupHeader).get(childPosition); // White
             view.setSelected(true);
             if (view_Group != null) { view_Group.setBackgroundColor(Color.WHITE); }
@@ -271,14 +288,15 @@ public class MainActivity extends BaseActivity {
             }else if (selectedItem.equalsIgnoreCase("Terms and Conditions")){
                 setActionBarTitle(selectedItem);
                 fragment = new FragmentTermsCondition();
-            }else if (selectedItem.equalsIgnoreCase("Help")){
+            }else if (selectedItem.equalsIgnoreCase("Tutorials")){
                 setActionBarTitle(selectedItem);
-                fragment = new FragmentFAQ();
+                fragment = new FragmentTutorials();
             }else if (selectedItem.equalsIgnoreCase("Logout")){
                 appLogout();
                 fragment = new FragmentHome();
             }else {
 
+                Stash.put(Constants.SELECTED_SIZE, groupHeader);
                 Stash.put(SELECTED_COLOR, selectedItem);
                 fragment = new FragmentHome();
                 Objects.requireNonNull(getSupportActionBar()).setTitle(selectedItem.toUpperCase());
@@ -345,9 +363,28 @@ public class MainActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void pushFaqs(){
-        List<FAQTable> tables = new ArrayList<>();
-        dbReference.child("faq").setValue(tables).addOnSuccessListener(aVoid -> { }).addOnFailureListener(e -> { });
+    private void pushClarity(){
+        List<DiamondClarity> tables = new ArrayList<>();
+        tables.add(new DiamondClarity("FL","1"));
+        tables.add(new DiamondClarity("IF","2"));
+        tables.add(new DiamondClarity("VVS-1","3"));
+        tables.add(new DiamondClarity("VVS-2","4"));
+        tables.add(new DiamondClarity("VVS","5"));
+        tables.add(new DiamondClarity("VS-1","6"));
+        tables.add(new DiamondClarity("VS-2","7"));
+        tables.add(new DiamondClarity("VS","8"));
+        tables.add(new DiamondClarity("SI-1","9"));
+        tables.add(new DiamondClarity("SI-2","10"));
+        tables.add(new DiamondClarity("SI-3","11"));
+        tables.add(new DiamondClarity("SI","12"));
+        tables.add(new DiamondClarity("I-1","13"));
+        tables.add(new DiamondClarity("I-2","14"));
+        tables.add(new DiamondClarity("I-3","15"));
+        tables.add(new DiamondClarity("I-4","16"));
+        tables.add(new DiamondClarity("I-5","17"));
+        tables.add(new DiamondClarity("I-6","18"));
+        tables.add(new DiamondClarity("I-7","19"));
+        dbReference.child(Constants.DIAMOND_CLARITY).setValue(tables).addOnSuccessListener(aVoid -> { }).addOnFailureListener(e -> { });
     }
 
     private void addBadgeView(int counter) {
