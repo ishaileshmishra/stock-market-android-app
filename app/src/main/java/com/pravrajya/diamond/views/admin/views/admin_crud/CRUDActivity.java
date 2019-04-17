@@ -47,15 +47,6 @@ public class CRUDActivity extends BaseActivity {
     private String selectedColorChip = null;
     private String selectedProductId = null;
     private DatabaseReference dbReference;
-
-    public String getSelected_licence() {
-        return this.selected_licence;
-    }
-
-    public void setSelected_licence(String selected_licence) {
-        this.selected_licence = selected_licence;
-    }
-
     private String selected_licence;
 
 
@@ -86,6 +77,9 @@ public class CRUDActivity extends BaseActivity {
         btnClickHandler();
     }
 
+
+
+
     private void updateProduct(){
 
         if (selectedProductId !=null)
@@ -102,7 +96,7 @@ public class CRUDActivity extends BaseActivity {
             binding.etColor.setText(product.getColor());
             binding.etClarity.setText(product.getClarity());
             binding.etCut.setText(product.getCut());
-            //binding.etCulet.setText(product.getCulet());
+            binding.etCulet.setText(product.getCulet());
             binding.etVideoLink.setText(product.getVedioLink());
             binding.etPolish.setText(product.getPolish());
             binding.etSymmetry.setText(product.getSymmetry());
@@ -169,9 +163,9 @@ public class CRUDActivity extends BaseActivity {
                 clearAllErrors("Culet",binding.textInputLayoutCulet, binding.etCulet);
             }else if (fluores.isEmpty()){
                 clearAllErrors("Fluorescence",binding.textInputLayoutFluorescence, binding.etFluorescence);
-            }else if (videoLink.isEmpty()){
+            }/*else if (videoLink.isEmpty()){
                 clearAllErrors("Video Link",binding.textInputLayoutVideo, binding.etVideoLink);
-            }else {
+            }*/else {
 
                 String uniqueID = UUID.randomUUID().toString();
                 if (selectedProductId!=null) {
@@ -180,7 +174,6 @@ public class CRUDActivity extends BaseActivity {
 
 
                 /******************************************************/
-
                 ProductTable productTable = new ProductTable();
                 productTable.setId(uniqueID);
                 productTable.setColor(selectedColorChip);
@@ -205,8 +198,6 @@ public class CRUDActivity extends BaseActivity {
                     productTable.setLicence(getSelected_licence()+":"+certNumber);
                 }
 
-
-
                 /******************************************************/
 
                 String information = "Make sure all information is correct";
@@ -220,37 +211,32 @@ public class CRUDActivity extends BaseActivity {
     }
 
     private void loadSelectedOptions() {
-        binding.etShape.setOnClickListener(view->{
-            loadShapes(binding.etShape);
-        });binding.etSize.setOnClickListener(view->{ loadSizes(binding.etSize);
-        });binding.etColor.setOnClickListener(view->{ loadColors(binding.etColor);
-        });binding.etClarity.setOnClickListener(view->{ loadClarity(binding.etClarity);
-        });binding.etCut.setOnClickListener(view->{ loadAdminItem(binding.etCut, Constants.ADMIN_CUT);
-        });binding.etPolish.setOnClickListener(view->{ loadAdminItem(binding.etPolish, Constants.ADMIN_POLISH);
-        });binding.etSymmetry.setOnClickListener(view->{ loadAdminItem(binding.etSymmetry, Constants.ADMIN_SYMMETRY);
-        });binding.etCulet.setOnClickListener(view->{ loadAdminItem(binding.etCulet, Constants.ADMIN_CULET);
-        });binding.etFluorescence.setOnClickListener(view->{ loadAdminItem(binding.etFluorescence, Constants.ADMIN_FLUORESCENCE);
-        });binding.etShade.setOnClickListener(view->{ loadAdminItem(binding.etShade, Constants.ADMIN_COLOR_SHADE);
-        });
 
+        binding.etShape.setOnClickListener(view->{ loadShapes(binding.etShape); });
+        binding.etSize.setOnClickListener(view->{ loadSizes(binding.etSize); });
+        binding.etColor.setOnClickListener(view->{ loadColors(binding.etColor); });
+        binding.etClarity.setOnClickListener(view->{ loadClarity(binding.etClarity); });
+        binding.etCut.setOnClickListener(view->{ loadAdminItem(binding.etCut, Constants.ADMIN_CUT); });
+        binding.etPolish.setOnClickListener(view->{ loadAdminItem(binding.etPolish, Constants.ADMIN_POLISH); });
+        binding.etSymmetry.setOnClickListener(view-> loadAdminItem(binding.etSymmetry, Constants.ADMIN_SYMMETRY));binding.etCulet.setOnClickListener(view->{ loadAdminItem(binding.etCulet, Constants.ADMIN_CULET); });
+        binding.etFluorescence.setOnClickListener(view->{ loadAdminItem(binding.etFluorescence, Constants.ADMIN_FLUORESCENCE); });
+        binding.etShade.setOnClickListener(view->{ loadAdminItem(binding.etShade, Constants.ADMIN_COLOR_SHADE); });
         binding.licenceSpinn.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
                 if (parent.getItemAtPosition(position)!=null){
                     setSelected_licence(parent.getItemAtPosition(position).toString());
                 }
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) { }
         });
-
     }
 
+
     private void loadShapes(EditText editText){
+
         final RealmResults<DiamondCut> diamondCuts = realm.where(DiamondCut.class).findAll();
         BottomSheet.Builder builder = new BottomSheet.Builder(this);
         BottomSheet bottomSheet = builder.create();
@@ -261,12 +247,12 @@ public class CRUDActivity extends BaseActivity {
         bottomSheet.show();
         builder.setOnItemClickListener((parent, view, position, id) -> {
             editText.setText(diamondCuts.get(position).getCut_type());
-
         });
-
     }
 
+
     private void loadSizes(EditText editText){
+
         final RealmResults<DiamondSize> diamondSizes = realm.where(DiamondSize.class).findAll();
         BottomSheet.Builder builder = new BottomSheet.Builder(this);
         BottomSheet bottomSheet = builder.create();
@@ -281,6 +267,7 @@ public class CRUDActivity extends BaseActivity {
 
     }
 
+
     private void loadColors(EditText editText){
         final RealmResults<DiamondColor> diamondColors = realm.where(DiamondColor.class).findAll();
         BottomSheet.Builder builder = new BottomSheet.Builder(this);
@@ -293,6 +280,7 @@ public class CRUDActivity extends BaseActivity {
         builder.setOnItemClickListener((parent, view, position, id) -> { editText.setText(diamondColors.get(position).getColor()); });
 
     }
+
 
     private void loadClarity(EditText editText){
         final RealmResults<DiamondClarity> diamondClarities = realm.where(DiamondClarity.class).findAll();
@@ -309,6 +297,7 @@ public class CRUDActivity extends BaseActivity {
 
     }
 
+
     private void loadAdminItem(EditText editText, String key){
 
         BottomSheet.Builder builder = new BottomSheet.Builder(this);
@@ -320,48 +309,31 @@ public class CRUDActivity extends BaseActivity {
             editText.setText(stringArrayList.get(position)); });
     }
 
+
     private void clearAllErrors(String errorMsg, TextInputLayout inputLayout, View requestFocus) {
 
         if (requestFocus!=null){ requestFocus.requestFocus(); }
 
-        binding.textInputLayoutProduct.setError(null);
-        binding.textInputHighPrice.setError(null);
-        binding.textInputLayoutProductWeight.setError(null);
-        binding.textInputLayoutLowPrice.setError(null);
-        binding.textInputLayoutPrice.setError(null);
-        binding.textInputLayoutShape.setError(null);
-        binding.textInputLayoutShade.setError(null);
-        binding.textInputLayoutSize.setError(null);
-        binding.textInputLayoutColor.setError(null);
-        binding.textInputLayoutClarity.setError(null);
-        binding.textInputLayoutCut.setError(null);
-        binding.textInputLayoutPolish.setError(null);
-        binding.textInputLayoutSymmetry.setError(null);
-        binding.textInputLayoutCulet.setError(null);
-        binding.textInputLayoutFluorescence.setError(null);
-
+        binding.textInputLayoutProduct.setError(null);binding.textInputHighPrice.setError(null);binding.textInputLayoutProductWeight.setError(null);
+        binding.textInputLayoutLowPrice.setError(null);binding.textInputLayoutPrice.setError(null);binding.textInputLayoutShape.setError(null);
+        binding.textInputLayoutShade.setError(null);binding.textInputLayoutSize.setError(null);binding.textInputLayoutColor.setError(null);
+        binding.textInputLayoutClarity.setError(null);binding.textInputLayoutCut.setError(null);binding.textInputLayoutPolish.setError(null);
+        binding.textInputLayoutSymmetry.setError(null);binding.textInputLayoutCulet.setError(null);binding.textInputLayoutFluorescence.setError(null);
         if (inputLayout!=null){
             inputLayout.setError(errorMsg+" can't be Empty");
         }
-
     }
+
 
     private void clearEditTexts() {
-        binding.etStockId.setText("");
-        binding.etProductWeight.setText("");
-        binding.etHighPrice.setText("");
-        binding.etLowPrice.setText("");
-        binding.etShape.setText("");
-        binding.etShade.setText("");
-        binding.etSize.setText("");
-        binding.etColor.setText("");
-        binding.etClarity.setText("");
-        binding.etCut.setText("");
-        binding.etPolish.setText("");
-        binding.etSymmetry.setText("");
-        binding.etCulet.setText("");
-        binding.etFluorescence.setText("");
+
+        binding.etStockId.setText(""); binding.etProductWeight.setText(""); binding.etHighPrice.setText("");
+        binding.etLowPrice.setText("");binding.etShape.setText("");binding.etShade.setText("");
+        binding.etSize.setText("");binding.etColor.setText("");binding.etClarity.setText("");
+        binding.etCut.setText("");binding.etPolish.setText("");binding.etSymmetry.setText("");
+        binding.etCulet.setText("");binding.etFluorescence.setText("");
     }
+
 
     private void showAlertDialog(String title, String subtitle, ProductTable productTable ){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -376,13 +348,15 @@ public class CRUDActivity extends BaseActivity {
             dialog.dismiss();
             syncProductToServer(productTable);
 
-        }).setNegativeButton("Cancel", (dialog, which) -> {
-        });
+        }).setNegativeButton("Cancel", (dialog, which) -> { });
         builder.show();
 
     }
 
+
+
     public void syncProductToServer(ProductTable productTable){
+
         showProgressDialog(productTable.getClarity()+" syncing to server...");
         dbReference.child("products").child(productTable.getId()).setValue(productTable)
                 .addOnSuccessListener(aVoid -> {
@@ -401,6 +375,7 @@ public class CRUDActivity extends BaseActivity {
                 });
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -411,6 +386,11 @@ public class CRUDActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    public String getSelected_licence() {
+        return this.selected_licence;
+    }
+    public void setSelected_licence(String selected_licence) { this.selected_licence = selected_licence; }
 
 
 }

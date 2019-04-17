@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <RelativeLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -34,30 +38,32 @@
 
                 </RelativeLayout>
 
-
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/linearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/fab_margin"
+                    android:layout_margin="@dimen/fab_margin"
+                    android:paddingBottom="@dimen/top_margin50"
+                    android:layout_marginBottom="@dimen/top_margin50"
                     android:orientation="vertical"/>
 
             </LinearLayout>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnBUY"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/roundedbutton_primary"
-                android:textColor="@color/colorWhite"
-                android:layout_margin="@dimen/fab_margin"
-                android:text="@string/buy"
-                android:layout_marginTop="@dimen/top_margin"
-                android:layout_alignParentBottom="true"
-                style="@style/AppTextMedium"/>
+        </ScrollView>
 
-        </RelativeLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnBUY"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/roundedbutton_primary"
+            android:textColor="@color/colorWhite"
+            android:layout_margin="@dimen/fab_margin"
+            android:text="@string/buy"
+            android:layout_alignParentBottom="true"
+            style="@style/AppTextMedium"/>
 
-    </ScrollView>
+    </RelativeLayout>
+
+
 
 </layout>

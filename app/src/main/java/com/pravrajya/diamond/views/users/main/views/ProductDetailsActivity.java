@@ -6,18 +6,14 @@ import androidx.core.widget.TextViewCompat;
 import androidx.databinding.DataBindingUtil;
 import io.realm.Realm;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -31,7 +27,6 @@ import com.irozon.alertview.AlertView;
 import com.irozon.alertview.objects.AlertAction;
 import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.api.video_player.WatchVideoActivity;
-import com.pravrajya.diamond.api.video_player.YouTubeActivity;
 import com.pravrajya.diamond.databinding.ActivityProductDetailBinding;
 import com.pravrajya.diamond.tables.diamondCut.DiamondCut;
 import com.pravrajya.diamond.tables.product.ProductTable;
@@ -40,11 +35,8 @@ import com.pravrajya.diamond.views.BaseActivity;
 import com.pravrajya.diamond.views.users.login.UserProfile;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import static com.pravrajya.diamond.utils.Constants.CART;
-import static com.pravrajya.diamond.utils.Constants.DRAWER_SELECTION;
-import static com.pravrajya.diamond.utils.Constants.PROFILE_ICON;
 import static com.pravrajya.diamond.utils.Constants.USERS;
 import static com.pravrajya.diamond.utils.Constants.USER_PROFILE;
 
@@ -74,14 +66,15 @@ public class ProductDetailsActivity extends BaseActivity {
 
     private void instantiateVariables() {
 
-        dbReference = FirebaseDatabase.getInstance().getReference();
-        userNew     = (UserProfile) Stash.getObject(USER_PROFILE, UserProfile.class);
-        cartList    = Stash.getArrayList(Constants.CART_ITEMS, String.class);
-        realm       = Realm.getDefaultInstance();
-        selectedUID = getIntent().getStringExtra("id");
+        dbReference   =  FirebaseDatabase.getInstance().getReference();
+        userNew       =  (UserProfile) Stash.getObject(USER_PROFILE, UserProfile.class);
+        cartList      =  Stash.getArrayList(Constants.CART_ITEMS, String.class);
+        realm         =  Realm.getDefaultInstance();
+        selectedUID   =  getIntent().getStringExtra("id");
 
         ProductTable table = realm.where(ProductTable.class).equalTo(Constants.ID, selectedUID).findFirst();
         getSupportActionBar().setTitle(table.getClarity());
+
         loadInformation(table);
 
         buyBtnClickHandler();
@@ -118,10 +111,15 @@ public class ProductDetailsActivity extends BaseActivity {
     }
 
     private void loadImagePreview(ProductTable table) {
+
         DiamondCut diamondCut = realm.where(DiamondCut.class).equalTo("cut_type",table.getShape()).findFirst();
-        Glide.with(getApplicationContext()).load(diamondCut.getCut_url()).apply(new RequestOptions().override(300, 300))
+
+        Glide.with(getApplicationContext())
+                .load(diamondCut.getCut_url())
+                .apply(new RequestOptions()
+                .override(500, 500))
                 .into(binding.viewImageLogo);
-        //binding.viewImageLogo.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), YouTubeActivity.class)));
+
         binding.viewImageLogo.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), WatchVideoActivity.class);
             intent.putExtra("vedio_link",String.valueOf(table.getVedioLink()));
@@ -129,17 +127,21 @@ public class ProductDetailsActivity extends BaseActivity {
         });
     }
 
+
+
     private View addCustomView(String title, String titleInfo, int color) {
 
         View customLinear = LayoutInflater.from(this).inflate(R.layout.custom_text_view, binding.linearLayout, false);
         TextView tvTitle  = customLinear.findViewById(R.id.title);
         TextView tvInfo   = customLinear.findViewById(R.id.content);
-        TextViewCompat.setTextAppearance(tvTitle, R.style.AppTextSmall);
+
+        TextViewCompat.setTextAppearance(tvTitle, R.style.AppTextMedium);
         TextViewCompat.setTextAppearance(tvInfo, R.style.AppTextSmall);
 
-        tvTitle.setText(title);
-        tvInfo.setText(titleInfo);
+        tvTitle.setText(title.toUpperCase());
+        tvInfo.setText(titleInfo.toUpperCase());
         if (color!=0){ customLinear.setBackgroundColor(color); }
+
         return customLinear;
     }
 
@@ -163,23 +165,24 @@ public class ProductDetailsActivity extends BaseActivity {
         showProgressDialog("Adding to cart");
         String getCurrentUser = userNew.getUserId();
         String put_in_cart = selectedUID+"@"+PATH;
-        if (cartList!=null){
-            if (!cartList.contains(put_in_cart)){ cartList.add(put_in_cart); }
-        }else {
-            cartList.add(put_in_cart);
-        }
+        if (cartList!=null){ if (!cartList.contains(put_in_cart)){ cartList.add(put_in_cart); }
+        }else { cartList.add(put_in_cart); }
 
         if (getCurrentUser!=null)
-            dbReference.child(USERS).child(getCurrentUser).child(CART).setValue(cartList)
-                    .addOnSuccessListener(aVoid -> {
+            dbReference.child(USERS).child(getCurrentUser).child(CART).setValue(cartList).addOnSuccessListener(aVoid -> {
+
                         hideProgressDialog();
                         successToast("Added to cart");
                         onBackPressed();
+
                     }).addOnFailureListener(e -> {
+
                 hideProgressDialog();
                 errorToast("Failed to add in cart");
             });
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -187,45 +190,17 @@ public class ProductDetailsActivity extends BaseActivity {
         if (id == android.R.id.home) {
             finish();
             return true;
-        }/*else if (id == R.id.action_play) {
-            startActivity(new Intent(getApplicationContext(), WatchVideoActivity.class));
-            overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-            return true;
-        }*/
+        }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
+
+
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.detail_menu, menu);
         return true;
-    }
-
-    private void watchVedio() {
-
-        //startActivity(new Intent(getApplicationContext(), WatchVideoActivity.class));
-        //overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-        /*AppCompatButton compatButton = new AppCompatButton(this);
-        compatButton.setText("Watch Video");
-        compatButton.setTextColor(Color.RED);
-        compatButton.setBackgroundResource(R.drawable.gray_round_btn);
-        applyMargin(compatButton);
-        binding.linearLayout.addView(compatButton);*/
-
-        /*binding.btnWatchVideo.setOnClickListener(v -> {
-
-            AlertView alert = new AlertView("Watch Video", "Select Your Preferences", AlertStyle.BOTTOM_SHEET);
-            alert.addAction(new AlertAction("Watch Online", AlertActionStyle.DEFAULT, action -> {
-                startActivity(new Intent(getApplicationContext(), WatchVideoActivity.class));
-            }));
-            alert.addAction(new AlertAction("Youtube", AlertActionStyle.NEGATIVE, action -> {
-                startActivity(new Intent(getApplicationContext(), YouTubeActivity.class));
-            }));
-            alert.show(this);
-
-        });*/
-
-    }
+    }*/
 
 
 
