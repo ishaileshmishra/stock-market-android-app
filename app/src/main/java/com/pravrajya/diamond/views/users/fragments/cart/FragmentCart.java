@@ -53,10 +53,12 @@ public class FragmentCart extends BaseFragment implements DeletionSwipeHelper.On
     private Realm realm;
     private ArrayList<String> cartIdList = new ArrayList<>();
     private DatabaseReference dbReference;
-    public FragmentCart() { }
+
     public static FragmentCart newInstance() {
         return new FragmentCart();
     }
+
+    public FragmentCart() { }
 
 
     @Override
@@ -73,49 +75,14 @@ public class FragmentCart extends BaseFragment implements DeletionSwipeHelper.On
             binding.btnBuy.setVisibility(View.GONE);
         }
         cartAdapter = new CartAdapter(getActivity(), cartModels);
+
         loadCartData();
+
         binding.swipeRefreshLayout.setOnRefreshListener(this::refreshData);
         return binding.getRoot();
     }
 
 
-
-    private void refreshData() {
-        cartModels.clear();
-        if (cartIdList == null || cartIdList.size()==0){
-            binding.noItems.setVisibility(View.VISIBLE);
-            binding.noItems.setText(getString(R.string.no_items));
-            binding.btnBuy.setVisibility(View.GONE);
-        }
-
-        cartIdList.forEach(cartUId->{
-
-            OfferTable offerTable = null;
-            ProductTable productTable = null;
-            String[] item_id_array = null;
-
-            if (!cartUId.contains("@")){
-                offerTable = realm.where(OfferTable.class).equalTo(UID, cartUId).findFirst();
-            }else {
-                item_id_array = cartUId.split("@");
-                productTable = realm.where(ProductTable.class).equalTo("id", item_id_array[0]).findFirst();
-            }
-
-            if (offerTable!=null){
-                Log.i("OfferTable", "offer found");
-                cartModels.add(new CartModel(offerTable.getUid(), offerTable.getTitle(), offerTable.getPrice()));
-            }
-
-            if (productTable!=null){
-                Log.i("ProductTable", "product found");
-                cartModels.add(new CartModel(productTable.getId(), item_id_array[1],
-                        productTable.getPrice()));
-            }
-        });
-
-        cartAdapter.notifyDataSetChanged();
-        binding.swipeRefreshLayout.setRefreshing(false);
-    }
 
 
     private void loadCartData() {
@@ -134,6 +101,48 @@ public class FragmentCart extends BaseFragment implements DeletionSwipeHelper.On
 
         btnBuy();
     }
+
+
+    private void refreshData() {
+
+        cartModels.clear();
+        if (cartIdList == null || cartIdList.size()==0){
+            binding.noItems.setVisibility(View.VISIBLE);
+            binding.noItems.setText(getString(R.string.no_items));
+            binding.btnBuy.setVisibility(View.GONE);
+        }
+
+
+        cartIdList.forEach(cartUId->{
+
+            OfferTable offerTable = null;
+            ProductTable productTable = null;
+            String[] item_id_array = null;
+
+            if (!cartUId.contains("@")){
+                offerTable = realm.where(OfferTable.class).equalTo(UID, cartUId).findFirst();
+            }else {
+                item_id_array = cartUId.split("@");
+                productTable  = realm.where(ProductTable.class).equalTo("id", item_id_array[0]).findFirst();
+            }
+
+            if (offerTable!=null){
+                Log.i("OfferTable", "offer found");
+                cartModels.add(new CartModel(offerTable.getUid(), offerTable.getTitle(), offerTable.getPrice()));
+            }
+
+            if (productTable!=null){
+                Log.i("ProductTable", "product found");
+                cartModels.add(new CartModel(productTable.getId(), item_id_array[1], productTable.getPrice()));
+            }
+        });
+
+        cartAdapter.notifyDataSetChanged();
+        binding.swipeRefreshLayout.setRefreshing(false);
+    }
+
+
+
 
 
 

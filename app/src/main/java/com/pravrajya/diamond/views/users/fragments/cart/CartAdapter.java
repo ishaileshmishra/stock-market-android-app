@@ -2,15 +2,12 @@ package com.pravrajya.diamond.views.users.fragments.cart;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.pravrajya.diamond.R;
-import com.pravrajya.diamond.tables.offers.OfferTable;
 import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -56,7 +53,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
         holder.tvPrice.setText("$ "+price);
 
         PRICE_TO_PAY+=price;
-        holder.numberButton.setRange(1, 15);
+        holder.numberButton.setRange(1, 10);
         holder.numberButton.setOnValueChangeListener((view, oldValue, newValue) -> {
             activity.runOnUiThread(() -> {
                 int updatedPrice = price * newValue;
