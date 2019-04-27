@@ -15,17 +15,17 @@ public class OfferTable extends RealmObject {
 
     private String price;
 
-    private String other;
+    private String carat;
 
     public OfferTable() { }
 
 
-    public OfferTable(String uid, String date, String title, String price, String other) {
+    public OfferTable(String uid, String date, String title, String price, String carat) {
         this.uid = uid;
         this.date = date;
         this.title = title;
         this.price = price;
-        this.other = other;
+        this.carat = carat;
     }
 
     public String getUid() {
@@ -60,11 +60,11 @@ public class OfferTable extends RealmObject {
         this.price = price;
     }
 
-    public String getOther() {
-        return other;
+    public String getCarat() {
+        return carat;
     }
 
-    public void setOther(String other) {
-        this.other = other;
+    public void setCarat(String carat) {
+        this.carat = carat;
     }
 }

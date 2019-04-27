@@ -164,12 +164,14 @@ public class ProductDetailsActivity extends BaseActivity {
 
         showProgressDialog("Adding to cart");
         String getCurrentUser = userNew.getUserId();
-        String put_in_cart = selectedUID+"@"+PATH;
-        if (cartList!=null){ if (!cartList.contains(put_in_cart)){ cartList.add(put_in_cart); }
-        }else { cartList.add(put_in_cart); }
+        //String put_in_cart = selectedUID+"@"+PATH;
+        if (cartList!=null){ if (!cartList.contains(selectedUID)){ cartList.add(selectedUID); }
+        }else { cartList.add(selectedUID); }
 
         if (getCurrentUser!=null)
-            dbReference.child(USERS).child(getCurrentUser).child(CART).setValue(cartList).addOnSuccessListener(aVoid -> {
+            dbReference.child(USERS).child(getCurrentUser)
+                    .child(CART).setValue(cartList)
+                    .addOnSuccessListener(aVoid -> {
 
                         hideProgressDialog();
                         successToast("Added to cart");

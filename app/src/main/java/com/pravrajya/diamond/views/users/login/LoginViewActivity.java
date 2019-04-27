@@ -27,6 +27,7 @@ import com.pravrajya.diamond.databinding.ActivityLoginViewBinding;
 import com.pravrajya.diamond.views.BaseActivity;
 import com.pravrajya.diamond.views.users.main.views.MainActivity;
 
+import android.text.method.PasswordTransformationMethod;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -58,6 +59,7 @@ public class LoginViewActivity extends BaseActivity {
         getSupportActionBar().setHomeAsUpIndicator(getResources().getDrawable(R.drawable.ic_close_black));
         getSupportActionBar().setElevation(0);
         mAuth = FirebaseAuth.getInstance();
+        loginBinding.etPassword.setTransformationMethod(new PasswordTransformationMethod());
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
@@ -87,6 +89,7 @@ public class LoginViewActivity extends BaseActivity {
 
 
     private void firebaseCreateAccount(String email, String password) {
+
         showProgressDialog("Login in progress");
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
