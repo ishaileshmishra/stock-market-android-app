@@ -3,6 +3,7 @@ package com.pravrajya.diamond.views.users.fragments;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -59,19 +60,23 @@ public class BaseFragment extends Fragment {
 
 
     protected void errorToast(String errorMessage) {
-        //Sneaker.with(this).setTitle("Error!!").setMessage(errorMessage).sneakError();
-        Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+        Toast toast = Toast.makeText(getActivity(),errorMessage, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+
     }
 
 
     protected void successToast(String successMessage){
-        //Sneaker.with(this).setTitle("Success!!").setMessage(successMessage).sneakSuccess();
-        Toast.makeText(getActivity(), successMessage, Toast.LENGTH_SHORT).show();
+        Toast toast = Toast.makeText(getActivity(),successMessage, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
     protected void informationToast(String informationString){
-        //Sneaker.with(this).setTitle("Warning!!").setMessage(informationString).sneakWarning();
-        Toast.makeText(getActivity(), informationString, Toast.LENGTH_SHORT).show();
+        Toast toast = Toast.makeText(getActivity(),informationString, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
 

@@ -1,48 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:layout_marginTop="@dimen/top_margin">
+        android:layout_marginTop="@dimen/top_margin"
+        android:orientation="vertical">
 
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/payment_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:padding="@dimen/bottom_sheet_divider_height"
+            android:visibility="gone"
+            android:background="@color/colorTin"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/noItems"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvPayment"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_weight="1"
+                android:padding="@dimen/bottom_sheet_divider_height"
+                android:textAppearance="?android:textAppearanceMedium"
                 android:textStyle="bold"
-                android:visibility="gone"
-                style="@style/AppTextMedium"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/top_margin"
-                android:paddingBottom="@dimen/top_margin"/>
+                android:layout_marginStart="@dimen/fab_margin"
+                android:textColor="@color/white"
+                android:text="$999"/>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnBuy"
-                android:layout_width="300dp"
-                android:layout_height="40dp"
+                android:id="@+id/btnBuyNow"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_weight="1"
                 android:text="@string/cart_pay"
-                android:gravity="center"
                 style="@style/AppTextMedium"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/gray_round_btn"
-                android:textColor="@color/black"
-                android:layout_marginBottom="@dimen/top_margin"
-                android:layout_alignParentBottom="true"/>
-        </RelativeLayout>
+                android:elevation="@dimen/bottom_sheet_divider_height"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:background="@drawable/roundedbutton_accent" />
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </LinearLayout>
+
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/noItems"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:drawablePadding="@dimen/spacing_4"
+                    android:background="@drawable/gray_round_btn"
+                    android:padding="@dimen/fab_margin"
+                    android:drawableTop="@drawable/ic_shopping_cart"
+                    style="@style/AppTextSmall"
+                    android:visibility="gone"
+                    android:layout_gravity="center"/>
+
+                <ProgressBar
+                    android:id="@+id/idProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/top_margin"
+                    android:paddingBottom="@dimen/top_margin"/>
+
+               <!-- <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnBuy"
+                    android:layout_width="300dp"
+                    android:layout_height="40dp"
+                    android:text="@string/cart_pay"
+                    android:gravity="center"
+                    style="@style/AppTextMedium"
+                    android:visibility="gone"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/gray_round_btn"
+                    android:textColor="@color/text_black"
+                    android:layout_marginBottom="@dimen/top_margin"
+                    android:layout_alignParentBottom="true"/>-->
+            </RelativeLayout>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
 
 
 </layout>

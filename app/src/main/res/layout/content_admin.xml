@@ -409,7 +409,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/top_margin40"
             android:background="@drawable/gray_round_btn"
-            android:textColor="@color/black"
+            android:textColor="@color/text_black"
             android:textStyle="bold"
             android:layout_margin="@dimen/fab_margin"
             android:layout_marginBottom="@dimen/com_facebook_auth_dialog_corner_radius_oversized"

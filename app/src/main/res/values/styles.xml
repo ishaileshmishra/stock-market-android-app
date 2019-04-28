@@ -3,7 +3,6 @@
     <style name="AppTheme" parent="Theme.Design.Light">
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/lightGray</item>
-        <item name="android:fontFamily">@font/expletus_sans</item>
         <item name="android:textAppearance">@style/AppTextSmall</item>
         <item name="colorAccent">@color/colorPrimary</item>
     </style>

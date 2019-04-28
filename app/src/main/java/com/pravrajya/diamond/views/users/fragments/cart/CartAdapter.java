@@ -18,7 +18,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
 
     private ArrayList<CartModel> itemList;
     private Activity activity;
-    private static int PRICE_TO_PAY = 0;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView  tvTitle, tvPrice;
@@ -52,7 +51,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
         holder.tvTitle.setText(title);
         holder.tvPrice.setText("$ "+price);
 
-        PRICE_TO_PAY+=price;
         holder.numberButton.setRange(1, 10);
         holder.numberButton.setOnValueChangeListener((view, oldValue, newValue) -> {
             activity.runOnUiThread(() -> {

@@ -20,8 +20,6 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".views.users.profile.ProfileActivity"
             android:label="@string/title_activity_profile" />
-        <activity android:name=".views.users.payment.PaymentViewActivity"
-            android:label="@string/title_activity_payment_view" />
         <activity android:name=".views.users.registration.SignUpActivity"
             android:label="@string/title_activity_profile" />
         <activity android:name=".views.admin.views.offers.AddOfferActivity"

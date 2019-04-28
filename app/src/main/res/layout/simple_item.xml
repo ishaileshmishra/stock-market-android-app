@@ -11,7 +11,6 @@
             android:id="@+id/tvTextSingle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textStyle="bold"
             style="@style/AppTextSmall" />
 
         <RelativeLayout
@@ -27,7 +26,10 @@
                 style="@style/AppTextMedium"
                 android:paddingStart="@dimen/fab_margin"
                 android:paddingEnd="@dimen/fab_margin"
-                android:background="@drawable/rectangle_shape"
+                android:background="@drawable/roundedbutton_primary"
+                android:paddingLeft="@dimen/bottom_sheet_divider_height"
+                android:paddingRight="@dimen/bottom_sheet_divider_height"
+                android:textColor="@color/white"
                 android:text="Price : $18" />
 
             <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton

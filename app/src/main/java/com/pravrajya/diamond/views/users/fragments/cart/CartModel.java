@@ -8,6 +8,7 @@ public class CartModel {
     private String carat;
 
     public CartModel(String uid, String title, String price, String carat) {
+
         this.uid = uid;
         this.title = title;
         this.price = price;
@@ -30,9 +31,7 @@ public class CartModel {
         this.title = title;
     }
 
-    public String getPrice() {
-        return price;
-    }
+    public String getPrice() { return price; }
 
     public void setPrice(String price) {
         this.price = price;
