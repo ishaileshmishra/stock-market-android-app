@@ -1,4 +1,5 @@
 package com.pravrajya.diamond.tables;
+import com.pravrajya.diamond.tables.cartKlc.CartKlcDao;
 import com.pravrajya.diamond.tables.diamondClarity.DiamondClarityDao;
 import com.pravrajya.diamond.tables.diamondColor.DiamondColorDao;
 import com.pravrajya.diamond.tables.diamondCut.DiamondCutDao;
@@ -67,10 +68,10 @@ public class RealmManager {
         return new FaqDao(mRealm);
     }
 
-    /*public static AdminPanelDao adminPanelDao (){
+    public static CartKlcDao cartKlcDao (){
         checkForOpenRealm();
-        return new AdminPanelDao(mRealm);
-    }*/
+        return new CartKlcDao(mRealm);
+    }
 
 
     private static void checkForOpenRealm() {

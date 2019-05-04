@@ -5,11 +5,14 @@ import androidx.core.content.ContextCompat;
 import androidx.core.widget.TextViewCompat;
 import androidx.databinding.DataBindingUtil;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,15 +31,21 @@ import com.irozon.alertview.objects.AlertAction;
 import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.api.video_player.WatchVideoActivity;
 import com.pravrajya.diamond.databinding.ActivityProductDetailBinding;
+import com.pravrajya.diamond.tables.RealmManager;
+import com.pravrajya.diamond.tables.cartKlc.CartKlcModel;
 import com.pravrajya.diamond.tables.diamondCut.DiamondCut;
 import com.pravrajya.diamond.tables.product.ProductTable;
 import com.pravrajya.diamond.utils.Constants;
 import com.pravrajya.diamond.views.BaseActivity;
 import com.pravrajya.diamond.views.users.login.UserProfile;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static com.pravrajya.diamond.utils.Constants.CART;
+import static com.pravrajya.diamond.utils.Constants.CART_ITEMS;
 import static com.pravrajya.diamond.utils.Constants.USERS;
 import static com.pravrajya.diamond.utils.Constants.USER_PROFILE;
 
@@ -45,17 +54,21 @@ public class ProductDetailsActivity extends BaseActivity {
 
     private ActivityProductDetailBinding binding;
     private String selectedUID;
+    private String current_user_id;
     private Realm realm;
     private String PATH = null;
     private ArrayList<String> cartList = new ArrayList<>();
     private DatabaseReference dbReference;
     private UserProfile userNew;
+    private ProductTable table;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding  = DataBindingUtil.setContentView(this, R.layout.activity_product_detail);
+        UserProfile userNew = (UserProfile) Stash.getObject(USER_PROFILE, UserProfile.class);
+        current_user_id = userNew.getUserId();
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0000ffff")));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -72,17 +85,15 @@ public class ProductDetailsActivity extends BaseActivity {
         realm         =  Realm.getDefaultInstance();
         selectedUID   =  getIntent().getStringExtra("id");
 
-        ProductTable table = realm.where(ProductTable.class).equalTo(Constants.ID, selectedUID).findFirst();
-        getSupportActionBar().setTitle(table.getClarity());
+        table = realm.where(ProductTable.class).equalTo(Constants.ID, selectedUID).findFirst();
+        Objects.requireNonNull(getSupportActionBar()).setTitle(table.getClarity());
 
-        loadInformation(table);
+        loadInformation();
 
         buyBtnClickHandler();
     }
 
-
-
-    private void loadInformation(ProductTable table) {
+    private void loadInformation() {
 
         loadImagePreview(table);
 
@@ -117,7 +128,7 @@ public class ProductDetailsActivity extends BaseActivity {
         Glide.with(getApplicationContext())
                 .load(diamondCut.getCut_url())
                 .apply(new RequestOptions()
-                .override(500, 500))
+                        .override(500, 500))
                 .into(binding.viewImageLogo);
 
         binding.viewImageLogo.setOnClickListener(v -> {
@@ -127,30 +138,28 @@ public class ProductDetailsActivity extends BaseActivity {
         });
     }
 
-
-
     private View addCustomView(String title, String titleInfo, int color) {
 
         View customLinear = LayoutInflater.from(this).inflate(R.layout.custom_text_view, binding.linearLayout, false);
         TextView tvTitle  = customLinear.findViewById(R.id.title);
         TextView tvInfo   = customLinear.findViewById(R.id.content);
 
-        TextViewCompat.setTextAppearance(tvTitle, R.style.AppTextMedium);
-        TextViewCompat.setTextAppearance(tvInfo, R.style.AppTextSmall);
-
         tvTitle.setText(title.toUpperCase());
-        tvInfo.setText(titleInfo.toUpperCase());
+        tvInfo.setText(titleInfo);
+        tvTitle.setTextSize(12);
+        tvInfo.setTextSize(12);
+
         if (color!=0){ customLinear.setBackgroundColor(color); }
 
         return customLinear;
     }
-
 
     private void buyBtnClickHandler(){
 
         binding.btnBUY.setOnClickListener(view->{
             AlertView alert = new AlertView("Add to cart", "Do you want to Add item in cart ?", AlertStyle.BOTTOM_SHEET);
             alert.addAction(new AlertAction("YES", AlertActionStyle.DEFAULT, action -> {
+                showProgressDialog("Adding to cart...");
                 this.syncCart();
             }));
             alert.addAction(new AlertAction("Cancel", AlertActionStyle.NEGATIVE, action -> { }));
@@ -160,31 +169,11 @@ public class ProductDetailsActivity extends BaseActivity {
 
     }
 
-    private void syncCart(){
-
-        showProgressDialog("Adding to cart");
-        String getCurrentUser = userNew.getUserId();
-        //String put_in_cart = selectedUID+"@"+PATH;
-        if (cartList!=null){ if (!cartList.contains(selectedUID)){ cartList.add(selectedUID); }
-        }else { cartList.add(selectedUID); }
-
-        if (getCurrentUser!=null)
-            dbReference.child(USERS).child(getCurrentUser)
-                    .child(CART).setValue(cartList)
-                    .addOnSuccessListener(aVoid -> {
-
-                        hideProgressDialog();
-                        successToast("Added to cart");
-                        onBackPressed();
-
-                    }).addOnFailureListener(e -> {
-
-                hideProgressDialog();
-                errorToast("Failed to add in cart");
-            });
+    private void updateCart(CartKlcModel cartKlcModel) {
+        RealmManager.open();
+        RealmManager.cartKlcDao().save(cartKlcModel);
+        RealmManager.close();
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -197,12 +186,37 @@ public class ProductDetailsActivity extends BaseActivity {
     }
 
 
+    private void syncCart(){
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.detail_menu, menu);
-        return true;
-    }*/
+        String getCurrentUser = userNew.getUserId();
+        if (cartList!=null){ if (!cartList.contains(selectedUID)){ cartList.add(selectedUID); }
+        }else { cartList.add(selectedUID); }
+
+        if (getCurrentUser!=null)
+            dbReference.child(USERS).child(getCurrentUser)
+                    .child(CART).setValue(cartList)
+                    .addOnSuccessListener(aVoid -> {
+
+                        // Add Product in cart
+                        CartKlcModel cartKlcModel = new CartKlcModel();
+                        cartKlcModel.setUid(table.getId());
+                        cartKlcModel.setTitle(PATH);
+
+                        double klcPrice = Double.parseDouble(table.getPrice()) * Double.parseDouble(table.getProductWeight());
+                        cartKlcModel.setPrice(klcPrice);
+                        cartKlcModel.setWeight(Double.parseDouble(table.getProductWeight()));
+                        cartKlcModel.setKlcPrice(Math.round(klcPrice));
+                        cartKlcModel.setQty(1);
+
+                        AsyncTask.execute(()->{ updateCart(cartKlcModel); });
+                        //pushCartItemToFirebase();
+                        new Handler().postDelayed(this::onBackPressed, 500);
+
+                    }).addOnFailureListener(e -> {
+                        hideProgressDialog();
+                    errorToast("Failed to add in cart");
+            });
+    }
 
 
 
