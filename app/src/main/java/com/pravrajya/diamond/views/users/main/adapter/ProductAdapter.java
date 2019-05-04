@@ -69,8 +69,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         String weight_licence = item.getProductWeight()+" CT";
         holder.tvWeight.setText(weight_licence);
         holder.tvItem.setText(item.getClarity());
-        holder.tvHigh.setText(item.getHigh());
-        holder.tvLow.setText(item.getLow());
+        //holder.tvHigh.setText(item.getHigh());
+        holder.tvLow.setText(item.getHigh());
         holder.tvPrice.setText(item.getPrice());
 
         //animateBlinkView(holder.tvPrice);

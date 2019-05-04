@@ -36,9 +36,11 @@ import com.pravrajya.diamond.tables.cartKlc.CartKlcModel;
 import com.pravrajya.diamond.tables.diamondCut.DiamondCut;
 import com.pravrajya.diamond.tables.product.ProductTable;
 import com.pravrajya.diamond.utils.Constants;
+import com.pravrajya.diamond.utils.MessageEvent;
 import com.pravrajya.diamond.views.BaseActivity;
 import com.pravrajya.diamond.views.users.login.UserProfile;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -210,6 +212,7 @@ public class ProductDetailsActivity extends BaseActivity {
 
                         AsyncTask.execute(()->{ updateCart(cartKlcModel); });
                         //pushCartItemToFirebase();
+
                         new Handler().postDelayed(this::onBackPressed, 500);
 
                     }).addOnFailureListener(e -> {

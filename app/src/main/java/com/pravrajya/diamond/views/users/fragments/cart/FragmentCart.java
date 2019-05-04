@@ -20,6 +20,7 @@ import com.pravrajya.diamond.tables.RealmManager;
 import com.pravrajya.diamond.tables.cartKlc.CartKlcModel;
 import com.pravrajya.diamond.utils.DeletionSwipeHelper;
 import com.pravrajya.diamond.utils.ItemDecoration;
+import com.pravrajya.diamond.utils.MessageEvent;
 import com.pravrajya.diamond.views.users.fragments.BaseFragment;
 import com.pravrajya.diamond.views.users.login.UserProfile;
 import java.util.Objects;
@@ -30,6 +31,9 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
+
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -142,6 +146,7 @@ public class FragmentCart extends BaseFragment implements DeletionSwipeHelper.On
         RealmManager.cartKlcDao().remove(rowToDelete);
         RealmManager.close();
         cartModels = realmInstance.where(CartKlcModel.class).findAll();
+        EventBus.getDefault().post(new MessageEvent(cartModels.size()));
     }
 
 
@@ -159,6 +164,7 @@ public class FragmentCart extends BaseFragment implements DeletionSwipeHelper.On
     public void totalPrice() {
         totalPrice = 0;
         cartModels = realmInstance.where(CartKlcModel.class).findAll();
+        EventBus.getDefault().post(new MessageEvent(cartModels.size()));
         cartModels.forEach(model->{
             totalPrice +=model.getKlcPrice();
         });

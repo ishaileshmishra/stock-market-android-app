@@ -432,14 +432,11 @@ public class FirebaseUtil {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Stash.clear(Constants.CART_ITEMS);
-                EventBus.getDefault().post(new MessageEvent(0));
+
                 if (dataSnapshot.exists()){
                     ArrayList<String> cartArrayListIds = new ArrayList<>();
                     for (DataSnapshot snapshot: dataSnapshot.getChildren()) { cartArrayListIds.add(snapshot.getValue(String.class)); }
                     Stash.put(Constants.CART_ITEMS, cartArrayListIds);
-                    EventBus.getDefault().post(new MessageEvent(cartArrayListIds.size()));
-                }else {
-                    EventBus.getDefault().post(new MessageEvent(0));
                 }
             }
             @Override

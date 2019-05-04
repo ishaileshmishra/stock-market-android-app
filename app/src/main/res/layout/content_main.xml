@@ -46,15 +46,16 @@
                     android:orientation="horizontal"
                     tools:ignore="RelativeOverlap">
 
-                    <TextView
+                    <!--<TextView
                         android:id="@+id/tvHigh"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/spacing_4"
+                        android:visibility="invisible"
                         style="@style/AppTextSmall"
                         android:textStyle="bold"
                         android:gravity="center"
-                        android:text="@string/high_rate"/>
+                        android:text="@string/high_rate"/>-->
 
                     <TextView
                         android:id="@+id/tvLow"
@@ -64,7 +65,7 @@
                         style="@style/AppTextSmall"
                         android:textStyle="bold"
                         android:gravity="center"
-                        android:text="@string/low_rate"/>
+                        android:text="@string/highLowTxt"/>
 
                     <TextView
                         android:id="@+id/tvPrice"

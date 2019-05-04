@@ -224,13 +224,13 @@ public class FragmentHome extends BaseFragment {
     }
 
     private void filterTheData() {
-        TextView [] paddViews = new TextView[]{binding.tvLow, binding.tvHigh, binding.tvItem, binding.tvPrice};
+        TextView [] paddViews = new TextView[]{binding.tvLow,  binding.tvItem, binding.tvPrice};
         for (TextView view : paddViews) {
             view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_drop_down_black, 0);
         }
 
         binding.tvItem.setOnClickListener(v->{ });
-        binding.tvHigh.setOnClickListener(v->{ });
+        //binding.tvHigh.setOnClickListener(v->{ });
         binding.tvLow.setOnClickListener(v->{ });
         binding.tvPrice.setOnClickListener(v->{ });
     }

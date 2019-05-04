@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.pravrajya.diamond.R;
 import com.pravrajya.diamond.databinding.ActivityMainLayoutBinding;
+import com.pravrajya.diamond.tables.cartKlc.CartKlcModel;
 import com.pravrajya.diamond.tables.diamondClarity.DiamondClarity;
 import com.pravrajya.diamond.tables.diamondColor.DiamondColor;
 import com.pravrajya.diamond.tables.diamondCut.DiamondCut;
@@ -154,7 +155,7 @@ public class MainActivity extends BaseActivity {
                     Manifest.permission.CALL_PHONE, Manifest.permission.CAMERA}, 101);
         }
 
-        pushClarity();
+        //pushClarity();
     }
 
     @Override
@@ -167,8 +168,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        int cartSize  = Stash.getArrayList(Constants.CART_ITEMS, String.class).size();
-        EventBus.getDefault().post(new MessageEvent(cartSize));
+        RealmResults<CartKlcModel> cartModels = realm.where(CartKlcModel.class).findAll();
+        EventBus.getDefault().post(new MessageEvent(cartModels.size()));
     }
 
     @Override
@@ -389,12 +390,9 @@ public class MainActivity extends BaseActivity {
 
     private void addBadgeView(int counter) {
 
-        BottomNavigationMenuView menuView
-                = (BottomNavigationMenuView) binding.mainLayout.navigationBottom.getChildAt(0);
-        BottomNavigationItemView itemView
-                = (BottomNavigationItemView) menuView.getChildAt(2);
-        View notificationBadge = LayoutInflater.from(this)
-                .inflate(R.layout.view_notification_badge, menuView, false);
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView) binding.mainLayout.navigationBottom.getChildAt(0);
+        BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(2);
+        View notificationBadge = LayoutInflater.from(this).inflate(R.layout.view_notification_badge, menuView, false);
         TextView tvBudge = notificationBadge.findViewById(R.id.badge);
         tvBudge.setText(String.valueOf(counter));
         itemView.addView(notificationBadge);
