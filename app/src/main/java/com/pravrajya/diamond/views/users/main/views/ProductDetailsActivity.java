@@ -117,9 +117,8 @@ public class ProductDetailsActivity extends BaseActivity {
         if (table.getFluorescence()!=null){ binding.linearLayout.addView(addCustomView("Fluorescence", table.getFluorescence().toUpperCase(), colorGRAY)); }
         if (table.getSymmetry()!=null){ binding.linearLayout.addView(addCustomView("Symmetry", table.getSymmetry().toUpperCase(), colorWhite)); }
         if (table.getCulet()!=null){ binding.linearLayout.addView(addCustomView("Culet", table.getCulet().toUpperCase(), colorGRAY)); }
-        if (table.getHigh()!=null){ binding.linearLayout.addView(addCustomView("High Price",table.getHigh()+"/Carat", colorWhite)); }
-        if (table.getPrice()!=null){ binding.linearLayout.addView(addCustomView("Price",table.getPrice()+"/Carat", colorGRAY)); }
-        if (table.getPrice()!=null){ binding.linearLayout.addView(addCustomView("Low Price",table.getLow()+"/Carat", colorWhite)); }
+        if (table.getPrice()!=null){ binding.linearLayout.addView(addCustomView("Price",table.getPrice()+"/Carat", colorWhite)); }
+        if (table.getPrice()!=null){ binding.linearLayout.addView(addCustomView("Low High Price",table.getLowHigh()+"/Carat", colorGRAY)); }
 
     }
 
@@ -150,6 +149,8 @@ public class ProductDetailsActivity extends BaseActivity {
         tvInfo.setText(titleInfo);
         tvTitle.setTextSize(12);
         tvInfo.setTextSize(12);
+
+        //tvInfo.setBackgroundResource(R.drawable.roundedbutton_golden);
 
         if (color!=0){ customLinear.setBackgroundColor(color); }
 

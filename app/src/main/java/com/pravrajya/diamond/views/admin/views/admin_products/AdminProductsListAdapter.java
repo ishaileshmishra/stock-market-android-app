@@ -44,8 +44,7 @@ public class AdminProductsListAdapter extends RecyclerView.Adapter<AdminProducts
             holder.tvWeight.setText(item.getProductWeight());
         }
         holder.tvColor.setText(item.getColor());
-        holder.tvHighPrice.setText(String.format("High $%s", item.getHigh()));
-        holder.tvLowPrice.setText(String.format("Low $%s", item.getLow()));
+        holder.tvLowPrice.setText(String.format("Low $%s", item.getLowHigh()));
         holder.tvPrice.setText(String.format("Price $%s", item.getPrice()));
 
 
@@ -77,7 +76,7 @@ public class AdminProductsListAdapter extends RecyclerView.Adapter<AdminProducts
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvColor, tvClarity, tvWeight, tvHighPrice, tvLowPrice, tvPrice, tvDetails;
+        TextView tvColor, tvClarity, tvWeight, tvLowPrice, tvPrice, tvDetails;
 
         MyViewHolder(View view) {
             super(view);
@@ -85,7 +84,6 @@ public class AdminProductsListAdapter extends RecyclerView.Adapter<AdminProducts
             tvClarity   = view.findViewById(R.id.tvClarity);
             tvColor     = view.findViewById(R.id.tvColor);
             tvWeight    = view.findViewById(R.id.tvWeight);
-            tvHighPrice = view.findViewById(R.id.tvHighPrice);
             tvLowPrice  = view.findViewById(R.id.tvLowPrice);
             tvPrice     =  view.findViewById(R.id.tvPrice);
             tvDetails = view.findViewById(R.id.tvDetails);

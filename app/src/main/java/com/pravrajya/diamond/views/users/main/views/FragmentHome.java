@@ -82,10 +82,8 @@ public class FragmentHome extends BaseFragment {
         } else { SIZE = DEFAULT_SIZE; }
 
 
-        dataModel = realm.where(ProductTable.class)
-                .contains("color",COLOR)
-                .contains("size", SIZE)
-                .contains("shape",CUT)
+        dataModel = realm.where(ProductTable.class).contains("color",COLOR)
+                .contains("size", SIZE).contains("shape",CUT)
                 .findAll();
 
         loadRecyclerView();
@@ -103,10 +101,8 @@ public class FragmentHome extends BaseFragment {
 
     private void onRefresh(){
 
-        dataModel = realm.where(ProductTable.class)
-                .contains("color",COLOR)
-                .contains("size",SIZE)
-                .contains("shape",CUT)
+        dataModel = realm.where(ProductTable.class).contains("color",COLOR)
+                .contains("size",SIZE).contains("shape",CUT)
                 .findAll();
 
         if (dataModel.isLoaded())
@@ -171,6 +167,8 @@ public class FragmentHome extends BaseFragment {
             assert listItem != null;
             intent.putExtra("id", listItem.getId());
             startActivity(intent);
+
+
         }));
 
 

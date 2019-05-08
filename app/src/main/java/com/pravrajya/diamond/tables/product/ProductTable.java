@@ -8,11 +8,9 @@ public class ProductTable extends RealmObject {
     @PrimaryKey
     private String id;
     private String color;
-
     private String stockId;
     private String productWeight;
-    private String high;
-    private String low;
+    private String lowHigh;
     private String price;
     private String shape;
     private String shade;
@@ -38,6 +36,14 @@ public class ProductTable extends RealmObject {
         this.id = id;
     }
 
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
     public String getStockId() {
         return stockId;
     }
@@ -54,20 +60,12 @@ public class ProductTable extends RealmObject {
         this.productWeight = productWeight;
     }
 
-    public String getHigh() {
-        return high;
+    public String getLowHigh() {
+        return lowHigh;
     }
 
-    public void setHigh(String high) {
-        this.high = high;
-    }
-
-    public String getLow() {
-        return low;
-    }
-
-    public void setLow(String low) {
-        this.low = low;
+    public void setLowHigh(String lowHigh) {
+        this.lowHigh = lowHigh;
     }
 
     public String getPrice() {
@@ -100,14 +98,6 @@ public class ProductTable extends RealmObject {
 
     public void setSize(String size) {
         this.size = size;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
     }
 
     public String getClarity() {
@@ -166,9 +156,13 @@ public class ProductTable extends RealmObject {
         this.licence = licence;
     }
 
-    public String getVedioLink() { return vedioLink; }
+    public String getVedioLink() {
+        return vedioLink;
+    }
 
-    public void setVedioLink(String vedioLink) { this.vedioLink = vedioLink; }
+    public void setVedioLink(String vedioLink) {
+        this.vedioLink = vedioLink;
+    }
 
 
     @Override
@@ -178,8 +172,7 @@ public class ProductTable extends RealmObject {
                 ", color='" + color + '\'' +
                 ", stockId='" + stockId + '\'' +
                 ", productWeight='" + productWeight + '\'' +
-                ", high='" + high + '\'' +
-                ", low='" + low + '\'' +
+                ", lowHigh='" + lowHigh + '\'' +
                 ", price='" + price + '\'' +
                 ", shape='" + shape + '\'' +
                 ", shade='" + shade + '\'' +

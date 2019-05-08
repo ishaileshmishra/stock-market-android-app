@@ -40,8 +40,7 @@ public class AdminListAdapter extends RecyclerView.Adapter<AdminListAdapter.MyVi
             holder.tvWeight.setText("0.0");
         }else { holder.tvWeight.setText(item.getProductWeight());}
 
-        holder.tvHigh.setText(item.getHigh());
-        holder.tvLow.setText(item.getLow());
+        holder.tvLow.setText(item.getLowHigh());
         holder.tvPrice.setText(item.getPrice());
 
     }
@@ -64,7 +63,7 @@ public class AdminListAdapter extends RecyclerView.Adapter<AdminListAdapter.MyVi
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvItem, tvWeight, tvHigh, tvLow, tvPrice;
+        TextView tvItem, tvWeight, tvLow, tvPrice;
         View viewColor;
 
         MyViewHolder(View view) {
@@ -72,7 +71,6 @@ public class AdminListAdapter extends RecyclerView.Adapter<AdminListAdapter.MyVi
             viewColor = view.findViewById(R.id.viewColor);
             tvWeight  = view.findViewById(R.id.tvWeight);
             tvItem    =  view.findViewById(R.id.tvItem);
-            tvHigh    =  view.findViewById(R.id.tvHigh);
             tvLow     =  view.findViewById(R.id.tvLow);
             tvPrice   =  view.findViewById(R.id.tvPrice);
         }

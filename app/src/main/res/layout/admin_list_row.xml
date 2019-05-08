@@ -58,13 +58,13 @@
                 android:layout_centerVertical="true"
                 android:orientation="horizontal">
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/tvHigh"
                     style="@style/AppTextSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="55dp"
-                    android:text="@string/high_rate" />
+                    android:text="@string/high_rate" />-->
 
                 <TextView
                     android:id="@+id/tvLow"

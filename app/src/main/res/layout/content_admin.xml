@@ -21,20 +21,6 @@
                 android:paddingBottom="@dimen/fab_margin"
                 android:orientation="vertical">
 
-                <!--Color Layout-->
-                <!--<TextView
-                    android:id="@+id/tvColor"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/AppTextMedium"
-                    android:paddingStart="@dimen/fab_margin"
-                    android:text="@string/app_error"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/colorRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/fab_margin" />-->
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
@@ -91,22 +77,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/textInputHighPrice"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/etHighPrice"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/fab_margin"
-                                android:inputType="number"
-                                android:hint="@string/provide_hight_price" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
 
 
                         <com.google.android.material.textfield.TextInputLayout

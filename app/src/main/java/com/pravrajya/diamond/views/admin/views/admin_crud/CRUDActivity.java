@@ -87,8 +87,7 @@ public class CRUDActivity extends BaseActivity {
             ProductTable product = realm.where(ProductTable.class).equalTo(ID, selectedProductId).findFirst();
             assert product != null;
             binding.etStockId.setText(product.getStockId());
-            binding.etHighPrice.setText(product.getHigh());
-            binding.etLowPrice.setText(product.getLow());
+            binding.etLowPrice.setText(product.getLowHigh());
             binding.etPrice.setText(product.getPrice());
             binding.etProductWeight.setText(product.getProductWeight());
             binding.etShape.setText(product.getShape());
@@ -111,7 +110,6 @@ public class CRUDActivity extends BaseActivity {
 
             String stockId   = Objects.requireNonNull(binding.etStockId.getText()).toString().trim();
             String Weight    = Objects.requireNonNull(binding.etProductWeight.getText()).toString().trim();
-            String highPrice = Objects.requireNonNull(binding.etHighPrice.getText()).toString().trim();
             String lowPrice  = Objects.requireNonNull(binding.etLowPrice.getText()).toString().trim();
             String price     = Objects.requireNonNull(binding.etPrice.getText()).toString().trim();
             String shape     = Objects.requireNonNull(binding.etShape.getText().toString().trim());
@@ -131,10 +129,6 @@ public class CRUDActivity extends BaseActivity {
                 clearAllErrors("Stock ID", binding.textInputLayoutProduct, binding.etStockId);
             }else if (Weight.isEmpty()){
                 clearAllErrors("Weight", binding.textInputLayoutProductWeight, binding.etProductWeight);
-            }else if (highPrice.isEmpty()){
-                clearAllErrors("High Price", binding.textInputHighPrice, binding.etHighPrice);
-            }else if (highPrice.length()<3){
-                binding.textInputHighPrice.setError("High price can not be less than 100");
             }else if (lowPrice.isEmpty()){
                 clearAllErrors("Low Price",binding.textInputLayoutLowPrice, binding.etLowPrice);
             }else if (lowPrice.length()<3){
@@ -179,8 +173,7 @@ public class CRUDActivity extends BaseActivity {
                 productTable.setColor(selectedColorChip);
                 productTable.setStockId(stockId);
                 productTable.setProductWeight(Weight);
-                productTable.setHigh(highPrice);
-                productTable.setLow(lowPrice);
+                productTable.setLowHigh(lowPrice);
                 productTable.setPrice(price);
                 productTable.setShape(shape);
                 productTable.setShade(shade);
@@ -314,7 +307,7 @@ public class CRUDActivity extends BaseActivity {
 
         if (requestFocus!=null){ requestFocus.requestFocus(); }
 
-        binding.textInputLayoutProduct.setError(null);binding.textInputHighPrice.setError(null);binding.textInputLayoutProductWeight.setError(null);
+        binding.textInputLayoutProduct.setError(null);binding.textInputLayoutProductWeight.setError(null);
         binding.textInputLayoutLowPrice.setError(null);binding.textInputLayoutPrice.setError(null);binding.textInputLayoutShape.setError(null);
         binding.textInputLayoutShade.setError(null);binding.textInputLayoutSize.setError(null);binding.textInputLayoutColor.setError(null);
         binding.textInputLayoutClarity.setError(null);binding.textInputLayoutCut.setError(null);binding.textInputLayoutPolish.setError(null);
@@ -327,7 +320,7 @@ public class CRUDActivity extends BaseActivity {
 
     private void clearEditTexts() {
 
-        binding.etStockId.setText(""); binding.etProductWeight.setText(""); binding.etHighPrice.setText("");
+        binding.etStockId.setText(""); binding.etProductWeight.setText("");
         binding.etLowPrice.setText("");binding.etShape.setText("");binding.etShade.setText("");
         binding.etSize.setText("");binding.etColor.setText("");binding.etClarity.setText("");
         binding.etCut.setText("");binding.etPolish.setText("");binding.etSymmetry.setText("");
